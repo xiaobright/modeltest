@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gateway Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --band: #ffffff;
+            --ink: #1a1d2e;
+            --muted: #6b7194;
+            --line: #e2e5ef;
+            --line-strong: #c9cde0;
+            --accent: #6366f1;
+            --accent2: #8b5cf6;
+            --accent-soft: rgba(99,102,241,0.08);
+            --warn: #e67e22;
+            --warn-soft: #fef4e6;
+            --bad: #e74c5e;
+            --bad-soft: #fef0f1;
+            --ok: #10b981;
+            --ok-soft: #ecfdf5;
+            --focus: #818cf8;
+        }
+        * { box-sizing: border-box; margin: 0; }
+        html { min-width: 320px; }
+        body {
+            margin: 0; min-height: 100vh; color: var(--ink); background: var(--bg);
+            background-image:
+                radial-gradient(ellipse 70% 50% at 10% 0%, rgba(99,102,241,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 90% 5%, rgba(139,92,246,0.05) 0%, transparent 50%);
+            font-family: 'Inter', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 0.01em;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .page { min-height: 100vh; }
+        .header {
+            position: sticky; top: 0; z-index: 20;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px) saturate(1.6);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .header-inner {
+            max-width: 1360px; margin: 0 auto; padding: 16px 24px;
+            display: flex; align-items: center; justify-content: space-between; gap: 14px;
+        }
+        .brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+        h1 {
+            margin: 0; font-size: 1.3rem; line-height: 1.2; white-space: nowrap; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .sub { color: var(--muted); font-size: 0.86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+        button, .link-button, select, input, textarea { font: inherit; }
+        button, .link-button {
+            min-height: 36px; border: 1px solid var(--line-strong); background: #fff; color: var(--ink);
+            border-radius: 10px; padding: 7px 15px; font-weight: 600; font-size: 0.88rem;
+            text-decoration: none; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        button:hover, .link-button:hover {
+            border-color: var(--focus); background: var(--accent-soft);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.12); transform: translateY(-1px);
+        }
+        button.primary {
+            color: #fff; border-color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            font-weight: 700; box-shadow: 0 2px 8px rgba(99,102,241,0.25);
+        }
+        button.primary:hover { box-shadow: 0 6px 20px rgba(99,102,241,0.35); transform: translateY(-1px); }
+        button.danger { color: var(--bad); border-color: #f5c6cb; background: var(--bad-soft); }
+        button.danger:hover { border-color: var(--bad); box-shadow: 0 4px 12px rgba(231,76,94,0.15); }
+        button.small { min-height: 30px; padding: 5px 10px; font-size: 0.82rem; }
+        button:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+        .tabs {
+            max-width: 1360px; margin: 0 auto; padding: 0 24px 14px;
+            display: flex; gap: 6px; overflow-x: auto;
+        }
+        .tab {
+            flex: 0 0 auto; min-width: 82px; background: transparent;
+            border-color: transparent; color: var(--muted);
+            box-shadow: none; transition: all 0.2s ease;
+        }
+        .tab:hover { color: var(--ink); background: rgba(99,102,241,0.04); }
+        .tab.active {
+            color: var(--accent); border-color: rgba(99,102,241,0.3);
+            background: var(--accent-soft); box-shadow: 0 2px 8px rgba(99,102,241,0.1); font-weight: 700;
+        }
+        .content { max-width: 1360px; margin: 0 auto; padding: 16px 24px 40px; }
+        .notice {
+            display: none; margin-bottom: 14px; padding: 12px 16px;
+            border: 1px solid var(--line); border-radius: 12px;
+            background: #fff; color: var(--ink);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); animation: fadeSlideIn 0.3s ease;
+        }
+        .notice.show { display: block; }
+        .notice.error { border-color: #f5c6cb; background: var(--bad-soft); color: var(--bad); }
+        .notice.ok { border-color: #a7f3d0; background: var(--ok-soft); color: #047857; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr));
+            gap: 12px; margin-bottom: 18px;
+        }
+        .stat {
+            border: 1px solid var(--line); background: #fff;
+            border-radius: 14px; padding: 16px 18px; min-height: 84px;
+            transition: all 0.25s ease; position: relative; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .stat::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .stat:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.2); }
+        .stat:hover::before { opacity: 1; }
+        .stat-label { display: block; color: var(--muted); font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+        .stat-value {
+            display: block; margin-top: 8px; font-size: 1.6rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--ink) 30%, var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeSlideIn 0.3s ease; }
+        .layout {
+            display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+            gap: 16px; align-items: start;
+        }
+        .surface {
+            border: 1px solid var(--line); background: #fff;
+            border-radius: 14px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: all 0.25s ease;
+        }
+        .surface:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+        .surface + .surface { margin-top: 16px; }
+        .surface-head {
+            padding: 14px 18px; border-bottom: 1px solid var(--line);
+            display: flex; gap: 10px; align-items: center;
+            justify-content: space-between; flex-wrap: wrap;
+            background: linear-gradient(180deg, #fafafd, #fff);
+        }
+        .surface-title { margin: 0; font-size: 1rem; line-height: 1.2; font-weight: 700; color: var(--ink); }
+        .surface-body { padding: 18px; }
+        .filters, .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+        .form-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .field.full { grid-column: 1 / -1; }
+        label { display: block; color: var(--muted); font-size: 0.76rem; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+        input, select, textarea {
+            width: 100%; min-height: 40px;
+            border: 1px solid var(--line-strong); border-radius: 10px;
+            background: #fff; color: var(--ink); padding: 8px 12px; outline: none;
+            transition: all 0.2s ease;
+        }
+        textarea { min-height: 88px; resize: vertical; line-height: 1.45; }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--focus);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 680px; }
+        th, td { padding: 12px 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; font-size: 0.88rem; }
+        th { color: var(--muted); font-size: 0.72rem; font-weight: 700; background: #fafafd; text-transform: uppercase; letter-spacing: 0.05em; }
+        tr.selectable { cursor: pointer; transition: background 0.15s; }
+        tr.selectable:hover { background: rgba(99,102,241,0.04); }
+        tr.selected { background: var(--accent-soft); }
+        .badge {
+            display: inline-flex; align-items: center; min-height: 24px;
+            padding: 3px 10px; border-radius: 999px;
+            border: 1px solid var(--line); font-size: 0.73rem; font-weight: 600; white-space: nowrap;
+        }
+        .badge.ok { color: #047857; border-color: #a7f3d0; background: var(--ok-soft); }
+        .badge.warn { color: #b45309; border-color: #fcd9a8; background: var(--warn-soft); }
+        .badge.bad { color: #be123c; border-color: #f5c6cb; background: var(--bad-soft); }
+        .badge.neutral { color: var(--muted); background: #f4f5fa; border-color: var(--line); }
+        .kv {
+            display: grid; grid-template-columns: 104px minmax(0, 1fr);
+            gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line);
+        }
+        .kv:last-child { border-bottom: 0; }
+        .k { color: var(--muted); font-size: 0.84rem; }
+        .v { min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
+        .empty { color: var(--muted); padding: 28px 0; text-align: center; font-size: 0.9rem; }
+        .list { display: grid; gap: 10px; }
+        .item {
+            border: 1px solid var(--line); border-radius: 12px; padding: 14px;
+            background: #fafafd; transition: all 0.2s ease;
+        }
+        .item:hover { border-color: rgba(99,102,241,0.2); background: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.06); }
+        .item-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 6px; }
+        .item-title { font-weight: 700; }
+        .muted { color: var(--muted); }
+        .mono { font-family: 'JetBrains Mono', Consolas, 'SFMono-Regular', monospace; font-size: 0.82rem; }
+        .pre {
+            margin: 0; min-height: 120px; max-height: 260px; overflow: auto;
+            border: 1px solid var(--line); border-radius: 10px;
+            padding: 12px; background: #fafafd;
+            white-space: pre-wrap; overflow-wrap: anywhere;
+            font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.82rem; color: var(--ink);
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(107,113,148,0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(107,113,148,0.35); }
+        @media (max-width: 1040px) {
+            .summary-grid { grid-template-columns: repeat(3, minmax(120px, 1fr)); }
+            .layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 760px) {
+            .header-inner { align-items: flex-start; }
+            .brand { display: block; }
+            .sub { margin-top: 4px; }
+            .summary-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+            .filters, .form-grid, .form-grid.two { grid-template-columns: 1fr; }
+            .content { padding: 12px 12px 28px; }
+            .tabs { padding-left: 12px; padding-right: 12px; }
+            .header-inner { padding-left: 12px; padding-right: 12px; }
+            table { min-width: 620px; }
+        }
+        @media (max-width: 480px) {
+            .summary-grid { grid-template-columns: 1fr; }
+            .actions { width: 100%; justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="header-inner">
+                <div class="brand">
+                    <h1>网关管理台</h1>
+                    <span class="sub">人员、床位、认证与记忆</span>
+                </div>
+                <div class="actions">
+                    <a class="link-button" href="/dashboard">监测页</a>
+                    <button id="refreshBtn">刷新</button>
+                </div>
+            </div>
+            <nav class="tabs" aria-label="管理视图">
+                <button class="tab active" data-tab="overview">总览</button>
+                <button class="tab" data-tab="subjects">人员</button>
+                <button class="tab" data-tab="beds">床位</button>
+                <button class="tab" data-tab="assignments">绑定</button>
+                <button class="tab" data-tab="identity">认证与记忆</button>
+                <button class="tab" data-tab="session">会话</button>
+            </nav>
+        </header>
+
+        <main class="content">
+            <div id="notice" class="notice"></div>
+
+            <section class="summary-grid" aria-label="统计">
+                <div class="stat"><span class="stat-label">床位</span><span id="statBeds" class="stat-value">--</span></div>
+                <div class="stat"><span class="stat-label">患者</span><span id="statPatients" class="stat-value">--</span></div>
+                <div class="stat"><span class="stat-label">工作人员</span><span id="statStaff" class="stat-value">--</span></div>
+                <div class="stat"><span class="stat-label">在床绑定</span><span id="statAssignments" class="stat-value">--</span></div>
+                <div class="stat"><span class="stat-label">ESP 在线</span><span id="statEsp" class="stat-value">--</span></div>
+            </section>
+
+            <section id="view-overview" class="view active">
+                <div class="layout">
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">床位运行态</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>床位</th>
+                                        <th>患者</th>
+                                        <th>ESP</th>
+                                        <th>雷达</th>
+                                        <th>环境</th>
+                                        <th>音频</th>
+                                        <th>视觉</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="overviewBedsBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">当前会话</h2>
+                        </div>
+                        <div class="surface-body" id="sessionSummary"></div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="view-subjects" class="view">
+                <div class="layout">
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">人员列表</h2>
+                            <div class="filters">
+                                <div class="field">
+                                    <label for="roleFilter">角色</label>
+                                    <select id="roleFilter">
+                                        <option value="">全部</option>
+                                        <option value="admin">超级管理员</option>
+                                        <option value="staff">工作人员</option>
+                                        <option value="patient">患者</option>
+                                        <option value="visitor">访客</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="statusFilter">状态</label>
+                                    <select id="statusFilter">
+                                        <option value="">全部</option>
+                                        <option value="active">启用</option>
+                                        <option value="inactive">停用</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="subjectSearch">搜索</label>
+                                    <input id="subjectSearch" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>角色</th>
+                                        <th>状态</th>
+                                        <th>年龄</th>
+                                        <th>当前床位</th>
+                                        <th>ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subjectsBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">新增人员</h2>
+                        </div>
+                        <div class="surface-body">
+                            <form id="subjectForm" class="form-grid two">
+                                <div class="field">
+                                    <label for="subjectName">姓名</label>
+                                    <input id="subjectName" required autocomplete="off" />
+                                </div>
+                                <div class="field">
+                                    <label for="subjectRole">角色</label>
+                                    <select id="subjectRole">
+                                        <option value="patient">患者</option>
+                                        <option value="staff">工作人员</option>
+                                        <option value="admin">超级管理员</option>
+                                        <option value="visitor">访客</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="subjectGender">性别</label>
+                                    <input id="subjectGender" autocomplete="off" />
+                                </div>
+                                <div class="field">
+                                    <label for="subjectAge">年龄</label>
+                                    <input id="subjectAge" type="number" min="0" max="130" />
+                                </div>
+                                <div class="field full">
+                                    <label for="subjectNotes">备注</label>
+                                    <textarea id="subjectNotes"></textarea>
+                                </div>
+                                <div class="field full">
+                                    <label for="subjectFaceImage">人脸照片</label>
+                                    <input id="subjectFaceImage" type="file" accept="image/*" />
+                                </div>
+                                <div class="field full">
+                                    <button class="primary" type="submit">新增人员</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="view-beds" class="view">
+                <section class="surface">
+                    <div class="surface-head">
+                        <h2 class="surface-title">床位视图</h2>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>房间</th>
+                                    <th>床位</th>
+                                    <th>显示名</th>
+                                    <th>患者</th>
+                                    <th>ESP</th>
+                                    <th>姿态</th>
+                                    <th>情绪</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bedsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <section id="view-assignments" class="view">
+                <div class="layout">
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">床位绑定</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>患者</th>
+                                        <th>床位</th>
+                                        <th>状态</th>
+                                        <th>开始时间</th>
+                                        <th>结束时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assignmentsBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">新增绑定</h2>
+                        </div>
+                        <div class="surface-body">
+                            <form id="assignmentForm" class="form-grid">
+                                <div class="field full">
+                                    <label for="assignmentSubject">患者</label>
+                                    <select id="assignmentSubject"></select>
+                                </div>
+                                <div class="field">
+                                    <label for="assignmentRoom">房间</label>
+                                    <select id="assignmentRoom"></select>
+                                </div>
+                                <div class="field">
+                                    <label for="assignmentBed">床位</label>
+                                    <select id="assignmentBed"></select>
+                                </div>
+                                <div class="field">
+                                    <label for="assignmentBy">创建人</label>
+                                    <input id="assignmentBy" autocomplete="off" />
+                                </div>
+                                <div class="field full">
+                                    <button class="primary" type="submit">绑定床位</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="view-identity" class="view">
+                <div class="layout">
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">选中人员</h2>
+                            <select id="detailSubject"></select>
+                        </div>
+                        <div class="surface-body">
+                            <div id="subjectDetail"></div>
+                        </div>
+                    </section>
+
+                    <div>
+                        <section class="surface">
+                            <div class="surface-head">
+                                <h2 class="surface-title">添加认证凭据</h2>
+                            </div>
+                            <div class="surface-body">
+                                <form id="credentialForm" class="form-grid two">
+                                    <div class="field">
+                                        <label for="credentialType">类型</label>
+                                        <select id="credentialType">
+                                            <option value="face">人脸</option>
+                                            <option value="fingerprint">指纹</option>
+                                            <option value="card">卡片</option>
+                                            <option value="manual">人工确认</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="credentialProvider">来源</label>
+                                        <input id="credentialProvider" autocomplete="off" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="credentialStatus">状态</label>
+                                        <select id="credentialStatus">
+                                            <option value="active">启用</option>
+                                            <option value="inactive">停用</option>
+                                        </select>
+                                    </div>
+                                    <div class="field full">
+                                        <label for="credentialTemplate">模板 JSON</label>
+                                        <textarea id="credentialTemplate">{}</textarea>
+                                    </div>
+                                    <div class="field full">
+                                        <label for="credentialImage">照片</label>
+                                        <input id="credentialImage" type="file" accept="image/*" />
+                                    </div>
+                                    <div class="field full">
+                                        <button class="primary" type="submit">添加凭据</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                        <section class="surface">
+                            <div class="surface-head">
+                                <h2 class="surface-title">添加记忆</h2>
+                            </div>
+                            <div class="surface-body">
+                                <form id="memoryForm" class="form-grid two">
+                                    <div class="field">
+                                        <label for="memoryKind">类型</label>
+                                        <select id="memoryKind">
+                                            <option value="care_note">护理记录</option>
+                                            <option value="preference">偏好</option>
+                                            <option value="conversation_summary">对话摘要</option>
+                                            <option value="risk_note">风险提示</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="memoryScope">可见范围</label>
+                                        <select id="memoryScope">
+                                            <option value="care_team">护理团队</option>
+                                            <option value="self">本人</option>
+                                            <option value="system">系统</option>
+                                        </select>
+                                    </div>
+                                    <div class="field full">
+                                        <label for="memoryContent">内容</label>
+                                        <textarea id="memoryContent" required></textarea>
+                                    </div>
+                                    <div class="field full">
+                                        <button class="primary" type="submit">保存记忆</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-session" class="view">
+                <div class="layout">
+                    <section class="surface">
+                        <div class="surface-head">
+                            <h2 class="surface-title">会话状态</h2>
+                        </div>
+                        <div class="surface-body" id="sessionDetail"></div>
+                    </section>
+
+                    <div>
+                        <section class="surface">
+                            <div class="surface-head">
+                                <h2 class="surface-title">更新会话</h2>
+                            </div>
+                            <div class="surface-body">
+                                <form id="sessionForm" class="form-grid two">
+                                    <div class="field full">
+                                        <label for="sessionSubject">操作者</label>
+                                        <select id="sessionSubject"></select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="sessionMethod">认证方式</label>
+                                        <select id="sessionMethod">
+                                            <option value="manual">人工确认</option>
+                                            <option value="face">人脸</option>
+                                            <option value="fingerprint">指纹</option>
+                                            <option value="card">卡片</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="sessionAssurance">可信等级</label>
+                                        <select id="sessionAssurance">
+                                            <option value="operator_confirmed">人工确认</option>
+                                            <option value="weak">弱</option>
+                                            <option value="medium">中</option>
+                                            <option value="strong">强</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label for="sessionEmotion">情绪</label>
+                                        <input id="sessionEmotion" autocomplete="off" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="sessionEmotionConf">情绪置信度</label>
+                                        <input id="sessionEmotionConf" type="number" min="0" max="1" step="0.01" value="0.8" />
+                                    </div>
+                                    <div class="field full">
+                                        <button class="primary" type="submit">更新会话</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                        <section class="surface">
+                            <div class="surface-head">
+                                <h2 class="surface-title">上下文预览</h2>
+                            </div>
+                            <div class="surface-body">
+                                <div class="form-grid two">
+                                    <div class="field">
+                                        <label for="contextBed">目标床位</label>
+                                        <select id="contextBed"></select>
+                                    </div>
+                                    <div class="field">
+                                        <label>&nbsp;</label>
+                                        <button id="contextBtn" type="button">生成预览</button>
+                                    </div>
+                                    <div class="field full">
+                                        <pre id="contextPreview" class="pre"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+        const state = {
+            beds: [],
+            subjects: [],
+            assignments: [],
+            credentials: [],
+            memories: [],
+            session: {},
+            selectedSubjectId: '',
+            activeTab: 'overview',
+        };
+
+        const roleText = { admin: '瓒呯骇绠＄悊鍛?, staff: '宸ヤ綔浜哄憳', patient: '鎮ｈ€?, visitor: '璁垮', unknown: '鏈煡' };
+        const statusText = { active: '鍚敤', inactive: '鍋滅敤', closed: '宸茬粨鏉?, online: '鍦ㄧ嚎', offline: '绂荤嚎', unknown: '鏈煡' };
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[ch]));
+        }
+
+        function fmtTime(ts) {
+            const n = Number(ts || 0);
+            if (!n) return '--';
+            const d = new Date(n);
+            if (Number.isNaN(d.getTime())) return '--';
+            return d.toLocaleString('zh-CN', { hour12: false });
+        }
+
+        function badge(text, tone = 'neutral') {
+            return `<span class="badge ${tone}">${escapeHtml(text)}</span>`;
+        }
+
+        function statusBadge(value) {
+            const s = value || 'unknown';
+            if (s === 'active' || s === 'online') return badge(statusText[s] || s, 'ok');
+            if (s === 'closed' || s === 'inactive') return badge(statusText[s] || s, 'neutral');
+            if (s === 'offline') return badge(statusText[s] || s, 'bad');
+            return badge(statusText[s] || s, 'warn');
+        }
+
+        function roleBadge(role) {
+            const r = role || 'unknown';
+            if (r === 'admin') return badge(roleText[r], 'ok');
+            if (r === 'staff') return badge(roleText[r], 'warn');
+            if (r === 'patient') return badge(roleText[r], 'neutral');
+            return badge(roleText[r] || r, 'neutral');
+        }
+
+        function showNotice(message, type = 'ok') {
+            const el = $('notice');
+            el.textContent = message;
+            el.className = `notice show ${type}`;
+            window.clearTimeout(showNotice.timer);
+            showNotice.timer = window.setTimeout(() => {
+                el.className = 'notice';
+            }, 4200);
+        }
+
+        async function apiGet(url) {
+            const resp = await fetch(url, { cache: 'no-store' });
+            const body = await resp.json().catch(() => ({}));
+            if (!resp.ok) throw new Error(body.error || `HTTP ${resp.status}`);
+            return body;
+        }
+
+        async function apiPost(url, payload) {
+            const resp = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload || {})
+            });
+            const body = await resp.json().catch(() => ({}));
+            if (!resp.ok) throw new Error(body.error || `HTTP ${resp.status}`);
+            return body;
+        }
+
+        function readFileAsDataUrl(input) {
+            const file = input && input.files && input.files[0];
+            if (!file) return Promise.resolve('');
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ''));
+                reader.onerror = () => reject(reader.error || new Error('file read failed'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function personLabel(s) {
+            if (!s) return '--';
+            return `${s.name || s.subject_name || s.subject_id} (${roleText[s.role || s.subject_role] || s.role || s.subject_role || '鏈煡'})`;
+        }
+
+        function subjectById(subjectId) {
+            return state.subjects.find((s) => s.subject_id === subjectId) || null;
+        }
+
+        function subjectOptionHtml(filterRole = '') {
+            const rows = state.subjects.filter((s) => !filterRole || s.role === filterRole);
+            return rows.map((s) => {
+                const label = `${s.name || s.subject_id} - ${roleText[s.role] || s.role}`;
+                return `<option value="${escapeHtml(s.subject_id)}">${escapeHtml(label)}</option>`;
+            }).join('');
+        }
+
+        function bedOptionHtml() {
+            return state.beds.map((b) => {
+                const label = `${b.display_name || `${b.room}-${b.bed}`}`;
+                return `<option value="${escapeHtml(`${b.room}|${b.bed}`)}">${escapeHtml(label)}</option>`;
+            }).join('');
+        }
+
+        async function loadAll() {
+            const [bedsResp, subjectsResp, assignmentsResp, sessionResp] = await Promise.all([
+                apiGet('/api/v3/beds'),
+                apiGet('/api/v3/subjects'),
+                apiGet('/api/v3/assignments'),
+                apiGet('/api/v3/session/current'),
+            ]);
+            state.beds = bedsResp.beds || [];
+            state.subjects = subjectsResp.subjects || [];
+            state.assignments = assignmentsResp.assignments || [];
+            state.session = sessionResp.session || {};
+
+            if (!state.selectedSubjectId || !subjectById(state.selectedSubjectId)) {
+                const firstPatient = state.subjects.find((s) => s.role === 'patient');
+                state.selectedSubjectId = (firstPatient || state.subjects[0] || {}).subject_id || '';
+            }
+
+            renderAll();
+            await loadSelectedSubjectDetails();
+        }
+
+        function renderAll() {
+            renderStats();
+            renderOverview();
+            renderSubjects();
+            renderBeds();
+            renderAssignments();
+            renderSelects();
+            renderSession();
+        }
+
+        function renderStats() {
+            const patients = state.subjects.filter((s) => s.role === 'patient' && s.status === 'active').length;
+            const staff = state.subjects.filter((s) => ['admin', 'staff'].includes(s.role) && s.status === 'active').length;
+            const activeAssignments = state.assignments.filter((a) => a.status === 'active').length;
+            const espOnline = state.beds.filter((b) => (b.status || {}).esp === 'online').length;
+            $('statBeds').textContent = String(state.beds.length);
+            $('statPatients').textContent = String(patients);
+            $('statStaff').textContent = String(staff);
+            $('statAssignments').textContent = String(activeAssignments);
+            $('statEsp').textContent = `${espOnline}/${state.beds.length || 0}`;
+        }
+
+        function renderOverview() {
+            const rows = state.beds.map((b) => {
+                const st = b.status || {};
+                const a = b.assignment || {};
+                return `<tr>
+                    <td>${escapeHtml(b.display_name || `${b.room}-${b.bed}`)}</td>
+                    <td>${escapeHtml(a.subject_name || '--')}</td>
+                    <td>${statusBadge(st.esp)}</td>
+                    <td>${statusBadge(st.radar)}</td>
+                    <td>${statusBadge(st.env)}</td>
+                    <td>${statusBadge(st.audio)}</td>
+                    <td>${statusBadge(st.emotion)}</td>
+                </tr>`;
+            }).join('');
+            $('overviewBedsBody').innerHTML = rows || `<tr><td colspan="7"><div class="empty">鏆傛棤搴婁綅</div></td></tr>`;
+            $('sessionSummary').innerHTML = sessionHtml(state.session, true);
+        }
+
+        function renderSubjects() {
+            const role = $('roleFilter').value;
+            const status = $('statusFilter').value;
+            const search = $('subjectSearch').value.trim().toLowerCase();
+            const activeBySubject = new Map(state.assignments
+                .filter((a) => a.status === 'active')
+                .map((a) => [a.subject_id, `${a.room}-${a.bed}`]));
+            const filtered = state.subjects.filter((s) => {
+                if (role && s.role !== role) return false;
+                if (status && s.status !== status) return false;
+                if (!search) return true;
+                const hay = `${s.name || ''} ${s.subject_id || ''} ${s.notes || ''}`.toLowerCase();
+                return hay.includes(search);
+            });
+            const rows = filtered.map((s) => {
+                const selected = s.subject_id === state.selectedSubjectId ? ' selected' : '';
+                return `<tr class="selectable${selected}" data-subject="${escapeHtml(s.subject_id)}">
+                    <td>${escapeHtml(s.name || '--')}</td>
+                    <td>${roleBadge(s.role)}</td>
+                    <td>${statusBadge(s.status)}</td>
+                    <td>${escapeHtml(s.age ?? '--')}</td>
+                    <td>${escapeHtml(activeBySubject.get(s.subject_id) || '--')}</td>
+                    <td class="mono">${escapeHtml(s.subject_id)}</td>
+                </tr>`;
+            }).join('');
+            $('subjectsBody').innerHTML = rows || `<tr><td colspan="6"><div class="empty">鏆傛棤浜哄憳</div></td></tr>`;
+        }
+
+        function renderBeds() {
+            const rows = state.beds.map((b) => {
+                const a = b.assignment || {};
+                const st = b.status || {};
+                const posture = b.posture || {};
+                const emotion = b.emotion || {};
+                return `<tr>
+                    <td>${escapeHtml(b.room)}</td>
+                    <td>${escapeHtml(b.bed)}</td>
+                    <td>${escapeHtml(b.display_name || `${b.room}-${b.bed}`)}</td>
+                    <td>${escapeHtml(a.subject_name || '--')}</td>
+                    <td>${statusBadge(st.esp)}</td>
+                    <td>${escapeHtml(posture.class_name || '--')}</td>
+                    <td>${escapeHtml(emotion.face_present ? (emotion.label || '--') : '--')}</td>
+                </tr>`;
+            }).join('');
+            $('bedsBody').innerHTML = rows || `<tr><td colspan="7"><div class="empty">鏆傛棤搴婁綅</div></td></tr>`;
+        }
+
+        function renderAssignments() {
+            const rows = state.assignments.map((a) => {
+                const closeButton = a.status === 'active'
+                    ? `<button class="small danger" data-close-assignment="${escapeHtml(a.assignment_id)}">缁撴潫</button>`
+                    : '';
+                return `<tr>
+                    <td>${escapeHtml(a.subject_name || a.subject_id || '--')}</td>
+                    <td>${escapeHtml(`${a.room || '--'}-${a.bed || '--'}`)}</td>
+                    <td>${statusBadge(a.status)}</td>
+                    <td>${fmtTime(a.start_ts)}</td>
+                    <td>${fmtTime(a.end_ts)}</td>
+                    <td>${closeButton}</td>
+                </tr>`;
+            }).join('');
+            $('assignmentsBody').innerHTML = rows || `<tr><td colspan="6"><div class="empty">鏆傛棤缁戝畾</div></td></tr>`;
+        }
+
+        function renderSelects() {
+            const allSubjectOptions = subjectOptionHtml();
+            const patientOptions = subjectOptionHtml('patient') || allSubjectOptions;
+            $('assignmentSubject').innerHTML = patientOptions;
+            $('detailSubject').innerHTML = allSubjectOptions;
+            $('sessionSubject').innerHTML = allSubjectOptions;
+            $('contextBed').innerHTML = bedOptionHtml();
+
+            if (state.selectedSubjectId) {
+                $('detailSubject').value = state.selectedSubjectId;
+                if ([...$('sessionSubject').options].some((o) => o.value === state.selectedSubjectId)) {
+                    $('sessionSubject').value = state.selectedSubjectId;
+                }
+            }
+
+            const rooms = [...new Set(state.beds.map((b) => b.room))];
+            $('assignmentRoom').innerHTML = rooms.map((room) => `<option value="${escapeHtml(room)}">${escapeHtml(room)}</option>`).join('');
+            renderBedSelectForRoom();
+        }
+
+        function renderBedSelectForRoom() {
+            const room = $('assignmentRoom').value || (state.beds[0] || {}).room || '';
+            const beds = state.beds.filter((b) => b.room === room);
+            $('assignmentBed').innerHTML = beds.map((b) => `<option value="${escapeHtml(b.bed)}">${escapeHtml(b.bed)}</option>`).join('');
+        }
+
+        function sessionHtml(session, compact = false) {
+            if (!session || !session.session_id) {
+                return `<div class="empty">鏆傛棤浼氳瘽</div>`;
+            }
+            const subject = subjectById(session.actor_subject_id) || {};
+            const emotion = session.emotion || {};
+            const auth = Array.isArray(session.auth_methods) ? session.auth_methods.join(', ') : '';
+            const lines = [
+                ['鎿嶄綔鑰?, subject.name || session.actor_subject_id || '--'],
+                ['瑙掕壊', roleText[session.role] || session.role || '--'],
+                ['璁よ瘉', auth || '--'],
+                ['鍙俊绛夌骇', session.assurance_level || '--'],
+                ['璇嗗埆鐘舵€?, session.identity_state || '--'],
+                ['鎯呯华', emotion.label || '--'],
+                ['杩囨湡鏃堕棿', fmtTime(session.expires_ts)],
+            ];
+            if (!compact) lines.unshift(['浼氳瘽 ID', session.session_id]);
+            return lines.map(([k, v]) => `<div class="kv"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('');
+        }
+
+        function renderSession() {
+            $('sessionDetail').innerHTML = sessionHtml(state.session, false);
+        }
+
+        async function loadSelectedSubjectDetails() {
+            if (!state.selectedSubjectId) {
+                state.credentials = [];
+                state.memories = [];
+                renderSubjectDetail();
+                return;
+            }
+            const [credResp, memoryResp] = await Promise.all([
+                apiGet(`/api/v3/credentials?subject_id=${encodeURIComponent(state.selectedSubjectId)}`),
+                apiGet(`/api/v3/memories?subject_id=${encodeURIComponent(state.selectedSubjectId)}&limit=30`),
+            ]);
+            state.credentials = credResp.credentials || [];
+            state.memories = memoryResp.memories || [];
+            renderSubjectDetail();
+        }
+
+        function renderSubjectDetail() {
+            const s = subjectById(state.selectedSubjectId);
+            if (!s) {
+                $('subjectDetail').innerHTML = `<div class="empty">鏈€夋嫨浜哄憳</div>`;
+                return;
+            }
+            const assignment = state.assignments.find((a) => a.status === 'active' && a.subject_id === s.subject_id);
+            const credHtml = state.credentials.length
+                ? state.credentials.map((c) => `<div class="item">
+                    <div class="item-top"><span class="item-title">${escapeHtml(c.type || '--')}</span>${statusBadge(c.status)}</div>
+                    <div class="muted">${escapeHtml(c.provider || '--')} 路 ${fmtTime(c.created_ts)}</div>
+                    <div class="mono muted">${escapeHtml(c.credential_id || '')}</div>
+                </div>`).join('')
+                : `<div class="empty">鏆傛棤璁よ瘉鍑嵁</div>`;
+            const memoryHtml = state.memories.length
+                ? state.memories.map((m) => `<div class="item">
+                    <div class="item-top"><span class="item-title">${escapeHtml(m.kind || '--')}</span>${badge(m.visibility_scope || '--', 'neutral')}</div>
+                    <div>${escapeHtml(m.content_compressed || '')}</div>
+                    <div class="muted">${escapeHtml(m.source || '--')} 路 ${fmtTime(m.updated_ts)}</div>
+                </div>`).join('')
+                : `<div class="empty">鏆傛棤璁板繂</div>`;
+
+            $('subjectDetail').innerHTML = `
+                <div class="kv"><span class="k">濮撳悕</span><span class="v">${escapeHtml(s.name || '--')}</span></div>
+                <div class="kv"><span class="k">瑙掕壊</span><span class="v">${roleText[s.role] || s.role || '--'}</span></div>
+                <div class="kv"><span class="k">鐘舵€?/span><span class="v">${statusText[s.status] || s.status || '--'}</span></div>
+                <div class="kv"><span class="k">褰撳墠搴婁綅</span><span class="v">${assignment ? escapeHtml(`${assignment.room}-${assignment.bed}`) : '--'}</span></div>
+                <div class="kv"><span class="k">澶囨敞</span><span class="v">${escapeHtml(s.notes || '--')}</span></div>
+                <div style="height:14px"></div>
+                <h3 class="surface-title">璁よ瘉鍑嵁</h3>
+                <div class="list" style="margin-top:10px">${credHtml}</div>
+                <div style="height:14px"></div>
+                <h3 class="surface-title">璁板繂</h3>
+                <div class="list" style="margin-top:10px">${memoryHtml}</div>
+            `;
+        }
+
+        function setTab(tab) {
+            state.activeTab = tab;
+            document.querySelectorAll('.tab').forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === tab));
+            document.querySelectorAll('.view').forEach((view) => view.classList.toggle('active', view.id === `view-${tab}`));
+            window.localStorage.setItem('gateway-admin-tab', tab);
+        }
+
+        async function selectSubject(subjectId) {
+            if (!subjectId) return;
+            state.selectedSubjectId = subjectId;
+            renderSubjects();
+            renderSelects();
+            await loadSelectedSubjectDetails();
+        }
+
+        document.querySelectorAll('.tab').forEach((btn) => {
+            btn.addEventListener('click', () => setTab(btn.dataset.tab));
+        });
+
+        $('refreshBtn').addEventListener('click', async () => {
+            try {
+                await loadAll();
+                showNotice('宸插埛鏂?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        ['roleFilter', 'statusFilter', 'subjectSearch'].forEach((id) => {
+            $(id).addEventListener('input', renderSubjects);
+            $(id).addEventListener('change', renderSubjects);
+        });
+
+        $('subjectsBody').addEventListener('click', async (event) => {
+            const row = event.target.closest('tr[data-subject]');
+            if (row) await selectSubject(row.dataset.subject);
+        });
+
+        $('detailSubject').addEventListener('change', async () => {
+            await selectSubject($('detailSubject').value);
+        });
+
+        $('assignmentRoom').addEventListener('change', renderBedSelectForRoom);
+
+        $('subjectForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const ageValue = $('subjectAge').value;
+            const faceImage = await readFileAsDataUrl($('subjectFaceImage'));
+            const payload = {
+                name: $('subjectName').value.trim(),
+                role: $('subjectRole').value,
+                status: 'active',
+                gender: $('subjectGender').value.trim(),
+                age: ageValue === '' ? null : Number(ageValue),
+                notes: $('subjectNotes').value.trim(),
+            };
+            try {
+                const resp = await apiPost('/api/v3/subjects', payload);
+                const subjectId = (resp.subject || {}).subject_id || '';
+                state.selectedSubjectId = subjectId || state.selectedSubjectId;
+                let faceEnrolled = false;
+                if (subjectId && faceImage) {
+                    await apiPost('/api/v3/credentials/enroll', {
+                        subject_id: subjectId,
+                        type: 'face',
+                        provider: 'admin_upload',
+                        image_b64: faceImage,
+                    });
+                    faceEnrolled = true;
+                }
+                event.target.reset();
+                await loadAll();
+                showNotice(faceEnrolled ? '浜哄憳鍜屼汉鑴稿嚟鎹凡鏂板' : '浜哄憳宸叉柊澧?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('assignmentForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const payload = {
+                subject_id: $('assignmentSubject').value,
+                room: $('assignmentRoom').value,
+                bed: $('assignmentBed').value,
+                created_by: $('assignmentBy').value.trim(),
+            };
+            try {
+                await apiPost('/api/v3/assignments', payload);
+                state.selectedSubjectId = payload.subject_id;
+                await loadAll();
+                showNotice('搴婁綅宸茬粦瀹?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('assignmentsBody').addEventListener('click', async (event) => {
+            const btn = event.target.closest('[data-close-assignment]');
+            if (!btn) return;
+            try {
+                await apiPost(`/api/v3/assignments/${encodeURIComponent(btn.dataset.closeAssignment)}/close`, {});
+                await loadAll();
+                showNotice('缁戝畾宸茬粨鏉?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('credentialForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!state.selectedSubjectId) {
+                showNotice('璇峰厛閫夋嫨浜哄憳', 'error');
+                return;
+            }
+            const credentialImage = await readFileAsDataUrl($('credentialImage'));
+            let template = {};
+            const raw = $('credentialTemplate').value.trim();
+            if (raw && raw !== '{}') {
+                try {
+                    template = JSON.parse(raw);
+                } catch (err) {
+                    showNotice('妯℃澘 JSON 鏍煎紡閿欒', 'error');
+                    return;
+                }
+            }
+            const payload = {
+                subject_id: state.selectedSubjectId,
+                type: $('credentialType').value,
+                provider: $('credentialProvider').value.trim(),
+                status: $('credentialStatus').value,
+                template,
+            };
+            try {
+                if (payload.type === 'face' && credentialImage) {
+                    await apiPost('/api/v3/credentials/enroll', {
+                        ...payload,
+                        image_b64: credentialImage,
+                    });
+                } else if (payload.type === 'face' && Object.keys(template).length > 0) {
+                    await apiPost('/api/v3/credentials/enroll', payload);
+                } else {
+                    await apiPost('/api/v3/credentials', payload);
+                }
+                $('credentialTemplate').value = '{}';
+                $('credentialProvider').value = '';
+                $('credentialImage').value = '';
+                await loadSelectedSubjectDetails();
+                showNotice('鍑嵁宸叉坊鍔?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('memoryForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!state.selectedSubjectId) {
+                showNotice('璇峰厛閫夋嫨浜哄憳', 'error');
+                return;
+            }
+            const payload = {
+                subject_id: state.selectedSubjectId,
+                kind: $('memoryKind').value,
+                visibility_scope: $('memoryScope').value,
+                content_compressed: $('memoryContent').value.trim(),
+                source: 'admin',
+                confidence: 1,
+            };
+            try {
+                await apiPost('/api/v3/memories', payload);
+                $('memoryContent').value = '';
+                await loadSelectedSubjectDetails();
+                showNotice('璁板繂宸蹭繚瀛?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('sessionForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const subjectId = $('sessionSubject').value;
+            const subject = subjectById(subjectId);
+            if (!subject) {
+                showNotice('璇烽€夋嫨鎿嶄綔鑰?, 'error');
+                return;
+            }
+            const conf = Number($('sessionEmotionConf').value || 0);
+            const emotionLabel = $('sessionEmotion').value.trim();
+            const payload = {
+                actor_subject_id: subjectId,
+                role: subject.role,
+                auth_methods: [$('sessionMethod').value],
+                assurance_level: $('sessionAssurance').value,
+                identity_state: 'recognized',
+                emotion: emotionLabel ? { label: emotionLabel, confidence: conf } : {},
+            };
+            try {
+                const resp = await apiPost('/api/v3/sessions', payload);
+                state.session = resp.session || {};
+                renderOverview();
+                renderSession();
+                showNotice('浼氳瘽宸叉洿鏂?);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        $('contextBtn').addEventListener('click', async () => {
+            const value = $('contextBed').value || '';
+            const [room, bed] = value.split('|');
+            if (!room || !bed) return;
+            try {
+                const d = await apiGet(`/api/v3/context/chat?target_room=${encodeURIComponent(room)}&target_bed=${encodeURIComponent(bed)}`);
+                const preview = {
+                    allowed: (d.policy || {}).allowed,
+                    actor: d.actor || {},
+                    target: d.target || {},
+                    brief: d.brief || '',
+                    prompt_hints: d.prompt_hints || [],
+                };
+                $('contextPreview').textContent = JSON.stringify(preview, null, 2);
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        });
+
+        (async function init() {
+            const savedTab = window.localStorage.getItem('gateway-admin-tab');
+            if (savedTab) setTab(savedTab);
+            try {
+                await loadAll();
+            } catch (err) {
+                showNotice(String(err), 'error');
+            }
+        })();
+    </script>
+</body>
+</html>

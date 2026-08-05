@@ -1,0 +1,84 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625",
+  "benchmark": "project2-v4.1b",
+  "steps": {
+    "public": 2,
+    "debug_probe": 2,
+    "hidden": 2,
+    "espidf_static": 2,
+    "espidf_build": 2,
+    "espidf_build_evidence": 0
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\espidf_static_summary.json",
+    "espidf_build_evidence": {
+      "manifest": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\espidf_build_evidence.json",
+      "artifact_dir": "",
+      "evidence_complete": false,
+      "artifact_count": 0
+    },
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": false
+    },
+    "git": {},
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_231625\\dimensions.json"
+  },
+  "meta": {
+    "model": "Minimax-M2.7",
+    "channel": "qoder",
+    "harness": "qoder",
+    "benchmark": "project2-v4.1b",
+    "seed_tag": "project2-v4-broken-seed",
+    "registry_version": "v4.1b",
+    "run_group_id": "Minimax-M2.7_qoder",
+    "thinking_level": "unknown",
+    "run_index": 1,
+    "complete": true,
+    "meta_partial": false
+  },
+  "meta_complete": true,
+  "duration_sec": 1,
+  "duration_source": "eval_wall",
+  "ability_draft": 4.0,
+  "ship_draft": 4.0,
+  "release_class_hint": "D",
+  "blockers": [
+    "E-build",
+    "F-public"
+  ],
+  "behavior_blockers": [
+    "E-build",
+    "F-public"
+  ],
+  "semantic_only_codes": [],
+  "f9_mode": "real_fail_honest",
+  "f11_status": "missing",
+  "family_draft": {
+    "F1": 0.0,
+    "F2": 0.0,
+    "F3": 0.0,
+    "F4": 0.0,
+    "F5": 0.0,
+    "F6": 0.0,
+    "F7": 0.0,
+    "F8": 0.0,
+    "F9": 3.5,
+    "F10": 0.0,
+    "F11": 0.5,
+    "F12": 0.0
+  },
+  "dimensions": {
+    "final_code": 0.11,
+    "security": 0.0,
+    "migration": 0.0,
+    "esp_deploy": 2.5,
+    "process_truth": 0.0,
+    "efficiency": null
+  }
+}

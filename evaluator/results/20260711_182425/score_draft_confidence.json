@@ -1,0 +1,12 @@
+{
+  "overestimate_risk": [
+    "F9: toolchain skipped; fixed 3/6 (not full credit)"
+  ],
+  "unscored_items": [],
+  "notes": [],
+  "f9_mode": "skipped_env",
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 18
+}

@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# Test / cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local agent / tool state (author-specific, not for redistribution)
+.claude/
+.reasonix/
+reasonix.toml
+mcps/
+terminals/
+.opencode/
+.idea/
+.vscode/
+
+# ESP-IDF build output
+build/
+builds/
+dependencies.lock
+managed_components/
+
+# OS
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Local databases / temp
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Do not commit evaluation archives (released as separate tarballs)
+archives/

@@ -1,0 +1,13 @@
+{
+  "model": "Kimi-K3",
+  "channel": "kimi-sub",
+  "harness": "kimi",
+  "benchmark": "project2-v4.1b",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1b",
+  "run_group_id": "Kimi-K3_kimi-sub",
+  "thinking_level": "max",
+  "run_index": 1,
+  "complete": true,
+  "meta_partial": false
+}

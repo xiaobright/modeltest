@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sleep Gateway Dashboard (多床)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --card: #ffffff;
+            --ink: #1a1d2e;
+            --muted: #6b7194;
+            --good: #10b981;
+            --bad: #e74c5e;
+            --line: #e2e5ef;
+            --ring: rgba(99,102,241,0.35);
+            --accent: #6366f1;
+            --accent2: #8b5cf6;
+            --accent-soft: rgba(99,102,241,0.08);
+        }
+        * { box-sizing: border-box; margin: 0; }
+        body {
+            margin: 0; min-height: 100vh;
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse 70% 50% at 10% 0%, rgba(99,102,241,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 90% 5%, rgba(139,92,246,0.05) 0%, transparent 50%);
+            color: var(--ink);
+            font-family: 'Inter', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 0.01em;
+        }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px 28px; }
+        .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+        .title {
+            margin: 0; font-size: clamp(1.2rem, 3.1vw, 2rem); font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
+        .panel {
+            background: var(--card); border: 1px solid var(--line);
+            border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            padding: 16px; margin-top: 14px;
+            animation: rise 360ms ease both; transform-origin: top center;
+            transition: all 0.25s ease;
+        }
+        .panel:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(10px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .section-title { margin: 0 0 10px; font-size: 1rem; font-weight: 700; }
+        .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+        .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+        .kv {
+            border: 1px solid var(--line); border-radius: 12px; padding: 12px;
+            background: #fafafd; transition: all 0.2s ease;
+        }
+        .kv:hover { border-color: rgba(99,102,241,0.2); box-shadow: 0 4px 12px rgba(99,102,241,0.06); }
+        .k { display: block; font-size: 0.76rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+        .v { display: block; margin-top: 6px; font-size: 1.1rem; font-weight: 700; }
+        .badge {
+            display: inline-block; margin-left: 6px; font-size: 0.72rem; font-weight: 600;
+            border-radius: 999px; padding: 2px 9px; border: 1px solid transparent;
+        }
+        .online { color: #047857; background: #ecfdf5; border-color: #a7f3d0; }
+        .offline { color: #be123c; background: #fef0f1; border-color: #f5c6cb; }
+        .unknown { color: #7c3aed; background: #f5f3ff; border-color: #ddd6fe; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .bed-selector { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .bed-selector select {
+            padding: 7px 12px; border: 1px solid var(--line); border-radius: 10px;
+            background: #fff; font-size: 0.9rem; color: var(--ink);
+            font-family: inherit; outline: none; transition: all 0.2s;
+        }
+        .bed-selector select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+        .bed-selector label { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+        .beds-overview { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .bed-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 5px 12px; border-radius: 10px; background: #fafafd;
+            border: 1px solid var(--line); font-size: 0.8rem;
+            cursor: pointer; transition: all 0.2s ease; color: var(--ink);
+        }
+        .bed-chip:hover { border-color: var(--ring); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(99,102,241,0.08); }
+        .bed-chip.active { background: var(--accent-soft); border-color: var(--ring); font-weight: 700; box-shadow: 0 2px 8px rgba(99,102,241,0.1); }
+        .bed-chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .bed-chip .dot.on { background: var(--good); box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+        .bed-chip .dot.off { background: var(--bad); box-shadow: 0 0 6px rgba(231,76,94,0.3); }
+        button {
+            border: 1px solid var(--line); background: #fff; color: var(--ink);
+            border-radius: 10px; padding: 8px 14px; font-size: 0.9rem; font-weight: 600;
+            font-family: inherit; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        button:hover { transform: translateY(-1px); border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 4px 12px rgba(99,102,241,0.12); }
+        .nav-link {
+            display: inline-flex; align-items: center;
+            border: 1px solid var(--line); background: #fff; color: var(--ink);
+            border-radius: 10px; padding: 8px 14px; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .nav-link:hover { transform: translateY(-1px); border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 4px 12px rgba(99,102,241,0.12); }
+        .meta { font-size: 0.82rem; color: var(--muted); margin-top: 10px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(107,113,148,0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(107,113,148,0.35); }
+        @media (max-width: 900px) { .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 720px) {
+            .grid3 { grid-template-columns: 1fr; }
+            .grid2 { grid-template-columns: 1fr; }
+            .grid4 { grid-template-columns: 1fr; }
+            .wrap { padding: 14px 12px 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1 class="title">多模态多床位监测</h1>
+                <p class="sub">巴法云网关 (多床模式)</p>
+            </div>
+            <div class="toolbar">
+                <a class="nav-link" href="/admin">管理台</a>
+                <button id="refreshBtn">手动刷新</button>
+            </div>
+        </div>
+
+        <section class="panel">
+            <h2 class="section-title">床位概览</h2>
+            <div class="beds-overview" id="bedsOverview"></div>
+            <div class="meta" id="overviewMeta"></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">当前选择: <span id="currentBedLabel">--</span></h2>
+            <div class="bed-selector">
+                <label>房间</label>
+                <select id="roomSelect"><option>--</option></select>
+                <label>床位</label>
+                <select id="bedSelect"><option>--</option></select>
+            </div>
+            <div class="grid2" style="margin-top:8px;">
+                <div class="kv"><span class="k">位置</span><span class="v" id="location">default</span></div>
+                <div class="kv"><span class="k">网关时间</span><span class="v" id="gatewayTs">--</span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">ESP32 连接状态</h2>
+            <div class="grid4">
+                <div class="kv"><span class="k">连接状态</span><span class="v" id="espStatus">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">最近接收</span><span class="v" id="espLastSeen">--</span></div>
+                <div class="kv"><span class="k">缓存深度</span><span class="v" id="espDepth">--</span></div>
+                <div class="kv"><span class="k">累计字节</span><span class="v" id="espBytes">--</span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">设备在线状态</h2>
+            <div class="grid4">
+                <div class="kv"><span class="k">雷达</span><span class="v" id="sRadar">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">环境</span><span class="v" id="sEnv">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">音频</span><span class="v" id="sAudio">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">视觉</span><span class="v" id="sEmotion">未知 <span class="badge unknown">unknown</span></span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">实时生命体征 (雷达)</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">呼吸 (bpm)</span><span class="v" id="rBreath">--</span></div>
+                <div class="kv"><span class="k">心率 (bpm)</span><span class="v" id="rHeart">--</span></div>
+                <div class="kv"><span class="k">体动幅度</span><span class="v" id="rMotion">--</span></div>
+                <div class="kv"><span class="k">翻身 (次)</span><span class="v" id="rTurning">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="rTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">环境监测</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">CO2 (ppm)</span><span class="v" id="eCo2">--</span></div>
+                <div class="kv"><span class="k">温度 (C)</span><span class="v" id="eTemp">--</span></div>
+                <div class="kv"><span class="k">湿度 (RH)</span><span class="v" id="eRh">--</span></div>
+                <div class="kv"><span class="k">噪声 (dB)</span><span class="v" id="eNoise">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="eTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">鼾声/音频统计</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">鼾声等级</span><span class="v" id="aLevel">--</span></div>
+                <div class="kv"><span class="k">1分钟次数</span><span class="v" id="aCount">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="aTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">睡姿分类 (Random Forest)</h2>
+            <div class="grid4">
+                <div class="kv"><span class="k">当前姿势</span><span class="v" id="poClass">--</span></div>
+                <div class="kv"><span class="k">置信度</span><span class="v" id="poConf">--</span></div>
+                <div class="kv"><span class="k">推理耗时</span><span class="v" id="poTime">--</span></div>
+                <div class="kv"><span class="k">推理次数</span><span class="v" id="poCount">--</span></div>
+            </div>
+            <div style="margin-top:10px;">
+                <div class="grid3">
+                    <div class="kv"><span class="k">仰卧</span><span class="v" id="poSupine">0%</span></div>
+                    <div class="kv"><span class="k">侧卧</span><span class="v" id="poLateral">0%</span></div>
+                    <div class="kv"><span class="k">俯卧</span><span class="v" id="poProne">0%</span></div>
+                </div>
+            </div>
+            <div class="meta">更新时间: <span id="poTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">对话视觉 / 当前情绪</h2>
+            <div class="grid4">
+                <div class="kv"><span class="k">当前情绪</span><span class="v" id="emLabel">--</span></div>
+                <div class="kv"><span class="k">置信度</span><span class="v" id="emConf">--</span></div>
+                <div class="kv"><span class="k">镜头内人数</span><span class="v" id="emFaces">0</span></div>
+                <div class="kv"><span class="k">视觉源</span><span class="v" id="emSource">--</span></div>
+                <div class="kv"><span class="k">视觉状态</span><span class="v" id="emState">--</span></div>
+                <div class="kv"><span class="k">稳定时长</span><span class="v" id="emStable">--</span></div>
+                <div class="kv"><span class="k">推理耗时</span><span class="v" id="emInfer">--</span></div>
+                <div class="kv"><span class="k">累计推理</span><span class="v" id="emCount">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="emTs">--</span></div>
+        </section>
+    </div>
+
+    <script>
+        const POLL_MS = 5000;
+
+        const $ = (id) => document.getElementById(id);
+
+        let currentRoom = '';
+        let currentBed = '';
+        let allBeds = [];
+
+        function timeFmt(ts) {
+            if (!ts) return '--';
+            const d = new Date(Number(ts));
+            if (Number.isNaN(d.getTime())) return '--';
+            return d.toLocaleString('zh-CN', { hour12: false });
+        }
+
+        function statusText(s) {
+            if (s === 'online') return '在线';
+            if (s === 'offline') return '离线';
+            if (s === 'connected') return '连接成功';
+            if (s === 'disconnected') return '未连接';
+            return '未知';
+        }
+
+        function statusClass(s) {
+            if (s === 'online' || s === 'connected') return 'online';
+            if (s === 'offline' || s === 'disconnected') return 'offline';
+            return 'unknown';
+        }
+
+        function setStatus(id, s) {
+            const el = $(id);
+            const txt = statusText(s);
+            const cls = statusClass(s);
+            el.innerHTML = txt + ' <span class="badge ' + cls + '">' + s + '</span>';
+        }
+
+        function setNum(id, value) {
+            $(id).textContent = (value === null || value === undefined || value === '') ? '--' : String(value);
+        }
+
+        function setDurationMs(id, value) {
+            const ms = Number(value || 0);
+            $(id).textContent = ms > 0 ? (ms / 1000).toFixed(1) + 's' : '--';
+        }
+
+        async function fetchBeds() {
+            try {
+                const resp = await fetch('/api/v2/beds', { cache: 'no-store' });
+                const d = await resp.json();
+                allBeds = d.beds || [];
+                renderBedsOverview();
+                if (allBeds.length > 0 && (!currentRoom || !currentBed)) {
+                    currentRoom = allBeds[0].room;
+                    currentBed = allBeds[0].bed;
+                    updateBedSelectors();
+                    updateBedLabel();
+                }
+                updateBedSelectors();
+                return allBeds;
+            } catch (err) {
+                $('overviewMeta').textContent = '获取床位列表失败: ' + err;
+                return [];
+            }
+        }
+
+        function renderBedsOverview() {
+            let html = '';
+            allBeds.forEach(b => {
+                const isActive = b.room === currentRoom && b.bed === currentBed;
+                const clsActive = isActive ? ' active' : '';
+                const radarOk = b.status.radar === 'online';
+                html += `<div class="bed-chip${clsActive}" data-room="${b.room}" data-bed="${b.bed}">`;
+                html += `<span class="dot ${radarOk ? 'on' : 'off'}"></span>`;
+                html += `${b.room}-${b.bed}`;
+                if (b.posture && b.posture.class_name && b.posture.class_name !== '未知') {
+                    html += ` <span style="color:#5f6f87;font-size:0.7rem;">${b.posture.class_name}</span>`;
+                }
+                html += '</div>';
+            });
+            $('bedsOverview').innerHTML = html;
+
+            document.querySelectorAll('.bed-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    currentRoom = chip.dataset.room;
+                    currentBed = chip.dataset.bed;
+                    updateBedSelectors();
+                    updateBedLabel();
+                    pollOnce();
+                    renderBedsOverview();
+                });
+            });
+        }
+
+        function updateBedSelectors() {
+            const rooms = [...new Set(allBeds.map(b => b.room))];
+            const rSel = $('roomSelect');
+            rSel.innerHTML = rooms.map(r => `<option value="${r}" ${r === currentRoom ? 'selected' : ''}>${r}</option>`).join('');
+            const bedsForRoom = allBeds.filter(b => b.room === currentRoom).map(b => b.bed);
+            const bSel = $('bedSelect');
+            bSel.innerHTML = bedsForRoom.map(b => `<option value="${b}" ${b === currentBed ? 'selected' : ''}>${b}</option>`).join('');
+        }
+
+        function updateBedLabel() {
+            $('currentBedLabel').textContent = `${currentRoom}-${currentBed}`;
+        }
+
+        $('roomSelect').addEventListener('change', () => {
+            currentRoom = $('roomSelect').value;
+            const firstBed = allBeds.find(b => b.room === currentRoom);
+            currentBed = firstBed ? firstBed.bed : currentBed;
+            updateBedSelectors();
+            updateBedLabel();
+            renderBedsOverview();
+            pollOnce();
+        });
+
+        $('bedSelect').addEventListener('change', () => {
+            currentBed = $('bedSelect').value;
+            updateBedLabel();
+            renderBedsOverview();
+            pollOnce();
+        });
+
+        async function pollSensorData() {
+            if (!currentRoom || !currentBed) return;
+            const url = `/api/v2/latest?room=${currentRoom}&bed=${currentBed}`;
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            const d = await resp.json();
+
+            $('location').textContent = `${d.room || currentRoom}-${d.bed || currentBed}`;
+            $('gatewayTs').textContent = timeFmt(d.ts);
+
+            const st = d.status || {};
+            setStatus('sRadar', st.radar || 'unknown');
+            setStatus('sEnv', st.env || 'unknown');
+            setStatus('sAudio', st.audio || 'unknown');
+            setStatus('sEmotion', st.emotion || 'unknown');
+
+            const r = d.radar || {};
+            setNum('rBreath', r.breath_bpm);
+            setNum('rHeart', r.heart_bpm);
+            setNum('rMotion', r.motion);
+            setNum('rTurning', r.turning);
+            $('rTs').textContent = timeFmt(r.ts);
+
+            const e = d.env || {};
+            setNum('eCo2', e.co2_ppm);
+            setNum('eTemp', e.temp_c);
+            setNum('eRh', e.rh);
+            setNum('eNoise', e.noise_db);
+            $('eTs').textContent = timeFmt(e.ts);
+
+            const a = d.audio || {};
+            setNum('aLevel', a.snore_level);
+            setNum('aCount', a.snore_count_1min);
+            $('aTs').textContent = timeFmt(a.ts);
+
+            const po = d.posture || {};
+            const poClass = po.class_name || '未知';
+            $('poClass').textContent = poClass !== '未知' ? poClass : '--';
+            $('poConf').textContent = po.confidence > 0 ? (po.confidence * 100).toFixed(1) + '%' : '--';
+            $('poTime').textContent = po.infer_ms > 0 ? po.infer_ms.toFixed(0) + 'ms' : '--';
+            $('poCount').textContent = po.infer_count > 0 ? po.infer_count : '--';
+
+            const probs = po.probabilities || [0, 0, 0];
+            $('poSupine').textContent = probs[0] > 0 ? (probs[0] * 100).toFixed(1) + '%' : '0%';
+            $('poLateral').textContent = probs[1] > 0 ? (probs[1] * 100).toFixed(1) + '%' : '0%';
+            $('poProne').textContent = probs[2] > 0 ? (probs[2] * 100).toFixed(1) + '%' : '0%';
+            $('poTs').textContent = timeFmt(d.ts);
+
+            const em = d.emotion || {};
+            $('emLabel').textContent = em.face_present ? (em.label || '--') : '--';
+            $('emConf').textContent = em.confidence > 0 ? (em.confidence * 100).toFixed(1) + '%' : '--';
+            $('emFaces').textContent = em.face_count > 0 ? String(em.face_count) : '0';
+            $('emSource').textContent = em.source || '--';
+            $('emState').textContent = em.source_state || '--';
+            setDurationMs('emStable', em.stable_for_ms || 0);
+            $('emInfer').textContent = em.infer_ms > 0 ? em.infer_ms.toFixed(0) + 'ms' : '--';
+            $('emCount').textContent = em.infer_count > 0 ? em.infer_count : '--';
+            $('emTs').textContent = timeFmt(em.ts);
+        }
+
+        async function pollEspStatus() {
+            if (!currentRoom || !currentBed) return;
+            const url = `/api/esp/status?room=${currentRoom}&bed=${currentBed}`;
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            const d = await resp.json();
+            const status = d.status || (d.online ? 'connected' : 'disconnected');
+            setStatus('espStatus', status);
+            $('espLastSeen').textContent = timeFmt(d.last_seen_ts);
+            setNum('espDepth', d.store_depth);
+            setNum('espBytes', d.bytes_rx);
+        }
+
+        async function pollOnce() {
+            await fetchBeds();
+            const errors = [];
+
+            try {
+                await pollSensorData();
+            } catch (err) {
+                errors.push('传感数据失败: ' + String(err));
+            }
+
+            try {
+                await pollEspStatus();
+            } catch (err) {
+                errors.push('ESP状态失败: ' + String(err));
+                setStatus('espStatus', 'disconnected');
+            }
+
+            if (errors.length === 0) {
+                $('overviewMeta').textContent = '每 5 秒自动刷新。最新: ' + timeFmt(Date.now());
+            } else {
+                $('overviewMeta').textContent = errors.join(' | ');
+            }
+        }
+
+        $('refreshBtn').addEventListener('click', pollOnce);
+        pollOnce();
+        setInterval(pollOnce, POLL_MS);
+    </script>
+</body>
+</html>

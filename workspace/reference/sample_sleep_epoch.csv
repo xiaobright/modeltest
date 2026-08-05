@@ -1,0 +1,2 @@
+record,start_ts,end_ts,stage,confidence
+ep01,1710000000000,1710000030000,N2,0.87

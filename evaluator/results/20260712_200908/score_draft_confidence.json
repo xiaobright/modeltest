@@ -1,0 +1,30 @@
+{
+  "overestimate_risk": [],
+  "unscored_items": [],
+  "notes": [],
+  "f9_mode": "real_pass",
+  "f9_evidence": {
+    "status": "passed",
+    "return_code": 0,
+    "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+    "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260712_200908\\espidf_build.log",
+    "artifacts": [
+      {
+        "name": "stdpro.bin",
+        "source": "E:\\esp\\builds\\modeltest\\project2_task\\esp32\\testpro4\\build\\stdpro.bin",
+        "archived": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260712_200908\\espidf_build_artifacts\\stdpro.bin",
+        "bytes": 988288,
+        "sha256": "71b653e10dee8c05f5cd55f726cf5625880d2c322e93de2058f8ae88ff2825e7",
+        "mtime_utc": "2026-07-12T12:10:04.054017+00:00"
+      }
+    ],
+    "evidence_complete": true
+  },
+  "f9_evidence_valid": true,
+  "f9_evidence_validation_errors": [],
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 11,
+  "meta_complete": true
+}

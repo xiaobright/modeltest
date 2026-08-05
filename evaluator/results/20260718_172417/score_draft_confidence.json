@@ -1,0 +1,80 @@
+{
+  "overestimate_risk": [],
+  "unscored_items": [],
+  "notes": [
+    "cascade: M-crash affects ['V4-F6-01']",
+    "cascade: S-ambient affects ['V4-F3-05']"
+  ],
+  "f9_mode": "real_pass",
+  "f9_evidence": {
+    "status": "passed",
+    "return_code": 0,
+    "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+    "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_172417\\espidf_build.log",
+    "artifacts": [
+      {
+        "name": "stdpro.bin",
+        "source": "E:\\esp\\builds\\modeltest\\project2_task\\esp32\\testpro4\\build\\stdpro.bin",
+        "archived": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_172417\\espidf_build_artifacts\\stdpro.bin",
+        "bytes": 983088,
+        "sha256": "a366cd560ecb95bcf448bb4a74f4667bbbc71a1111821a6ec3c93d0a680d8014",
+        "mtime_utc": "2026-07-18T09:26:10.412615+00:00"
+      }
+    ],
+    "evidence_complete": true
+  },
+  "f9_evidence_valid": true,
+  "f9_evidence_validation_errors": [],
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 23,
+  "meta_complete": true,
+  "cascade": {
+    "roots": [
+      {
+        "root": "M-crash",
+        "family": "F6",
+        "affected_items": [
+          "V4-F6-01"
+        ],
+        "note": "full legacy init failed; fidelity items use independent fixtures and were scored separately"
+      },
+      {
+        "root": "S-ambient",
+        "family": "F3",
+        "affected_items": [
+          "V4-F3-05"
+        ],
+        "suppressed_or_diagnostic": [
+          "care_unauth_zero_leak_under_F3_05"
+        ],
+        "f5_05_status": "authorized_care_path_passed",
+        "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+      }
+    ],
+    "note": "multiple cascade roots; see roots[]"
+  },
+  "cascades": [
+    {
+      "root": "M-crash",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-01"
+      ],
+      "note": "full legacy init failed; fidelity items use independent fixtures and were scored separately"
+    },
+    {
+      "root": "S-ambient",
+      "family": "F3",
+      "affected_items": [
+        "V4-F3-05"
+      ],
+      "suppressed_or_diagnostic": [
+        "care_unauth_zero_leak_under_F3_05"
+      ],
+      "f5_05_status": "authorized_care_path_passed",
+      "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+    }
+  ]
+}

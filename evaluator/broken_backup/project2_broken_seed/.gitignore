@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Project databases
+data/*.db
+*.db
+
+# Build artifacts
+build/
+*.o
+*.elf
+*.bin
+*.map
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vs/
+.idea/
+*.swp
+*~

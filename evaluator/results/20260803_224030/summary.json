@@ -1,0 +1,100 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030",
+  "benchmark": "project2-v4.1b",
+  "steps": {
+    "public": 0,
+    "debug_probe": 0,
+    "hidden": 1,
+    "espidf_static": 1,
+    "espidf_build": 0,
+    "espidf_build_evidence": 0
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\espidf_static_summary.json",
+    "espidf_build_evidence": {
+      "manifest": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\espidf_build_evidence.json",
+      "artifact_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\espidf_build_artifacts",
+      "evidence_complete": true,
+      "artifact_count": 1
+    },
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": true,
+      "source": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "artifact": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\pull_request_template.md",
+      "bytes": 3598
+    },
+    "git": {
+      "baseline": "project2-v4-broken-seed",
+      "diff": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\candidate_diff.patch",
+      "diff_lines": 388,
+      "shortstat": "10 files changed, 86 insertions(+), 49 deletions(-)",
+      "status": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\candidate_status.txt",
+      "changed_file_count": 10,
+      "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\candidate_log.txt",
+      "duration_source": "unknown"
+    },
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260803_224030\\dimensions.json"
+  },
+  "meta": {
+    "model": "GPT-5.6-luna",
+    "channel": "codex-high",
+    "harness": "codex",
+    "benchmark": "project2-v4.1b",
+    "seed_tag": "project2-v4-broken-seed",
+    "registry_version": "v4.1b",
+    "thinking_level": "low",
+    "complete": true,
+    "meta_partial": true
+  },
+  "meta_complete": true,
+  "duration_sec": 96,
+  "duration_source": "eval_wall",
+  "ability_draft": 84.0,
+  "ship_draft": 84.0,
+  "release_class_hint": "B",
+  "blockers": [
+    "P-report",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "P-report",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only_codes": [],
+  "f9_mode": "real_pass",
+  "f11_status": "heuristic",
+  "family_draft": {
+    "F1": 6.0,
+    "F2": 12.0,
+    "F3": 11.0,
+    "F4": 0.0,
+    "F5": 12.0,
+    "F6": 8.0,
+    "F7": 8.0,
+    "F8": 5.0,
+    "F9": 6.0,
+    "F10": 8.0,
+    "F11": 4.0,
+    "F12": 4.0
+  },
+  "dimensions": {
+    "final_code": 10.0,
+    "security": 7.5,
+    "migration": 8.0,
+    "esp_deploy": 7.86,
+    "process_truth": 7.5,
+    "efficiency": null
+  }
+}

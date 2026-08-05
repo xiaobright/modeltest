@@ -1,0 +1,11 @@
+{
+  "auto": [],
+  "manual": [],
+  "final": [],
+  "behavior_blockers": [],
+  "semantic_only": [],
+  "semantic_only_codes": [],
+  "cascade": null,
+  "cascades": [],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision. V4.1b: unauth care leak is under F3-05 only; F5-05 is authorized care path."
+}

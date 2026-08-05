@@ -1,0 +1,14 @@
+{
+  "overestimate_risk": [
+    "F9: toolchain skipped; fixed 3/6 (not full credit)"
+  ],
+  "unscored_items": [],
+  "notes": [
+    "debug probe non-zero exit (often expected on broken/partial fixes)"
+  ],
+  "f9_mode": "skipped_env",
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": false,
+  "git_changed_files": 8
+}

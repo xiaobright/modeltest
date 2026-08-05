@@ -1,0 +1,24 @@
+{
+  "auto": [
+    "S-ambient",
+    "M-crash",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "manual": [],
+  "final": [
+    "S-ambient",
+    "M-crash",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "S-ambient",
+    "M-crash",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only": [],
+  "semantic_only_codes": [],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision"
+}

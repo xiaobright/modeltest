@@ -1,0 +1,98 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033",
+  "benchmark": "project2-v4",
+  "steps": {
+    "public": 0,
+    "debug_probe": 1,
+    "hidden": 1,
+    "espidf_static": 1
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\espidf_static_summary.json",
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": true,
+      "source": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "artifact": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\pull_request_template.md",
+      "bytes": 1066
+    },
+    "git": {
+      "baseline": "project2-v4-broken-seed",
+      "diff": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\candidate_diff.patch",
+      "diff_lines": 0,
+      "shortstat": "",
+      "status": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\candidate_status.txt",
+      "changed_file_count": 0,
+      "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\candidate_log.txt",
+      "duration_source": "unknown"
+    },
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_174033\\dimensions.json"
+  },
+  "meta": {
+    "model": "broken-seed-smoke",
+    "channel": "local",
+    "harness": "smoke",
+    "benchmark": "project2-v4",
+    "seed_tag": "project2-v4-broken-seed"
+  },
+  "duration_sec": 23,
+  "duration_source": "eval_wall",
+  "ability_draft": 45.5,
+  "ship_draft": 45.5,
+  "release_class_hint": "D",
+  "blockers": [
+    "P-report",
+    "S-plaintext-admin",
+    "S-admin-bypass",
+    "S-expired",
+    "S-no-actor",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "P-report",
+    "S-plaintext-admin",
+    "S-admin-bypass",
+    "S-expired",
+    "S-no-actor",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only_codes": [
+    "V4-F12-03",
+    "V4-F12-04"
+  ],
+  "f9_mode": "skipped_env",
+  "f11_status": "placeholder",
+  "family_draft": {
+    "F1": 6.0,
+    "F2": 2.0,
+    "F3": 7.0,
+    "F4": 0.0,
+    "F5": 2.0,
+    "F6": 6.0,
+    "F7": 5.0,
+    "F8": 4.0,
+    "F9": 3.0,
+    "F10": 8.0,
+    "F11": 0.5,
+    "F12": 2.0
+  },
+  "dimensions": {
+    "final_code": 3.98,
+    "security": 3.06,
+    "migration": 6.0,
+    "esp_deploy": 5.0,
+    "process_truth": 7.5,
+    "efficiency": null
+  }
+}

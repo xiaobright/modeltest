@@ -1,0 +1,75 @@
+{
+  "overestimate_risk": [],
+  "unscored_items": [],
+  "notes": [
+    "cascade: M-fidelity affects ['V4-F6-03']",
+    "cascade: S-ambient affects ['V4-F3-05']"
+  ],
+  "f9_mode": "real_fail_honest",
+  "f9_evidence": {
+    "status": "failed",
+    "return_code": 1,
+    "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+    "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260804_091152\\espidf_build.log",
+    "artifacts": [],
+    "evidence_complete": false
+  },
+  "f9_evidence_valid": false,
+  "f9_evidence_validation_errors": [
+    "manifest does not record a successful build",
+    "manifest evidence_complete is not true",
+    "no archived build artifact"
+  ],
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 11,
+  "meta_complete": true,
+  "cascade": {
+    "roots": [
+      {
+        "root": "M-fidelity",
+        "family": "F6",
+        "affected_items": [
+          "V4-F6-03"
+        ],
+        "note": "one or more F6 items failed; see item_results for per-item status"
+      },
+      {
+        "root": "S-ambient",
+        "family": "F3",
+        "affected_items": [
+          "V4-F3-05"
+        ],
+        "suppressed_or_diagnostic": [
+          "care_unauth_zero_leak_under_F3_05"
+        ],
+        "f5_05_status": "authorized_care_path_passed",
+        "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+      }
+    ],
+    "note": "multiple cascade roots; see roots[]"
+  },
+  "cascades": [
+    {
+      "root": "M-fidelity",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-03"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    },
+    {
+      "root": "S-ambient",
+      "family": "F3",
+      "affected_items": [
+        "V4-F3-05"
+      ],
+      "suppressed_or_diagnostic": [
+        "care_unauth_zero_leak_under_F3_05"
+      ],
+      "f5_05_status": "authorized_care_path_passed",
+      "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+    }
+  ]
+}

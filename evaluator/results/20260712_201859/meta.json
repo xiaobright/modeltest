@@ -1,0 +1,8 @@
+{
+  "model": "Gemini-3.5-Flash",
+  "channel": "antigravity",
+  "harness": "antigravity",
+  "benchmark": "project2-v4",
+  "seed_tag": "project2-v4-broken-seed",
+  "complete": true
+}

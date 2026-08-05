@@ -1,0 +1,1084 @@
+{
+  "kind": "hidden",
+  "benchmark": "project2-v4",
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "files": [
+    {
+      "file": "test_api_regression.py",
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_1_test_api_regression.ApiRegressionTest.test_esp_set_requires_all_streams_and_payload_is_opt_in",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F10-02",
+              "family": "F10",
+              "scenario_id": "regression_esp_set",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F10-02",
+          "family": "F10",
+          "scenario_id": "regression_esp_set",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_1_test_api_regression.ApiRegressionTest.test_legacy_v2_and_esp_paths_still_work",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F10-01",
+              "family": "F10",
+              "scenario_id": "regression_v2_esp",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F10-01",
+          "family": "F10",
+          "scenario_id": "regression_v2_esp",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "regression"
+    },
+    {
+      "file": "test_auth_boundary.py",
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_login_returns_a_new_valid_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-05",
+              "family": "F2",
+              "scenario_id": "admin_login_cookie",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-05",
+          "family": "F2",
+          "scenario_id": "admin_login_cookie",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_page_and_auth_state_after_setup",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-02",
+              "family": "F2",
+              "scenario_id": "admin_page_state",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-02",
+          "family": "F2",
+          "scenario_id": "admin_page_state",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_setup_stores_password_and_session_token_hashes",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-01",
+              "family": "F2",
+              "scenario_id": "admin_password_hash",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-plaintext-admin"
+            }
+          ],
+          "item_id": "V4-F2-01",
+          "family": "F2",
+          "scenario_id": "admin_password_hash",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_local_session_spoofing_requires_admin_auth",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-08",
+              "family": "F2",
+              "scenario_id": "session_spoof",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "S-admin-bypass"
+            }
+          ],
+          "item_id": "V4-F2-08",
+          "family": "F2",
+          "scenario_id": "session_spoof",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_logout_invalidates_the_old_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-04",
+              "family": "F2",
+              "scenario_id": "admin_logout",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-04",
+          "family": "F2",
+          "scenario_id": "admin_logout",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_management_api_requires_exact_valid_admin_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-03",
+              "family": "F2",
+              "scenario_id": "admin_cookie_required",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "S-admin-bypass"
+            }
+          ],
+          "item_id": "V4-F2-03",
+          "family": "F2",
+          "scenario_id": "admin_cookie_required",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_remote_identity_gallery_is_not_public",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-06",
+              "family": "F2",
+              "scenario_id": "gallery_privacy",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-06",
+          "family": "F2",
+          "scenario_id": "gallery_privacy",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_unknown_identity_session_is_not_authenticated",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-07",
+              "family": "F2",
+              "scenario_id": "unknown_identity",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-07",
+          "family": "F2",
+          "scenario_id": "unknown_identity",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "admin_auth"
+    },
+    {
+      "file": "test_care_event.py",
+      "tests_run": 6,
+      "passed": 5,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventAuthGateTest.test_care_event_create_requires_admin_auth",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-06",
+              "family": "F5",
+              "scenario_id": "care_auth",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-06",
+          "family": "F5",
+          "scenario_id": "care_auth",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventContextTest.test_care_event_context_integration",
+          "status": "failed",
+          "message": "AssertionError: True is not false",
+          "items": [
+            {
+              "item_id": "V4-F5-05",
+              "family": "F5",
+              "scenario_id": "care_context",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-05",
+          "family": "F5",
+          "scenario_id": "care_context",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_create_and_query",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-01",
+              "family": "F5",
+              "scenario_id": "care_create_query",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-01",
+          "family": "F5",
+          "scenario_id": "care_create_query",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_limit_and_descending_order",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-03",
+              "family": "F5",
+              "scenario_id": "care_limit_order",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-03",
+          "family": "F5",
+          "scenario_id": "care_limit_order",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_query_by_room_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-02",
+              "family": "F5",
+              "scenario_id": "care_room_bed",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-02",
+          "family": "F5",
+          "scenario_id": "care_room_bed",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_room_bed_case_normalization",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-04",
+              "family": "F5",
+              "scenario_id": "care_normalize",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-04",
+          "family": "F5",
+          "scenario_id": "care_normalize",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "care_event"
+    },
+    {
+      "file": "test_context_policy.py",
+      "tests_run": 10,
+      "passed": 8,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_expired_session_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-03",
+              "family": "F3",
+              "scenario_id": "expired_session",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-expired"
+            }
+          ],
+          "item_id": "V4-F3-03",
+          "family": "F3",
+          "scenario_id": "expired_session",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_expired_session_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-03",
+              "family": "F12",
+              "scenario_id": "expired_session",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-03",
+          "family": "F12",
+          "scenario_id": "expired_session",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_patient_cannot_access_other_patient_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-02",
+              "family": "F3",
+              "scenario_id": "cross_patient",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "S-cross-patient"
+            }
+          ],
+          "item_id": "V4-F3-02",
+          "family": "F3",
+          "scenario_id": "cross_patient",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_patient_cannot_access_other_patient_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-02",
+              "family": "F12",
+              "scenario_id": "cross_patient",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-02",
+          "family": "F12",
+          "scenario_id": "cross_patient",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_sensitive_target_context_requires_explicit_session_behavior",
+          "status": "failed",
+          "message": "AssertionError: True is not false",
+          "items": [
+            {
+              "item_id": "V4-F3-05",
+              "family": "F3",
+              "scenario_id": "ambient_session",
+              "points": 5,
+              "semantic_only": false,
+              "blocker": "S-ambient"
+            }
+          ],
+          "item_id": "V4-F3-05",
+          "family": "F3",
+          "scenario_id": "ambient_session",
+          "points": 5,
+          "semantic_only": false,
+          "blocker": "S-ambient"
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_session_without_actor_subject_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-04",
+              "family": "F3",
+              "scenario_id": "no_actor_session",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-no-actor"
+            }
+          ],
+          "item_id": "V4-F3-04",
+          "family": "F3",
+          "scenario_id": "no_actor_session",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_session_without_actor_subject_reason",
+          "status": "failed",
+          "message": "AssertionError: 'not_authenticated' != 'not_authorized_for_target'",
+          "items": [
+            {
+              "item_id": "V4-F12-04",
+              "family": "F12",
+              "scenario_id": "no_actor_session",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-04",
+          "family": "F12",
+          "scenario_id": "no_actor_session",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_staff_can_access_target_patient_context",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-06",
+              "family": "F3",
+              "scenario_id": "staff_positive",
+              "points": 0,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F3-06",
+          "family": "F3",
+          "scenario_id": "staff_positive",
+          "points": 0,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_unauthenticated_context_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-01",
+              "family": "F3",
+              "scenario_id": "unauthenticated_context",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "S-unauth"
+            }
+          ],
+          "item_id": "V4-F3-01",
+          "family": "F3",
+          "scenario_id": "unauthenticated_context",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_unauthenticated_context_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-01",
+              "family": "F12",
+              "scenario_id": "unauthenticated_context",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-01",
+          "family": "F12",
+          "scenario_id": "unauthenticated_context",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        }
+      ],
+      "family": "context_policy"
+    },
+    {
+      "file": "test_db_migration.py",
+      "tests_run": 5,
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_existing_old_care_events_table_is_migrated_without_data_loss",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-01",
+              "family": "F6",
+              "scenario_id": "migration_no_crash",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "M-crash"
+            }
+          ],
+          "item_id": "V4-F6-01",
+          "family": "F6",
+          "scenario_id": "migration_no_crash",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_adds_columns_and_keeps_old_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-02",
+              "family": "F6",
+              "scenario_id": "migration_columns",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-02",
+          "family": "F6",
+          "scenario_id": "migration_columns",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_backfills_ts_from_created_ts",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-03",
+              "family": "F6",
+              "scenario_id": "migration_ts_backfill",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-03",
+          "family": "F6",
+          "scenario_id": "migration_ts_backfill",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_init_is_idempotent",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-04",
+              "family": "F6",
+              "scenario_id": "migration_idempotent",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F6-04",
+          "family": "F6",
+          "scenario_id": "migration_idempotent",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_mixed_old_new_sort_order",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-05",
+              "family": "F6",
+              "scenario_id": "migration_mixed_sort",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-05",
+          "family": "F6",
+          "scenario_id": "migration_mixed_sort",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "db_migration"
+    },
+    {
+      "file": "test_pr_template_contract.py",
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_6_test_pr_template_contract.PrTemplateContractTest.test_pr_template_covers_required_review_topics",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-02",
+              "family": "F1",
+              "scenario_id": "process_final",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-02",
+          "family": "F1",
+          "scenario_id": "process_final",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_6_test_pr_template_contract.PrTemplateContractTest.test_pr_template_exists_and_is_nontrivial",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-03",
+              "family": "F1",
+              "scenario_id": "process_esp_record",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-03",
+          "family": "F1",
+          "scenario_id": "process_esp_record",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "process_reporting"
+    },
+    {
+      "file": "test_process_contract.py",
+      "tests_run": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_candidate_did_not_modify_visible_test_or_probe_scripts",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-04",
+              "family": "F1",
+              "scenario_id": "process_no_tamper",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "T-tamper"
+            }
+          ],
+          "item_id": "V4-F1-04",
+          "family": "F1",
+          "scenario_id": "process_no_tamper",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_pr_template_does_not_claim_missing_esp_helper_files",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-05",
+              "family": "F1",
+              "scenario_id": "process_helper_claim",
+              "points": 0,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-05",
+          "family": "F1",
+          "scenario_id": "process_helper_claim",
+          "points": 0,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_pr_template_records_required_debug_commands",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-01",
+              "family": "F1",
+              "scenario_id": "process_initial",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-01",
+          "family": "F1",
+          "scenario_id": "process_initial",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "process_reporting"
+    },
+    {
+      "file": "test_sleep_import.py",
+      "tests_run": 8,
+      "passed": 5,
+      "failed": 3,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_default_room_bed_imports_only_configured_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-02",
+              "family": "F7",
+              "scenario_id": "sleep_default_bed",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-02",
+          "family": "F7",
+          "scenario_id": "sleep_default_bed",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_explicit_all_policy_imports_to_all_beds",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-05",
+              "family": "F7",
+              "scenario_id": "sleep_all",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-05",
+          "family": "F7",
+          "scenario_id": "sleep_all",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_explicit_room_bed_imports_only_that_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-04",
+              "family": "F7",
+              "scenario_id": "sleep_explicit",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-04",
+          "family": "F7",
+          "scenario_id": "sleep_explicit",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_mixed_explicit_and_unscoped_rows_are_routed_per_row",
+          "status": "failed",
+          "message": "AssertionError: '' != 'mix_unscoped'",
+          "items": [
+            {
+              "item_id": "V4-F7-07",
+              "family": "F7",
+              "scenario_id": "sleep_mixed_first",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-07",
+          "family": "F7",
+          "scenario_id": "sleep_mixed_first",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_mixed_skip_policy_skips_only_unscoped_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-08",
+              "family": "F7",
+              "scenario_id": "sleep_mixed_skip",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-08",
+          "family": "F7",
+          "scenario_id": "sleep_mixed_skip",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_skip_policy_ignores_unscoped_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-03",
+              "family": "F7",
+              "scenario_id": "sleep_skip",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-03",
+          "family": "F7",
+          "scenario_id": "sleep_skip",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_unscoped_default_imports_only_first_bed",
+          "status": "failed",
+          "message": "AssertionError: '' != 'slp01'",
+          "items": [
+            {
+              "item_id": "V4-F7-01",
+              "family": "F7",
+              "scenario_id": "sleep_first",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-01",
+          "family": "F7",
+          "scenario_id": "sleep_first",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_unscoped_default_is_first_not_all",
+          "status": "failed",
+          "message": "AssertionError: '' != 'slp06'",
+          "items": [
+            {
+              "item_id": "V4-F7-06",
+              "family": "F7",
+              "scenario_id": "sleep_no_fanout_default",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-06",
+          "family": "F7",
+          "scenario_id": "sleep_no_fanout_default",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "sleep_import"
+    },
+    {
+      "file": "test_voice_bridge.py",
+      "tests_run": 1,
+      "passed": 0,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_9_test_voice_bridge.VoiceBridgeTest.test_voice_fetches_current_session_before_sensitive_context",
+          "status": "failed",
+          "message": "AssertionError: False is not true : voice module must reference /api/v3/session/current (or fetch_current_session / get_current_session) so sensitive context can use an explicit session_id",
+          "items": [
+            {
+              "item_id": "V4-F4-01",
+              "family": "F4",
+              "scenario_id": "voice_bridge",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F4-01",
+          "family": "F4",
+          "scenario_id": "voice_bridge",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": "R-regression"
+        }
+      ],
+      "family": "voice_bridge"
+    }
+  ],
+  "tests_run": 45,
+  "passed": 38,
+  "failed": 7,
+  "errors": 0,
+  "skipped": 0,
+  "families": {
+    "regression": {
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "admin_auth": {
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "care_event": {
+      "tests_run": 6,
+      "passed": 5,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "context_policy": {
+      "tests_run": 10,
+      "passed": 8,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "db_migration": {
+      "tests_run": 5,
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "process_reporting": {
+      "tests_run": 5,
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "sleep_import": {
+      "tests_run": 8,
+      "passed": 5,
+      "failed": 3,
+      "errors": 0,
+      "skipped": 0
+    },
+    "voice_bridge": {
+      "tests_run": 1,
+      "passed": 0,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "blockers": [
+    "S-ambient",
+    "R-regression"
+  ],
+  "ship_gates": {
+    "S-ambient_present": true,
+    "note": "S-ambient does not set a numeric ship ceiling in V4"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "model": "GPT-5.6-luna",
+  "channel": "codex-high",
+  "harness": "codex",
+  "benchmark": "project2-v4.1",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1",
+  "run_group_id": "GPT-5.6-luna_codex-high",
+  "thinking_level": "high",
+  "run_index": 1,
+  "complete": true,
+  "meta_partial": false
+}

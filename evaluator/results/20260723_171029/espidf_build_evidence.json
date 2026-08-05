@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "return_code": 2,
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspaceproject2_task",
+  "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260723_171029\\espidf_build.log",
+  "artifacts": [],
+  "evidence_complete": false
+}

@@ -1,0 +1,79 @@
+# ESP32-S3 Multi-Sensor Hub 项目配置
+# 适用于 ESP32-S3-DevKitC-1 (N16R8)
+
+# ======================
+# 目标芯片配置
+# ======================
+CONFIG_IDF_TARGET="esp32s3"
+
+# ======================
+# Flash 配置 (16MB)
+# ======================
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# ======================
+# PSRAM 配置 (8MB Octal)
+# ======================
+CONFIG_ESP32S3_SPIRAM_SUPPORT=y
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+
+# ======================
+# CPU 配置
+# ======================
+CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240=y
+
+# ======================
+# USB OTG / TinyUSB 配置 (关键!)
+# ======================
+# 启用 TinyUSB
+CONFIG_TINYUSB_ENABLED=y
+
+# CDC (虚拟串口) 配置 - 3个CDC接口
+CONFIG_TINYUSB_CDC_ENABLED=y
+CONFIG_TINYUSB_CDC_COUNT=2
+CONFIG_TINYUSB_CDC_RX_BUFSIZE=256
+CONFIG_TINYUSB_CDC_TX_BUFSIZE=256
+CONFIG_TINYUSB_CDC_EP_BUFSIZE=64
+
+# 禁用其他 USB 设备类
+CONFIG_TINYUSB_MSC_ENABLED=n
+CONFIG_TINYUSB_HID_COUNT=0
+CONFIG_TINYUSB_MIDI_COUNT=0
+CONFIG_TINYUSB_VENDOR_COUNT=0
+
+# ======================
+# 控制台配置 (重要!)
+# ======================
+# 使用 UART0 作为控制台 (不使用 USB)
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+CONFIG_ESP_CONSOLE_UART_NUM=0
+
+# 关闭 USB Serial JTAG 作为次要控制台
+# 这对于 DevKitC-1 使用 USB OTG 是必要的
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+# CONFIG_ESP_CONSOLE_SECONDARY_USB_SERIAL_JTAG is not set
+# CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG is not set
+
+# ======================
+# USB PHY 配置
+# ======================
+# 使用内部 PHY (ESP32-S3 内置)
+CONFIG_USB_OTG_SUPPORTED=y
+
+# ======================
+# FreeRTOS 配置
+# ======================
+CONFIG_FREERTOS_HZ=1000
+CONFIG_FREERTOS_UNICORE=y
+
+# ======================
+# 日志配置
+# ======================
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_DEFAULT_LEVEL=3
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+CONFIG_PTHREAD_TASK_STACK_SIZE_DEFAULT=8192

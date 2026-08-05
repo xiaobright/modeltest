@@ -1,0 +1,77 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016",
+  "benchmark": "project2-v4",
+  "steps": {
+    "public": 0,
+    "debug_probe": 0,
+    "hidden": 1,
+    "espidf_static": 0
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\espidf_static_summary.json",
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": true,
+      "source": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "artifact": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\pull_request_template.md",
+      "bytes": 7800
+    },
+    "git": {
+      "baseline": "project2-v4-broken-seed",
+      "diff": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\candidate_diff.patch",
+      "diff_lines": 2322,
+      "shortstat": "19 files changed, 890 insertions(+), 513 deletions(-)",
+      "status": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\candidate_status.txt",
+      "changed_file_count": 27,
+      "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\candidate_log.txt",
+      "duration_source": "unknown"
+    },
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_214016\\dimensions.json"
+  },
+  "meta": {
+    "model": "gpt-5.6-sol",
+    "channel": "codex",
+    "harness": "codex",
+    "benchmark": "project2-v4",
+    "seed_tag": "project2-v4-broken-seed"
+  },
+  "duration_sec": 18,
+  "duration_source": "eval_wall",
+  "ability_draft": 96.0,
+  "ship_draft": 96.0,
+  "release_class_hint": "A",
+  "blockers": [],
+  "behavior_blockers": [],
+  "semantic_only_codes": [
+    "V4-F12-04"
+  ],
+  "f9_mode": "skipped_env",
+  "f11_status": "heuristic",
+  "family_draft": {
+    "F1": 8.0,
+    "F2": 12.0,
+    "F3": 16.0,
+    "F4": 4.0,
+    "F5": 12.0,
+    "F6": 10.0,
+    "F7": 8.0,
+    "F8": 8.0,
+    "F9": 3.0,
+    "F10": 8.0,
+    "F11": 4.0,
+    "F12": 3.0
+  },
+  "dimensions": {
+    "final_code": 10.0,
+    "security": 9.72,
+    "migration": 10.0,
+    "esp_deploy": 7.86,
+    "process_truth": 10.0,
+    "efficiency": null
+  }
+}

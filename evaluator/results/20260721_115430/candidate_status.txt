@@ -1,0 +1,11 @@
+ M PULL_REQUEST_TEMPLATE.md
+ M esp32/testpro4/main/CMakeLists.txt
+ M esp32/testpro4/main/idf_component.yml
+ M esp32/testpro4/main/main.cpp
+ M gateway/auth.py
+ M gateway/care_events.py
+ M gateway/db.py
+ M gateway/gateway.py
+ M gateway/sleep_importer.py
+?? esp32/testpro4/main/network_backhaul.cpp
+?? esp32/testpro4/main/network_backhaul.h

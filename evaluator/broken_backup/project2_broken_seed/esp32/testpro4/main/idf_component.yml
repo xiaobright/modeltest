@@ -1,0 +1,21 @@
+## IDF Component Manager Manifest File
+dependencies:
+  ## Required IDF version
+  idf:
+    version: '>=4.1.0'
+  # 注意: esp_tinyusb 已在本地 components 目录中，无需从远程下载
+  # espressif/esp_tinyusb:
+  #   version: "^2.0.1~1"
+  # # Put list of dependencies here
+  # # For components maintained by Espressif:
+  # component: "~1.0.0"
+  # # For 3rd party components:
+  # username/component: ">=1.0.0,<2.0.0"
+  # username2/component2:
+  #   version: "~1.0.0"
+  #   # For transient dependencies `public` flag can be set.
+  #   # `public` flag doesn't have an effect dependencies of the `main` component.
+  #   # All dependencies of `main` are public by default.
+  #   public: true
+  espressif/esp_tinyusb: ^2.0.1~1
+  # TODO(v4): add the MQTT client component dependency when network backhaul is restored.

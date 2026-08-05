@@ -1,0 +1,63 @@
+{
+  "kind": "espidf_static",
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "files": [
+    {
+      "file": "test_espidf_static_contract.py",
+      "tests_run": 9,
+      "passed": 5,
+      "failed": 4,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_cmake_has_core_dependencies",
+          "status": "passed"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_mqtt_dependencies_added",
+          "status": "failed",
+          "message": "AssertionError: mqtt missing from active CMake REQUIRES"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_mqtt_protocol_markers_exist",
+          "status": "failed",
+          "message": "AssertionError: payload_b64 missing from active ESP32 MQTT source"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_network_config_requires_wifi_and_uid",
+          "status": "passed"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_payload_buffer_not_fixed_undersized",
+          "status": "passed"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_protocol_contract_markers_exist",
+          "status": "passed"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_required_files_exist",
+          "status": "passed"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_topic_and_nvs_contract_markers_exist",
+          "status": "failed",
+          "message": "AssertionError: topic stream suffix tof1 missing from ESP32 source"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_wifi_mqtt_runtime_started",
+          "status": "failed",
+          "message": "AssertionError: esp_wifi_start missing from active ESP32 source"
+        }
+      ]
+    }
+  ],
+  "tests_run": 9,
+  "passed": 5,
+  "failed": 4,
+  "errors": 0,
+  "skipped": 0,
+  "f8_07_status": "pass",
+  "benchmark": "project2-v4"
+}

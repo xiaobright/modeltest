@@ -1,0 +1,102 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031",
+  "benchmark": "project2-v4.1b",
+  "steps": {
+    "public": 0,
+    "debug_probe": 0,
+    "hidden": 1,
+    "espidf_static": 1,
+    "espidf_build": 0,
+    "espidf_build_evidence": 0
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\espidf_static_summary.json",
+    "espidf_build_evidence": {
+      "manifest": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\espidf_build_evidence.json",
+      "artifact_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\espidf_build_artifacts",
+      "evidence_complete": true,
+      "artifact_count": 1
+    },
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": true,
+      "source": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "artifact": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\pull_request_template.md",
+      "bytes": 9925
+    },
+    "git": {
+      "baseline": "project2-v4-broken-seed",
+      "diff": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\candidate_diff.patch",
+      "diff_lines": 1938,
+      "shortstat": "9 files changed, 564 insertions(+), 756 deletions(-)",
+      "status": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\candidate_status.txt",
+      "changed_file_count": 15,
+      "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\candidate_log.txt",
+      "duration_source": "unknown"
+    },
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260719_183031\\dimensions.json"
+  },
+  "meta": {
+    "model": "Qwen-3.8-Max-Preview",
+    "channel": "qoder",
+    "harness": "qoder",
+    "benchmark": "project2-v4.1b",
+    "seed_tag": "project2-v4-broken-seed",
+    "registry_version": "v4.1b",
+    "run_group_id": "Qwen-3.8-Max-Preview_qoder",
+    "thinking_level": "unknown",
+    "run_index": 1,
+    "complete": true,
+    "meta_partial": false
+  },
+  "meta_complete": true,
+  "duration_sec": 100,
+  "duration_source": "eval_wall",
+  "ability_draft": 87.0,
+  "ship_draft": 87.0,
+  "release_class_hint": "B+",
+  "blockers": [
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only_codes": [
+    "V4-F12-04"
+  ],
+  "f9_mode": "real_pass",
+  "f11_status": "heuristic",
+  "family_draft": {
+    "F1": 8.0,
+    "F2": 12.0,
+    "F3": 11.0,
+    "F4": 0.0,
+    "F5": 12.0,
+    "F6": 8.0,
+    "F7": 8.0,
+    "F8": 7.0,
+    "F9": 6.0,
+    "F10": 8.0,
+    "F11": 4.0,
+    "F12": 3.0
+  },
+  "dimensions": {
+    "final_code": 10.0,
+    "security": 7.22,
+    "migration": 8.0,
+    "esp_deploy": 9.29,
+    "process_truth": 10.0,
+    "efficiency": null
+  }
+}

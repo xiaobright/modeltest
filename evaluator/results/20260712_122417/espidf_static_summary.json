@@ -1,0 +1,192 @@
+{
+  "kind": "espidf_static",
+  "benchmark": "project2-v4",
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "files": [
+    {
+      "file": "test_espidf_static_contract.py",
+      "tests_run": 9,
+      "passed": 6,
+      "failed": 3,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_cmake_has_core_dependencies",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-02",
+              "family": "F8",
+              "scenario_id": "esp_cmake_core",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-02",
+          "family": "F8",
+          "scenario_id": "esp_cmake_core",
+          "points": 1
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_mqtt_dependencies_added",
+          "status": "failed",
+          "message": "AssertionError: mqtt missing from active CMake REQUIRES",
+          "items": [
+            {
+              "item_id": "V4-F8-03",
+              "family": "F8",
+              "scenario_id": "esp_mqtt_deps",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-03",
+          "family": "F8",
+          "scenario_id": "esp_mqtt_deps",
+          "points": 1,
+          "blocker": "E-contract"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_mqtt_protocol_markers_exist",
+          "status": "failed",
+          "message": "AssertionError: esp_mqtt_client_publish missing from active ESP32 MQTT source",
+          "items": [
+            {
+              "item_id": "V4-F8-05",
+              "family": "F8",
+              "scenario_id": "esp_mqtt_markers",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-05",
+          "family": "F8",
+          "scenario_id": "esp_mqtt_markers",
+          "points": 1,
+          "blocker": "E-contract"
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_network_config_requires_wifi_and_uid",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-08",
+              "family": "F8",
+              "scenario_id": "esp_ready",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-08",
+          "family": "F8",
+          "scenario_id": "esp_ready",
+          "points": 1
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_payload_buffer_not_fixed_undersized",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-09",
+              "family": "F8",
+              "scenario_id": "esp_buffer",
+              "points": 0,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-09",
+          "family": "F8",
+          "scenario_id": "esp_buffer",
+          "points": 0
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_protocol_contract_markers_exist",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-04",
+              "family": "F8",
+              "scenario_id": "esp_protocol",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-04",
+          "family": "F8",
+          "scenario_id": "esp_protocol",
+          "points": 1
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_required_files_exist",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-01",
+              "family": "F8",
+              "scenario_id": "esp_files",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-01",
+          "family": "F8",
+          "scenario_id": "esp_files",
+          "points": 1
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_topic_and_nvs_contract_markers_exist",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F8-07",
+              "family": "F8",
+              "scenario_id": "esp_topic_nvs",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-07",
+          "family": "F8",
+          "scenario_id": "esp_topic_nvs",
+          "points": 1
+        },
+        {
+          "test": "_project2_espidf_static_1_test_espidf_static_contract.EspIdfStaticContractTest.test_wifi_mqtt_runtime_started",
+          "status": "failed",
+          "message": "AssertionError: esp_mqtt_client_start missing from active ESP32 source",
+          "items": [
+            {
+              "item_id": "V4-F8-06",
+              "family": "F8",
+              "scenario_id": "esp_runtime",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "E-contract"
+            }
+          ],
+          "item_id": "V4-F8-06",
+          "family": "F8",
+          "scenario_id": "esp_runtime",
+          "points": 1,
+          "blocker": "E-contract"
+        }
+      ]
+    }
+  ],
+  "tests_run": 9,
+  "passed": 6,
+  "failed": 3,
+  "errors": 0,
+  "skipped": 0,
+  "f8_09_status": "pass",
+  "f8_07_status": "pass"
+}

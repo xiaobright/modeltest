@@ -1,0 +1,36 @@
+{
+  "overestimate_risk": [
+    "F9: toolchain skipped; fixed 3/6 (not full credit)"
+  ],
+  "unscored_items": [],
+  "notes": [
+    "cascade: M-fidelity affects ['V4-F6-03']"
+  ],
+  "f9_mode": "skipped_env",
+  "f9_evidence": null,
+  "f9_evidence_valid": null,
+  "f9_evidence_validation_errors": [],
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 21,
+  "meta_complete": true,
+  "cascade": {
+    "root": "M-fidelity",
+    "family": "F6",
+    "affected_items": [
+      "V4-F6-03"
+    ],
+    "note": "one or more F6 items failed; see item_results for per-item status"
+  },
+  "cascades": [
+    {
+      "root": "M-fidelity",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-03"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    }
+  ]
+}

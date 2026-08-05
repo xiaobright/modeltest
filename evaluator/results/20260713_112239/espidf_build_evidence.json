@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "return_code": 0,
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260713_112239\\espidf_build.log",
+  "artifacts": [
+    {
+      "name": "stdpro.bin",
+      "source": "E:\\esp\\builds\\modeltest\\project2_task\\esp32\\testpro4\\build\\stdpro.bin",
+      "archived": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260713_112239\\espidf_build_artifacts\\stdpro.bin",
+      "bytes": 982848,
+      "sha256": "52c205202abc7b7173538f6ebec904e1361acfcb0aac3c37df11aab1b92bae34",
+      "mtime_utc": "2026-07-13T03:24:24.243916+00:00"
+    }
+  ],
+  "evidence_complete": true
+}

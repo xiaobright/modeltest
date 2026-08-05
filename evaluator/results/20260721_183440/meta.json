@@ -1,0 +1,13 @@
+{
+  "model": "LongCat-2.0",
+  "channel": "opencode",
+  "harness": "opencode",
+  "benchmark": "project2-v4.1b",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1b",
+  "run_group_id": "LongCat-2.0_opencode",
+  "thinking_level": "unknown",
+  "run_index": 2,
+  "complete": true,
+  "meta_partial": false
+}

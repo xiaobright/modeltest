@@ -1,0 +1,44 @@
+{
+  "auto": [
+    "E-build",
+    "F-public"
+  ],
+  "manual": [],
+  "final": [
+    "E-build",
+    "F-public"
+  ],
+  "behavior_blockers": [
+    "E-build",
+    "F-public"
+  ],
+  "semantic_only": [],
+  "semantic_only_codes": [],
+  "cascade": {
+    "root": "M-fidelity",
+    "family": "F6",
+    "affected_items": [
+      "V4-F6-01",
+      "V4-F6-02",
+      "V4-F6-03",
+      "V4-F6-04",
+      "V4-F6-05"
+    ],
+    "note": "one or more F6 items failed; see item_results for per-item status"
+  },
+  "cascades": [
+    {
+      "root": "M-fidelity",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-01",
+        "V4-F6-02",
+        "V4-F6-03",
+        "V4-F6-04",
+        "V4-F6-05"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    }
+  ],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision. V4.1b: unauth care leak is under F3-05 only; F5-05 is authorized care path."
+}

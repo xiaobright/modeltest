@@ -1,0 +1,46 @@
+{
+  "auto": [
+    "M-fidelity",
+    "E-contract"
+  ],
+  "manual": [],
+  "final": [
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only": [
+    {
+      "item_id": "V4-F12-04",
+      "scenario_id": "no_actor_session",
+      "test_method": "test_session_without_actor_subject_reason",
+      "expected_reason_hint": null,
+      "message": "AssertionError: 'not_authenticated' != 'not_authorized_for_target'"
+    }
+  ],
+  "semantic_only_codes": [
+    "V4-F12-04"
+  ],
+  "cascade": {
+    "root": "M-fidelity",
+    "family": "F6",
+    "affected_items": [
+      "V4-F6-03"
+    ],
+    "note": "one or more F6 items failed; see item_results for per-item status"
+  },
+  "cascades": [
+    {
+      "root": "M-fidelity",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-03"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    }
+  ],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision. V4.1b: unauth care leak is under F3-05 only; F5-05 is authorized care path."
+}

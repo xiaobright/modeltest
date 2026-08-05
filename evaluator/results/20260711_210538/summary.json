@@ -1,0 +1,85 @@
+{
+  "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+  "results_dir": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538",
+  "benchmark": "project2-v4",
+  "steps": {
+    "public": 0,
+    "debug_probe": 0,
+    "hidden": 1,
+    "espidf_static": 0
+  },
+  "details": {
+    "hidden_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\hidden_summary.json",
+    "espidf_static_summary": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\espidf_static_summary.json",
+    "pr_template": {
+      "expected": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "found": true,
+      "source": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task\\PULL_REQUEST_TEMPLATE.md",
+      "artifact": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\pull_request_template.md",
+      "bytes": 6985
+    },
+    "git": {
+      "baseline": "project2-v4-broken-seed",
+      "diff": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\candidate_diff.patch",
+      "diff_lines": 1397,
+      "shortstat": "13 files changed, 483 insertions(+), 366 deletions(-)",
+      "status": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\candidate_status.txt",
+      "changed_file_count": 23,
+      "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\candidate_log.txt",
+      "duration_source": "unknown"
+    },
+    "score_draft": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\score_draft.json",
+    "blockers": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\blockers.json",
+    "score_draft_confidence": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\score_draft_confidence.json",
+    "dimensions": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260711_210538\\dimensions.json"
+  },
+  "meta": {
+    "model": "grok-4.5",
+    "channel": "grok-cli",
+    "harness": "grok-cli",
+    "benchmark": "project2-v4",
+    "seed_tag": "project2-v4-broken-seed"
+  },
+  "duration_sec": 17,
+  "duration_source": "eval_wall",
+  "ability_draft": 75.5,
+  "ship_draft": 75.5,
+  "release_class_hint": "B",
+  "blockers": [
+    "S-ambient",
+    "M-crash",
+    "M-fidelity"
+  ],
+  "behavior_blockers": [
+    "S-ambient",
+    "M-crash",
+    "M-fidelity"
+  ],
+  "semantic_only_codes": [
+    "V4-F12-04"
+  ],
+  "f9_mode": "skipped_env",
+  "f11_status": "placeholder",
+  "family_draft": {
+    "F1": 8.0,
+    "F2": 12.0,
+    "F3": 11.0,
+    "F4": 4.0,
+    "F5": 10.0,
+    "F6": 0.0,
+    "F7": 8.0,
+    "F8": 8.0,
+    "F9": 3.0,
+    "F10": 8.0,
+    "F11": 0.5,
+    "F12": 3.0
+  },
+  "dimensions": {
+    "final_code": 8.75,
+    "security": 8.33,
+    "migration": 0.0,
+    "esp_deploy": 7.86,
+    "process_truth": 10.0,
+    "efficiency": null
+  }
+}

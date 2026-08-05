@@ -1,0 +1,20 @@
+ M PULL_REQUEST_TEMPLATE.md
+ M esp32/testpro4/main/CMakeLists.txt
+ M esp32/testpro4/main/idf_component.yml
+ M esp32/testpro4/main/main.cpp
+ M gateway/auth.py
+ M gateway/care_events.py
+ M gateway/db.py
+ M gateway/gateway.py
+ M gateway/sleep_importer.py
+ M voice/voice_assistant_integrated.py
+?? esp32/testpro4/main/device_config.cpp
+?? esp32/testpro4/main/device_config.h
+?? esp32/testpro4/main/maixsense_parser.cpp
+?? esp32/testpro4/main/maixsense_parser.h
+?? esp32/testpro4/main/mqtt_payload.cpp
+?? esp32/testpro4/main/mqtt_payload.h
+?? esp32/testpro4/main/network.cpp
+?? esp32/testpro4/main/network.h
+?? esp32/testpro4/main/protocol_packet.cpp
+?? esp32/testpro4/main/protocol_packet.h

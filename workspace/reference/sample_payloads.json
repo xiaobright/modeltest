@@ -1,0 +1,37 @@
+{
+  "staff_subject": {
+    "subject_id": "sub_staff_test",
+    "name": "Nurse Test",
+    "role": "staff"
+  },
+  "patient_subject": {
+    "subject_id": "sub_patient_test",
+    "name": "Patient Test",
+    "role": "patient"
+  },
+  "assignment": {
+    "subject_id": "sub_patient_test",
+    "room": "R1203",
+    "bed": "B1"
+  },
+  "recognized_session": {
+    "session_id": "sess_staff_test",
+    "actor_subject_id": "sub_staff_test",
+    "identity_state": "recognized",
+    "assurance_level": "medium",
+    "auth_methods": ["face"]
+  },
+  "care_event": {
+    "event_id": "care_test_001",
+    "subject_id": "sub_patient_test",
+    "room": "R1203",
+    "bed": "B1",
+    "kind": "turning_assist",
+    "title": "协助翻身",
+    "content": "22:10 已协助患者由仰卧调整为侧卧。",
+    "severity": "info",
+    "source": "manual",
+    "created_by": "sub_staff_test",
+    "ts": 1710000000000
+  }
+}

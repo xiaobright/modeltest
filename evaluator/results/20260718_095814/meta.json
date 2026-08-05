@@ -1,0 +1,13 @@
+{
+  "model": "gold",
+  "channel": "gold",
+  "harness": "local",
+  "benchmark": "project2-v4.1",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1",
+  "run_group_id": "v4.1-gold",
+  "thinking_level": "n/a",
+  "run_index": 1,
+  "complete": true,
+  "meta_partial": false
+}

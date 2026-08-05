@@ -1,0 +1,30 @@
+# Phase A unified requirements for project/
+# Install: pip install -r requirements.txt
+
+# Core numeric/data
+numpy==1.26.4
+pandas==2.2.3
+scipy==1.13.1
+joblib==1.4.2
+scikit-learn==1.6.1
+wfdb==4.3.0
+
+# Voice stack (ASR + VAD + NLP)
+faster-whisper==1.0.3
+ctranslate2==4.4.0
+webrtcvad==2.0.10
+soundfile==0.12.1
+sounddevice==0.4.6
+pypinyin==0.50.0
+rapidfuzz==3.10.1
+requests==2.32.3
+setuptools>=68
+
+# Runtime helpers used in current voice setup
+onnxruntime==1.18.1
+opencv-contrib-python==4.10.0.84
+pydub==0.25.1
+jiwer==3.0.4
+
+# Optional (Windows SAPI TTS):
+# pywin32>=306 ; platform_system == "Windows"

@@ -1,0 +1,13 @@
+{
+  "model": "Grok-4.5",
+  "channel": "grok-cli",
+  "harness": "grok-cli",
+  "benchmark": "project2-v4.1b",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1b",
+  "run_group_id": "Grok-4.5_grok-cli",
+  "thinking_level": "unknown",
+  "run_index": 1,
+  "complete": true,
+  "meta_partial": false
+}

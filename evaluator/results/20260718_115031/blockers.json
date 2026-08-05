@@ -1,0 +1,10 @@
+{
+  "auto": [],
+  "manual": [],
+  "final": [],
+  "behavior_blockers": [],
+  "semantic_only": [],
+  "semantic_only_codes": [],
+  "cascade": null,
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision"
+}

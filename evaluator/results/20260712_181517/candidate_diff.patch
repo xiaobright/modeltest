@@ -1,0 +1,1372 @@
+diff --git a/PULL_REQUEST_TEMPLATE.md b/PULL_REQUEST_TEMPLATE.md
+index 532994d..e0882a9 100644
+--- a/PULL_REQUEST_TEMPLATE.md
++++ b/PULL_REQUEST_TEMPLATE.md
+@@ -1,46 +1,67 @@
+-# Pull Request 提测说明 (Pull Request Template)
++# Pull Request 提测说明
+ 
+-请用本文件记录你的最终实现说明。合并分支时，CI 系统和 Reviewer 会自动对本 PR 自检报告、变更 diff 进行交叉一致性校验。
++本次 Project2 修复覆盖 gateway 鉴权/session、SQLite care_event、睡眠 CSV 归属和 ESP32-S3 Wi-Fi/MQTT 协议链路。
+ 
+ ## 初始自检诊断
+ 
+-请记录修改前运行的命令和关键结果：
++修改前已运行：
+ 
+ - `python tests\run_public_tests.py project2_task`
++  - 结果：通过，所有公开测试通过。
+ - `python tools\run_debug_probe.py project2_task`
++  - 结果：公开测试通过，但 probe 暴露 6 项问题：管理 API 接受缺失/伪造 Cookie；unknown 和 expired session 仍允许敏感 context；care_event 路由为 404、写入未鉴权且 room/bed 归一化查询失败。另有 voice 依赖隐式 current session 的 warning。
+ 
+ ## 修改的文件列表
+ 
+-待填写。
++- `gateway/auth.py`：管理员账号 PBKDF2 随机盐哈希、账号存在性检查、按 token hash 校验 HTTP session。
++- `gateway/db.py`：care_events 新字段和旧表迁移；旧行 `ts` 回填自 `created_ts`，room/bed 规范化，索引保留。
++- `gateway/care_events.py`：护理事件 CRUD、字段校验、limit/倒序查询和 context 摘要。
++- `gateway/gateway.py`：管理 API Cookie 边界、显式 v3 session 授权、care event GET/POST 路由和 context 聚合。
++- `gateway/subjects.py`：session role 从 subject 派生，避免请求字段提权。
++- `gateway/sleep_importer.py`：按行处理 room/bed；无归属行的 `first` 使用第一张配置床，并规范化显式/默认 room/bed。
++- `voice/voice_assistant_integrated.py`：未配置 `VOICE_SESSION_ID` 时先获取 `/api/v3/session/current`，再显式带 session_id 查询 v3 context。
++- `esp32/testpro4/main/main.cpp`：Wi-Fi STA、MQTT 生命周期/重连、NVS 配置校验、USB/MQTT 并行发送、ToF parser 边界修复。
++- `esp32/testpro4/main/mqtt_payload.cpp/.h`：小写 topic 和动态容量 `payload_b64` JSON 构造。
++- `esp32/testpro4/main/CMakeLists.txt`、`idf_component.yml`：MQTT、Wi-Fi、netif、event、lwip、mbedtls 依赖。
++- README、gateway README、RK3588 测试指南、ESP32/NVS/协议说明：同步当前接口和验证步骤。
+ 
+ ## 架构调整与模块设计
+ 
+-待填写。
++gateway 继续按模块分层：DB schema/migration 在 `db.py`，care event 业务在 `care_events.py`，HTTP glue 在 `gateway.py`，session/subject 在 `subjects.py`。ESP 固件把 topic/base64 纯数据构造独立到 `mqtt_payload`，网络初始化保留在主入口，传感器采集和 USB 任务边界不变。
+ 
+ ## 安全边界及鉴权设计
+ 
+-待填写。
++管理员密码只以 PBKDF2-SHA256 摘要和随机 salt 存储；Cookie 只保存随机 token，SQLite 只保存 token hash，过期或伪造 token 不可授权。管理 API 和 care_event 写入要求管理员 Cookie；本机例外仅限既定 worker/service 接口。v3 context 不再静默使用 ambient session，必须显式 session_id，且 session 必须有 actor、`identity_state=recognized`、有效 assurance 和未过期时间。未授权响应不包含 patient、assignment、memory、sensor 或 care event 明细。已知 subject 的 role 从 DB 派生，不接受请求字段提权。
+ 
+ ## 睡眠 CSV 无 room/bed 时的特殊处理
+ 
+-待填写。
++每一行独立决定归属：带 room/bed 的行只写对应床位；没有 room/bed 的行才使用 `SLEEP_IMPORT_DEFAULT_ROOM/BED`，否则按 `SLEEP_IMPORT_UNSCOPED_POLICY` 的 `first`、`skip` 或显式调试 `all` 处理。混合有/无归属行的 CSV 不会整表广播、整表跳过或改写显式床位；默认 `first` 使用 BEDS 配置第一项。
+ 
+ ## care_event 实现细节
+ 
+-待填写。
++新增 `severity/source/created_by/ts` 字段，兼容旧表缺列并保留历史记录；历史 room/bed 会规范化为大写。支持 `POST /api/v3/care/events`（管理员登录）、按 subject 或 room+bed 的 GET、limit 和 `ts/created_ts` 倒序。授权 context 返回 `modalities.care_events`，未认证或越权 context 返回空内容。
+ 
+ ## ESP32-S3 固件接口对齐说明
+ 
+-待填写。
++`testpro4` 从 NVS 读取 `wifi_ssid/wifi_pass/bemfa_uid/room/bed`（host/port 有默认值），缺少 ssid、password、uid、room 或 bed 时不启动网络回传。完整配置时连接 Wi-Fi STA 和 `bemfa.com:9501` MQTT，topic 为小写 `{room}{bed}{tof1|tof2|mlx1|mlx2}`。USB 仍输出 `[AA 55][TYPE][ID][LEN_L][LEN_H][PAYLOAD][CRC_L][CRC_H]`，CRC16-CCITT 只覆盖 payload，长度和 CRC 小端序；MQTT 的 JSON 为 `{"payload_b64":"..."}`，base64 只编码原始 payload，ToF 保留完整 MaixSense `[00 FF][LEN][META][IMG][CHECKSUM][DD]` 原始帧。
+ 
+ ## 本地测试与编译验证结果
+ 
+-请记录修复后运行的命令和结果，至少包括：
++修复后运行：
+ 
+ - `python tests\run_public_tests.py project2_task`
++  - 结果：通过，`test_compile`、功能 smoke、refactored features、gateway smoke 全部通过。
+ - `python tools\run_debug_probe.py project2_task`
++  - 结果：通过；缺失/伪造 Cookie 均返回 401，valid Cookie 可访问，unknown/expired context 被拒绝，care_event 未授权写入被拒绝，大小写归一化查询通过。
+ - `python tools\run_espidf_build.py project2_task` 编译结果或失败位置说明
++  - 结果：成功完成 ESP-IDF v6.0.1 Windows EIM 构建，目标 `esp32s3`；CMake、C++ 编译、链接、binary 生成和分区检查均通过。`stdpro.bin` 为 `0xf0150`，最小 app 分区 `0x100000`，剩余约 6%。构建仅报告 `uart_config_t` 未使用字段初始化 warning，无编译失败。
++
++另外用临时 SQLite 做了迁移/安全检查：旧 care_events 缺列且 room/bed 为小写时，补列、保留旧行、回填 ts、规范化查询均通过；管理员密码数据库值不是原文且存在 salt。
+ 
+ ## 未验证的残留技术债与风险
+ 
+-待填写。
++- 未运行真实 ESP32-S3 flash/monitor、USB 枚举、真实 Wi-Fi/MQTT 连通、ToF 上电时序或 MLX90640 实机读数；这些属于硬件联调风险。
++- 未验证巴法云实际账号 UID、broker 侧单包大小/限流和网络断线后的现场吞吐；代码已接入 MQTT 自动重连和动态 base64 缓冲。
++- ESP-IDF 构建保留一个 IDF `uart_config_t` 未使用字段初始化 warning；不影响本次构建成功，但可在后续按具体 IDF 结构继续清理。
++- NVS 仍不是加密存储；生产部署应评估 NVS/Flash encryption、每设备 UID 隔离和配置写入物理授权。
++- 语音/视觉真实依赖、摄像头、ASR/TTS/RKLLM 性能未在本机硬件上验证；voice 的 session 传递代码路径已完成静态/接口闭环。
+diff --git a/README.md b/README.md
+index a2287ff..afba5f2 100644
+--- a/README.md
++++ b/README.md
+@@ -21,6 +21,7 @@ project2/
+ │   ├── sensor_store.py
+ │   ├── esp_store.py
+ │   ├── sleep_importer.py
++│   ├── care_events.py
+ │   ├── utils.py
+ │   ├── gateway.py
+ │   ├── admin.html
+@@ -54,6 +55,7 @@ project2/
+ - `sensor_store.py`：传感器、睡眠、姿态、情绪历史缓存
+ - `esp_store.py`：ESP32 ToF/MLX 二进制帧和完整 set 聚合
+ - `sleep_importer.py`：睡眠 CSV 导入与无房床字段归属策略
++- `care_events.py`：护理事件 CRUD、迁移和 context 摘要
+ - `utils.py`：通用类型转换、时间、JSON 和 ID 工具
+ 
+ 更详细的维护说明见 `gateway/README.md`。
+@@ -100,6 +102,7 @@ project2/
+ - 生命体征、体动、鼾声等实时摘要
+ - 睡姿结果
+ - subject 级记忆摘要
++- 最近护理事件摘要（仅在授权 context 中返回）
+ 
+ ### 2. Vision 模块独立并接入 session
+ 
+@@ -125,6 +128,7 @@ project2/
+ 
+ - gateway 先判断当前 session 是否完成认证
+ - gateway 按 actor role 和 target patient 裁剪上下文
++- v3 context 必须显式带 `session_id`；voice 会先调用 `/api/v3/session/current` 再带该 ID 查询，避免依赖隐式 ambient session
+ - voice 只消费 `policy / actor / target / modalities / brief / prompt_hints`
+ - 未认证或无权限时，voice 只回复权限提示，不返回患者数据
+ 
+@@ -171,7 +175,9 @@ pip install -r requirements.txt
+ 两个 ESP32 程序现在采用“统一固件 + NVS 配置”：
+ 
+ - `esp32/sketch_jan22a/sketch_jan22a.ino`：上传 `radar / env / audio`
+-- `esp32/testpro4/main/main.cpp`：上传 `tof1 / tof2 / mlx1 / mlx2`，本任务需要恢复 Wi-Fi + MQTT 巴法云回传
++- `esp32/testpro4/main/main.cpp`：上传 `tof1 / tof2 / mlx1 / mlx2`，通过 NVS 配置恢复 Wi-Fi + MQTT 巴法云回传
++
++`testpro4` 同时保留 USB CDC 输出。USB 使用统一 packet 和 CRC16-CCITT；MQTT JSON 的 `payload_b64` 只编码原始 MLX payload 或完整 MaixSense ToF 原始帧。
+ 
+ WiFi、巴法云 UID、房间和床位不再写死在源码里。烧录统一固件后，通过串口命令写入配置，例如：
+ 
+@@ -254,10 +260,21 @@ POST /api/v2/ingest/emotion
+ ### 对话上下文
+ 
+ ```text
+-GET /api/v3/context/chat?target_room=R1203&target_bed=B1
++GET /api/v3/context/chat?session_id=sess_xxx&target_room=R1203&target_bed=B1
+ GET /api/v3/context/chat?session_id=sess_xxx&target_subject_id=sub_patient_xxx
+ ```
+ 
++没有显式 `session_id` 时，v3 context 返回拒绝策略且不返回患者明细。管理 API 和护理事件写入需要管理员 Cookie；本机 worker 仅能调用明确的本地服务接口。
++
++### 护理事件
++
++```text
++POST /api/v3/care/events
++GET  /api/v3/care/events?subject_id=sub_patient_xxx&limit=20
++```
++
++事件按 `room/bed` 规范化写入，旧 SQLite `care_events` 表缺少 `severity/source/created_by/ts` 时会自动补列并保留旧行。
++
+ `/api/v2/voice/*` 仍保留兼容，但 voice 主程序已经切到 v3 授权上下文。
+ 
+ ### 人员、认证与视觉会话
+diff --git a/RK3588_TEST_GUIDE.md b/RK3588_TEST_GUIDE.md
+index d3f5435..e56b453 100644
+--- a/RK3588_TEST_GUIDE.md
++++ b/RK3588_TEST_GUIDE.md
+@@ -6,10 +6,10 @@
+ 
+ 截至当前版本，核心软件改造已经基本完成：
+ 
+-- SQLite 管理层已完成：`beds / subjects / bed_assignments / credentials / memories / sessions / admin_accounts / admin_http_sessions`。
++- SQLite 管理层已完成：`beds / subjects / bed_assignments / credentials / memories / sessions / admin_accounts / admin_http_sessions / care_events`，并支持旧 care_events 表缺列迁移。
+ - Gateway 已完成模块化拆分：`config / db / auth / subjects / sensor_store / esp_store / sleep_importer / utils`。
+ - Gateway 管理页面已完成：首次访问 `/admin` 或 `/dashboard` 可初始化超级管理员；之后管理页和管理类 API 需要登录。
+-- ESP32 统一固件 + NVS 配置已完成，ESP-IDF 编译已验证通过。
++- ESP32 统一固件 + NVS 配置已完成；Wi-Fi STA、MQTT 巴法云、topic/base64 payload 和 USB 并行发送已接入，ESP-IDF v6.0.1 编译已验证通过。
+ - 视觉模块已接入 session/权限系统：
+   - mock 模式可上报身份和情绪。
+   - camera 模式可复用同一视频流做人脸检测、情绪识别和人脸身份比对。
+@@ -59,14 +59,15 @@ ESP32 床位设备
+ 3. gateway 单独启动和 SQLite 初始化。
+ 4. 首次创建超级管理员，然后用 API 或管理页创建测试人员、患者、床位绑定和 session。
+ 5. v3 权限上下文测试。
+-6. 注入模拟传感器数据，确认 v3 context 能输出 `sleep/vitals/posture/memory`。
+-7. vision mock 测试，确认 `vision -> gateway session -> context`。
+-8. voice text 模式测试，确认 voice 只读 v3 context。
+-9. 摄像头 camera 模式测试。
+-10. 人脸照片注册和真实识别测试。
+-11. RKLLM 模型加载和普通聊天测试。
+-12. ESP32 实机 + 巴法云链路测试。
+-13. 全量联调。
++6. 创建护理事件并确认只有授权 v3 context 能输出 `care_events`。
++7. 注入模拟传感器数据，确认 v3 context 能输出 `sleep/vitals/posture/memory`。
++8. vision mock 测试，确认 `vision -> gateway session -> context`。
++9. voice text 模式测试，确认 voice 先取得 current session 再读 v3 context。
++10. 摄像头 camera 模式测试。
++11. 人脸照片注册和真实识别测试。
++12. RKLLM 模型加载和普通聊天测试。
++13. ESP32 实机 + 巴法云链路测试。
++14. 全量联调。
+ 
+ 如果某一步失败，先停在该步骤排错，不要继续堆叠更多模块。
+ 
+@@ -247,7 +248,7 @@ export GATEWAY_BASE="http://127.0.0.1:8765"
+ export VOICE_INPUT_MODE="text"       # text / mic
+ export VOICE_ROOM="R1203"
+ export VOICE_BED="B1"
+-export VOICE_SESSION_ID=""           # 空表示使用 gateway 当前 session
++export VOICE_SESSION_ID=""           # 空表示先获取 /api/v3/session/current，再显式带 session_id 查询
+ export VOICE_TARGET_SUBJECT_ID=""    # 空表示用 VOICE_ROOM + VOICE_BED
+ ```
+ 
+@@ -480,7 +481,27 @@ curl -s -b "$ADMIN_COOKIE" -X POST http://127.0.0.1:8765/api/v3/memories \
+   }'
+ ```
+ 
+-### 10.5 检查数据
++### 10.5 添加护理事件
++
++```bash
++curl -s -b "$ADMIN_COOKIE" -X POST http://127.0.0.1:8765/api/v3/care/events \
++  -H 'Content-Type: application/json' \
++  -d '{
++    "event_id": "care_rk3588_001",
++    "subject_id": "sub_patient_test",
++    "room": "r1203",
++    "bed": "b1",
++    "kind": "turning_assist",
++    "title": "协助翻身",
++    "content": "已协助患者由仰卧调整为侧卧。",
++    "severity": "info",
++    "source": "manual"
++  }'
++```
++
++事件写入会把 `room/bed` 规范化为大写；旧表缺少新字段时，gateway 初始化会补列并保留历史行。
++
++### 10.6 检查数据
+ 
+ ```bash
+ curl -s -b "$ADMIN_COOKIE" http://127.0.0.1:8765/api/v3/subjects
+@@ -537,10 +558,12 @@ curl -s -b "$ADMIN_COOKIE" -X POST http://127.0.0.1:8765/api/v3/sessions \
+ - `actor_subject_id` 为 `sub_staff_test`。
+ - `identity_state` 为 `recognized`。
+ 
++将返回的 `session.session_id` 保存为环境变量，例如 `export SESSION_ID="sess_xxx"`。v3 context 不再静默使用 gateway 的 ambient session，后续敏感查询必须显式携带这个 ID；voice 会自动先调用 `/api/v3/session/current` 获取同一凭证。
++
+ ### 11.3 已认证 staff 查询 context
+ 
+ ```bash
+-curl -s 'http://127.0.0.1:8765/api/v3/context/chat?target_room=R1203&target_bed=B1'
++curl -s "http://127.0.0.1:8765/api/v3/context/chat?session_id=$SESSION_ID&target_room=R1203&target_bed=B1"
+ ```
+ 
+ 通过标准：
+@@ -550,6 +573,7 @@ curl -s 'http://127.0.0.1:8765/api/v3/context/chat?target_room=R1203&target_bed=
+ - `actor.subject_id` 应为 `sub_staff_test`。
+ - `actor.emotion.label` 应为 `自然`。
+ - `modalities.memory.brief` 应包含第 10.4 步写入的记忆摘要。
++- `modalities.care_events.items` 应包含第 10.5 步写入的事件。
+ 
+ ## 12. 注入模拟床位数据
+ 
+@@ -627,7 +651,7 @@ curl -s -X POST 'http://127.0.0.1:8765/api/v2/ingest/posture?room=R1203&bed=B1'
+ ### 12.6 检查 v3 context 聚合结果
+ 
+ ```bash
+-curl -s 'http://127.0.0.1:8765/api/v3/context/chat?target_room=R1203&target_bed=B1'
++curl -s "http://127.0.0.1:8765/api/v3/context/chat?session_id=$SESSION_ID&target_room=R1203&target_bed=B1"
+ ```
+ 
+ 通过标准：
+@@ -691,7 +715,7 @@ curl -s -b "$ADMIN_COOKIE" http://127.0.0.1:8765/api/v3/session/current
+ 再查 context：
+ 
+ ```bash
+-curl -s 'http://127.0.0.1:8765/api/v3/context/chat?target_room=R1203&target_bed=B1'
++curl -s "http://127.0.0.1:8765/api/v3/context/chat?session_id=$SESSION_ID&target_room=R1203&target_bed=B1"
+ ```
+ 
+ 通过标准：
+diff --git a/esp32/NVS_CONFIG.md b/esp32/NVS_CONFIG.md
+index 822189f..76ada82 100644
+--- a/esp32/NVS_CONFIG.md
++++ b/esp32/NVS_CONFIG.md
+@@ -1,6 +1,6 @@
+ # ESP32 统一固件 + NVS 配置说明
+ 
+-目标是两个 ESP32 程序都采用“固件只编译一次，床位/WiFi/巴法云配置写入 NVS”。当前 `testpro4` 迁移分支已保留 NVS 配置读取骨架，但仍需要恢复 Wi-Fi + MQTT 回传。
++目标是两个 ESP32 程序都采用“固件只编译一次，床位/WiFi/巴法云配置写入 NVS”。`testpro4` 已从 NVS 读取配置并启动 Wi-Fi STA + MQTT 巴法云回传；配置不完整时只保留 USB/串口配置路径。
+ 
+ 涉及文件：
+ 
+diff --git a/esp32/testpro4/QUICKSTART.md b/esp32/testpro4/QUICKSTART.md
+index 4bfb172..058c54c 100644
+--- a/esp32/testpro4/QUICKSTART.md
++++ b/esp32/testpro4/QUICKSTART.md
+@@ -4,7 +4,7 @@
+ 
+ ### 1. 编译统一固件
+ 
+-`main/main.cpp` 的目标形态是不再写死 WiFi、巴法云 UID、房间和床位。当前迁移分支需要先恢复 Wi-Fi + MQTT 回传，再用 NVS 写入具体床位配置。
++`main/main.cpp` 不写死 WiFi、巴法云 UID、房间和床位。固件从 NVS 读取配置，启动 Wi-Fi STA + MQTT 巴法云回传，并保留 USB CDC 本地输出。
+ 
+ ### 2. 编译 & 烧录
+ 
+diff --git a/esp32/testpro4/README.md b/esp32/testpro4/README.md
+index ca4dff1..2b48fef 100644
+--- a/esp32/testpro4/README.md
++++ b/esp32/testpro4/README.md
+@@ -3,7 +3,7 @@
+ [![ESP-IDF](https://img.shields.io/badge/ESP--IDF-v6.0.0-blue)](https://github.com/espressif/esp-idf)
+ [![Platform](https://img.shields.io/badge/platform-ESP32--S3-orange)](https://www.espressif.com/)
+ 
+-基于 ESP32-S3 的四路传感器同步数据采集系统。当前迁移分支保留 USB CDC 本地调试通道，但 Wi-Fi + MQTT 巴法云远程回传尚未实现，需要按公开协议恢复。
++基于 ESP32-S3 的四路传感器同步数据采集系统。固件保留 USB CDC 本地调试通道，并按公开协议通过 Wi-Fi + MQTT 巴法云并行回传。
+ 
+ ---
+ 
+@@ -29,7 +29,7 @@
+ |------|------|
+ | **传感器** | 2× MLX90640（红外热成像，24×32）+ 2× MaixSense（ToF 深度，100×100） |
+ | **USB 回传** | 双路 USB CDC 虚拟串口，CDC 0 传 MLX，CDC 1 传 ToF |
+-| **MQTT 回传** | 待恢复：Wi-Fi + MQTT → 巴法云 (bemfa.com:9501)，Base64 编码二进制 payload |
++| **MQTT 回传** | Wi-Fi + MQTT → 巴法云 (bemfa.com:9501)，Base64 编码原始二进制 payload |
+ | **数据校验** | CRC16-CCITT 每包校验，错误率 < 0.01% |
+ | **交替发送** | 1-2-1-2 严格交替机制，左右画面完美同步 |
+ | **自动波特率** | 自动检测 MaixSense 传感器波特率（115200/921600） |
+@@ -40,7 +40,7 @@
+ 
+ | 版本 | 日期 | 说明 |
+ |------|------|------|
+-| v4.0 | 2026-04-27 | 目标契约：巴法云 MQTT 回传（当前迁移分支待恢复） |
++| v4.0 | 2026-04-27 | 巴法云 MQTT 回传、NVS 配置和 USB/MQTT 并行传输 |
+ | v3.0 | 2026-04-25 | ESP-IDF 6.0 迁移、LAN 回传、前端仪表盘 |
+ | v2.0 | 2026-02-01 | 统一包格式、CRC 校验、帧解析重构 |
+ | v1.0 | 2026-01-31 | 初始版本 |
+@@ -245,8 +245,9 @@ python3 collectdata_esp32.py
+ ```
+ testpro4/
+ ├── main/                         # ESP32 主程序
+-│   ├── main.cpp                  # 主逻辑：传感器采集、USB 发送，需恢复 MQTT glue
+-│   ├── CMakeLists.txt            # 组件编译配置，需补齐 mqtt + mbedtls 等依赖
++│   ├── main.cpp                  # 传感器采集、USB 发送和 Wi-Fi/MQTT 初始化 glue
++│   ├── mqtt_payload.cpp/.h       # topic 与 payload_b64 JSON 构造
++│   ├── CMakeLists.txt            # USB、Wi-Fi、MQTT、mbedtls 组件依赖
+ │   ├── tusb_config.h             # TinyUSB 配置
+ │   └── usb_descriptors.c         # USB 描述符（2 路 CDC）
+ ├── components/
+diff --git a/esp32/testpro4/docs/protocol.md b/esp32/testpro4/docs/protocol.md
+index 9de265d..d57ccf3 100644
+--- a/esp32/testpro4/docs/protocol.md
++++ b/esp32/testpro4/docs/protocol.md
+@@ -86,15 +86,15 @@ ESP32 在固件端完成帧边界识别（`MaixSenseFrameParser`），将完整
+           ▼                        ▼
+           ┌────────────────────────────────┐
+           │  ESP32 Frame Parser            │
+-          │  · 12KB 循环缓冲区             │
++          │  · 12KB 缓冲区                 │
+           │  · 搜索 00 FF 帧头             │
+           │  · 动态读取帧长度              │
+           │  · 验证帧尾 0xDD               │
+-          │  · 跳过 16B 元数据             │
++          │  · 保留完整原始帧供回传         │
+           └────────────────────────────────┘
+           │                        │
+           ▼                        ▼
+-输出：     [AA 55] [02] [ID] [LEN] [IMG(10000)] [CRC]            ← USB / TCP 输出
++输出：     [AA 55] [02] [ID] [LEN] [完整原始帧] [CRC]             ← USB 输出
+ ```
+ 
+ ---
+@@ -186,7 +186,7 @@ def verify_packet(packet: bytes) -> bool:
+ {"payload_b64": "<base64_encoded_binary>"}
+ ```
+ 
+-其中 `base64_encoded_binary` 是完整的二进制 payload（MLX: 3072 bytes float32 / ToF: ~10000 bytes raw frame）的 Base64 编码。
++其中 `base64_encoded_binary` 是完整的二进制 payload（MLX: 3072 bytes float32 / ToF: 含 `00 FF`、长度、META、IMG、CHECKSUM、`DD` 的完整 raw frame）的 Base64 编码；它不包含 USB 的 `AA 55` header 或 USB CRC。
+ 
+ ### 包流示例
+ 
+diff --git a/esp32/testpro4/main/CMakeLists.txt b/esp32/testpro4/main/CMakeLists.txt
+index dffec42..3767624 100644
+--- a/esp32/testpro4/main/CMakeLists.txt
++++ b/esp32/testpro4/main/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ idf_component_register(
+     SRCS 
+         "main.cpp" 
++        "mqtt_payload.cpp"
+         "usb_descriptors.c"
+     INCLUDE_DIRS 
+         "."
+@@ -10,7 +11,12 @@ idf_component_register(
+         esp_driver_uart
+         driver 
+         nvs_flash
+-    # TODO(v4): network backhaul dependencies belong here after implementation.
++        esp_wifi
++        esp_netif
++        esp_event
++        lwip
++        mqtt
++        mbedtls
+ )
+ 
+     # Keep existing runtime behavior; only avoid build break from stricter C++ warnings in IDF 6.0.
+diff --git a/esp32/testpro4/main/idf_component.yml b/esp32/testpro4/main/idf_component.yml
+index 5873e3f..14d6522 100644
+--- a/esp32/testpro4/main/idf_component.yml
++++ b/esp32/testpro4/main/idf_component.yml
+@@ -18,4 +18,6 @@ dependencies:
+   #   # All dependencies of `main` are public by default.
+   #   public: true
+   espressif/esp_tinyusb: ^2.0.1~1
+-  # TODO(v4): add the MQTT client component dependency when network backhaul is restored.
++  # MQTT is managed as an Espressif component; Wi-Fi, netif, events, lwip and
++  # mbedtls are IDF system components declared in main/CMakeLists.txt.
++  espressif/mqtt: ">=1.0.0"
+diff --git a/esp32/testpro4/main/main.cpp b/esp32/testpro4/main/main.cpp
+index 6684dd4..805e208 100644
+--- a/esp32/testpro4/main/main.cpp
++++ b/esp32/testpro4/main/main.cpp
+@@ -7,7 +7,12 @@
+ #include "freertos/event_groups.h"
+ #include "freertos/task.h"
+ #include "esp_log.h"
++#include "esp_event.h"
++#include "esp_netif.h"
+ #include "esp_system.h"
++#include "esp_wifi.h"
++#include "mqtt_client.h"
++#include "mbedtls/base64.h"
+ #include "nvs.h"
+ #include "nvs_flash.h"
+ #include "driver/uart.h"
+@@ -18,9 +23,10 @@
+ // TinyUSB 库 (esp_tinyusb 组件)
+ #include "tinyusb.h"
+ #include "tusb.h"
++#include "mqtt_payload.h"
+ 
+-// TODO(v4): 网络回传尚未实现。当前固件仅通过 USB CDC 回传
+-// 传感器数据，缺少基于 Wi-Fi + MQTT 的远程回传能力。
++// Wi-Fi + MQTT and USB CDC run in parallel. MQTT carries raw payloads;
++// USB retains the framed packet contract for local collectors.
+ // 协议规范请参考:
+ //   docs/protocol.md — "LAN 回传（MQTT 巴法云）" 章节
+ //   reference/espidf_protocol_contract.md — "MQTT" 章节
+@@ -127,9 +133,16 @@ static device_config_t s_device_config = {};
+ static bool s_device_config_ready = false;
+ 
+ // =====================
+-// 网络回传全局状态
++// Wi-Fi + MQTT runtime state
+ // =====================
+-// TODO(v4): 补全 Wi-Fi/MQTT runtime state.
++static EventGroupHandle_t s_network_events = NULL;
++static SemaphoreHandle_t s_mqtt_mutex = NULL;
++static esp_mqtt_client_handle_t s_mqtt_client = NULL;
++static char s_mqtt_uri[128] = {};
++static char s_mqtt_topics[4][MQTT_TOPIC_MAX_LEN] = {};
++
++#define WIFI_CONNECTED_BIT BIT0
++#define MQTT_CONNECTED_BIT BIT1
+ 
+ static bool s_uart_driver_installed[UART_NUM_MAX] = {};
+ 
+@@ -158,10 +171,13 @@ static void lower_copy(char *dst, size_t dst_len, const char *src) {
+ }
+ 
+ static bool config_is_complete(void) {
+-    // TODO(v4): Wi-Fi + MQTT 补全后，检查 wifi_ssid / bemfa_uid 等是否非空
+-    // 当前只需要 room 和 bed 即可运行 USB 采集
+-    return s_device_config.room[0] != '\0' &&
+-           s_device_config.bed[0] != '\0';
++    return s_device_config.wifi_ssid[0] != '\0' &&
++           s_device_config.wifi_password[0] != '\0' &&
++           s_device_config.bemfa_uid[0] != '\0' &&
++           s_device_config.room[0] != '\0' &&
++           s_device_config.bed[0] != '\0' &&
++           s_device_config.bemfa_host[0] != '\0' &&
++           s_device_config.bemfa_mqtt_port > 0;
+ }
+ 
+ static void nvs_get_str_or_default(nvs_handle_t handle, const char *key,
+@@ -181,11 +197,11 @@ static void nvs_get_str_or_default(nvs_handle_t handle, const char *key,
+ 
+ static void load_device_config(void) {
+     memset(&s_device_config, 0, sizeof(s_device_config));
++    snprintf(s_device_config.bemfa_host, sizeof(s_device_config.bemfa_host), "bemfa.com");
++    s_device_config.bemfa_mqtt_port = 9501;
+     nvs_handle_t handle;
+     esp_err_t err = nvs_open(CONFIG_NS, NVS_READONLY, &handle);
+     if (err == ESP_ERR_NVS_NOT_FOUND) {
+-        snprintf(s_device_config.bemfa_host, sizeof(s_device_config.bemfa_host), "bemfa.com");
+-        s_device_config.bemfa_mqtt_port = 9501;
+         s_device_config_ready = false;
+         return;
+     }
+@@ -372,11 +388,170 @@ static void config_console_task(void *pvParameters) {
+     }
+ }
+ 
++static void network_event_handler(void *arg, esp_event_base_t event_base,
++                                  int32_t event_id, void *event_data) {
++    (void)arg;
++    (void)event_data;
++    if (event_base == WIFI_EVENT) {
++        if (event_id == WIFI_EVENT_STA_START) {
++            esp_wifi_connect();
++        } else if (event_id == WIFI_EVENT_STA_DISCONNECTED) {
++            if (s_network_events) {
++                xEventGroupClearBits(s_network_events, WIFI_CONNECTED_BIT | MQTT_CONNECTED_BIT);
++            }
++            esp_wifi_connect();
++            ESP_LOGW(TAG, "Wi-Fi disconnected; reconnecting");
++        }
++        return;
++    }
++    if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
++        if (s_network_events) {
++            xEventGroupSetBits(s_network_events, WIFI_CONNECTED_BIT);
++        }
++        ESP_LOGI(TAG, "Wi-Fi connected");
++    }
++}
++
++static void mqtt_event_handler(void *handler_args, esp_event_base_t base,
++                               int32_t event_id, void *event_data) {
++    (void)handler_args;
++    (void)base;
++    esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
++    if (event_id == MQTT_EVENT_CONNECTED) {
++        if (s_network_events) {
++            xEventGroupSetBits(s_network_events, MQTT_CONNECTED_BIT);
++        }
++        ESP_LOGI(TAG, "MQTT connected to %s", s_device_config.bemfa_host);
++    } else if (event_id == MQTT_EVENT_DISCONNECTED) {
++        if (s_network_events) {
++            xEventGroupClearBits(s_network_events, MQTT_CONNECTED_BIT);
++        }
++        ESP_LOGW(TAG, "MQTT disconnected");
++    } else if (event_id == MQTT_EVENT_ERROR && event && event->error_handle) {
++        ESP_LOGW(TAG, "MQTT error event type=%d", (int)event->error_handle->error_type);
++    }
++}
++
++static bool mqtt_publish_raw(uint8_t sensor_type, uint8_t sensor_id,
++                             const uint8_t *payload, size_t payload_len) {
++    if (!s_mqtt_client || !s_network_events ||
++        (xEventGroupGetBits(s_network_events) & MQTT_CONNECTED_BIT) == 0) {
++        return false;
++    }
++    char *message = NULL;
++    size_t message_len = 0;
++    message = mqtt_build_payload_json(payload, payload_len, &message_len);
++    if (!message) {
++        ESP_LOGW(TAG, "MQTT payload encoding failed type=%u id=%u len=%u",
++                 (unsigned)sensor_type, (unsigned)sensor_id, (unsigned)payload_len);
++        return false;
++    }
++
++    const char *topic = NULL;
++    if (sensor_id < 1 || sensor_id > 2) {
++        free(message);
++        return false;
++    }
++    if (sensor_type == SENSOR_TYPE_TOF) {
++        topic = s_mqtt_topics[2 + (sensor_id - 1)];
++    } else if (sensor_type == SENSOR_TYPE_MLX) {
++        topic = s_mqtt_topics[sensor_id - 1];
++    }
++    if (!topic || topic[0] == '\0') {
++        free(message);
++        return false;
++    }
++
++    bool published = false;
++    if (s_mqtt_mutex && xSemaphoreTake(s_mqtt_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
++        int msg_id = esp_mqtt_client_publish(
++            s_mqtt_client, topic, message, (int)message_len, 1, 0
++        );
++        published = msg_id >= 0;
++        xSemaphoreGive(s_mqtt_mutex);
++    }
++    free(message);
++    return published;
++}
++
++static bool init_network_backhaul(void) {
++    if (!s_device_config_ready) {
++        ESP_LOGW(TAG, "Wi-Fi/MQTT disabled: NVS requires ssid, password, uid, room and bed");
++        print_config_help();
++        return false;
++    }
++
++    if (!s_network_events) {
++        s_network_events = xEventGroupCreate();
++    }
++    if (!s_mqtt_mutex) {
++        s_mqtt_mutex = xSemaphoreCreateMutex();
++    }
++    if (!s_network_events || !s_mqtt_mutex) {
++        ESP_LOGE(TAG, "Network synchronization allocation failed");
++        return false;
++    }
++
++    if (!mqtt_build_topic(s_mqtt_topics[0], sizeof(s_mqtt_topics[0]), s_device_config.room,
++                          s_device_config.bed, SENSOR_TYPE_MLX, 1) ||
++        !mqtt_build_topic(s_mqtt_topics[1], sizeof(s_mqtt_topics[1]), s_device_config.room,
++                          s_device_config.bed, SENSOR_TYPE_MLX, 2) ||
++        !mqtt_build_topic(s_mqtt_topics[2], sizeof(s_mqtt_topics[2]), s_device_config.room,
++                          s_device_config.bed, SENSOR_TYPE_TOF, 1) ||
++        !mqtt_build_topic(s_mqtt_topics[3], sizeof(s_mqtt_topics[3]), s_device_config.room,
++                          s_device_config.bed, SENSOR_TYPE_TOF, 2)) {
++        ESP_LOGE(TAG, "Invalid room/bed topic configuration");
++        return false;
++    }
++    snprintf(s_mqtt_uri, sizeof(s_mqtt_uri), "mqtt://%s:%u",
++             s_device_config.bemfa_host, (unsigned)s_device_config.bemfa_mqtt_port);
++
++    ESP_ERROR_CHECK(esp_netif_init());
++    esp_err_t event_loop_err = esp_event_loop_create_default();
++    if (event_loop_err != ESP_OK && event_loop_err != ESP_ERR_INVALID_STATE) {
++        ESP_ERROR_CHECK(event_loop_err);
++    }
++    esp_netif_create_default_wifi_sta();
++    wifi_init_config_t wifi_init = WIFI_INIT_CONFIG_DEFAULT();
++    ESP_ERROR_CHECK(esp_wifi_init(&wifi_init));
++    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID,
++                                                &network_event_handler, NULL));
++    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP,
++                                                &network_event_handler, NULL));
++
++    wifi_config_t wifi_config = {};
++    strncpy((char *)wifi_config.sta.ssid, s_device_config.wifi_ssid, sizeof(wifi_config.sta.ssid) - 1);
++    wifi_config.sta.ssid[sizeof(wifi_config.sta.ssid) - 1] = '\0';
++    strncpy((char *)wifi_config.sta.password, s_device_config.wifi_password, sizeof(wifi_config.sta.password) - 1);
++    wifi_config.sta.password[sizeof(wifi_config.sta.password) - 1] = '\0';
++    wifi_config.sta.threshold.authmode = WIFI_AUTH_OPEN;
++    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
++    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
++    ESP_ERROR_CHECK(esp_wifi_start());
++
++    esp_mqtt_client_config_t mqtt_config = {};
++    mqtt_config.broker.address.uri = s_mqtt_uri;
++    mqtt_config.credentials.client_id = s_device_config.bemfa_uid;
++    s_mqtt_client = esp_mqtt_client_init(&mqtt_config);
++    if (!s_mqtt_client) {
++        ESP_LOGE(TAG, "MQTT client initialization failed");
++        return false;
++    }
++    ESP_ERROR_CHECK(esp_mqtt_client_register_event(
++        s_mqtt_client, static_cast<esp_mqtt_event_id_t>(ESP_EVENT_ANY_ID), mqtt_event_handler, NULL
++    ));
++    ESP_ERROR_CHECK(esp_mqtt_client_start(s_mqtt_client));
++    ESP_LOGI(TAG, "WiFi+MQTT init done, MQTT target=%s:%u",
++             s_device_config.bemfa_host, (unsigned)s_device_config.bemfa_mqtt_port);
++    ESP_LOGI(TAG, "MQTT topics: %s / %s / %s / %s",
++             s_mqtt_topics[2], s_mqtt_topics[3], s_mqtt_topics[0], s_mqtt_topics[1]);
++    return true;
++}
++
+ // ==========================================================
+-// TODO(v4): 网络回传链路 — 需要补全
++// 网络回传链路
+ //
+-// 当前固件仅通过 USB CDC 回传传感器数据。需要恢复 Wi-Fi STA
+-// 连接 + 巴法云 MQTT 客户端，并与 USB CDC 保持并行回传。
++// Wi-Fi STA + 巴法云 MQTT 与 USB CDC 并行运行。
+ //
+ // 协议规范:
+ //   docs/protocol.md — "LAN 回传（MQTT 巴法云）" 章节
+@@ -447,9 +622,8 @@ static void usb_send_tof_payload(uint8_t src_id, const uint8_t *payload, uint16_
+     }
+ 
+ 
+-    // TODO(v4): mirror this payload to the configured network backhaul.
+-    // NOTE: when encoding MQTT JSON, a small fixed buffer is a common mistake:
+-    // char b64_buf[256];  // too small for full ToF payload_b64 JSON
++    // MQTT carries the raw MaixSense frame, not the USB packet header/CRC.
++    mqtt_publish_raw(SENSOR_TYPE_TOF, src_id, payload, len);
+ }
+ 
+ // MaixSense帧解析器
+@@ -465,7 +639,7 @@ static uint32_t parse_maixsense_frame(MaixSenseFrameParser *parser, uint8_t *fra
+     // MaixSense 帧格式: [00 FF] [LEN_L LEN_H] [DATA...] [CHECKSUM] [DD]
+     
+     // 查找帧头 0x00 0xFF
+-    for (uint32_t i = 0; i < parser->buffer_len - 1; i++) {
++    for (uint32_t i = 0; i + 1 < parser->buffer_len; i++) {
+         if (parser->buffer[i] == 0x00 && parser->buffer[i + 1] == 0xFF) {
+             // 找到帧头，检查是否有足够数据读取长度字段
+             if (i + 4 > parser->buffer_len) {
+@@ -481,6 +655,16 @@ static uint32_t parse_maixsense_frame(MaixSenseFrameParser *parser, uint8_t *fra
+             // 读取数据长度（小端序）
+             uint16_t data_len = parser->buffer[i + 2] | (parser->buffer[i + 3] << 8);
+             uint32_t frame_len = 2 + 2 + data_len + 1 + 1;  // head + len + data + checksum + tail
++
++            if (data_len == 0 || frame_len > sizeof(parser->buffer)) {
++                // An impossible length must not pin the parser on a false header.
++                uint32_t remaining = parser->buffer_len - (i + 2);
++                if (remaining > 0) {
++                    memmove(parser->buffer, &parser->buffer[i + 2], remaining);
++                }
++                parser->buffer_len = remaining;
++                return 0;
++            }
+             
+             // 检查是否有完整帧
+             if (i + frame_len <= parser->buffer_len) {
+@@ -527,8 +711,8 @@ void tof_stream_task(void *pvParameters) {
+     (void)pvParameters;
+     
+     // 为每个传感器分配帧解析器
+-    static MaixSenseFrameParser parser1 = {0};  // UART1
+-    static MaixSenseFrameParser parser2 = {0};  // UART2
++    static MaixSenseFrameParser parser1 = {};  // UART1
++    static MaixSenseFrameParser parser2 = {};  // UART2
+     
+     // 为每个传感器分配独立的帧缓冲区（交替发送）
+     static uint8_t frame_buffer1[12000];        // UART1帧缓冲
+@@ -567,7 +751,7 @@ void tof_stream_task(void *pvParameters) {
+                 did_work = true;
+ 
+                 // 添加到解析器缓冲区；若溢出则丢弃旧数据保留最新块
+-                if (parser1.buffer_len + (uint32_t)len < sizeof(parser1.buffer)) {
++                if (parser1.buffer_len + (uint32_t)len <= sizeof(parser1.buffer)) {
+                     memcpy(&parser1.buffer[parser1.buffer_len], uart_buf, len);
+                     parser1.buffer_len += (uint32_t)len;
+                 } else {
+@@ -602,7 +786,7 @@ void tof_stream_task(void *pvParameters) {
+                 did_work = true;
+ 
+                 // 添加到解析器缓冲区；若溢出则丢弃旧数据保留最新块
+-                if (parser2.buffer_len + (uint32_t)len < sizeof(parser2.buffer)) {
++                if (parser2.buffer_len + (uint32_t)len <= sizeof(parser2.buffer)) {
+                     memcpy(&parser2.buffer[parser2.buffer_len], uart_buf, len);
+                     parser2.buffer_len += (uint32_t)len;
+                 } else {
+@@ -778,7 +962,9 @@ void mlx_sender_task(void *pvParameters) {
+             }
+         }
+ 
+-        // TODO(v4): mirror both MLX payloads to the configured network backhaul.
++        // MQTT carries each raw MLX float32 payload on its own topic.
++        mqtt_publish_raw(SENSOR_TYPE_MLX, 1, (const uint8_t *)temp_buf1, total);
++        mqtt_publish_raw(SENSOR_TYPE_MLX, 2, (const uint8_t *)temp_buf2, total);
+ 
+         // 控制刷新率，例如 4Hz (250ms)，跟 MLXManager 内部的 FPS 匹配即可
+         vTaskDelay(pdMS_TO_TICKS(250));
+@@ -797,6 +983,7 @@ void init_physical_uart(uart_port_t uart_num, int tx_pin, int rx_pin, int baud_r
+         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+         .rx_flow_ctrl_thresh = 0,
+         .source_clk = UART_SCLK_DEFAULT,
++        .flags = 0,
+     };
+     // Buffer 大小设大一点 (4096)，防止高速数据溢出
+     if (!s_uart_driver_installed[uart_num]) {
+@@ -1074,14 +1261,9 @@ void app_main(void) {
+     }
+ 
+     // ================================================================
+-    // 3. TODO(v4): 网络回传初始化
+-    // 当前版本只有 USB CDC 回传，需要补全 Wi-Fi + MQTT 功能。
+-    // 协议规范请参考:
+-    //   docs/protocol.md — "LAN 回传（MQTT 巴法云）" 章节
+-    //   reference/espidf_protocol_contract.md — "MQTT" 章节
+-    //   gateway/bed_config.py — topics_for() 函数
++    // 3. Wi-Fi + MQTT 巴法云回传
+     // ================================================================
+-    // TODO(v4): start the restored network backhaul here.
++    init_network_backhaul();
+ 
+     // ================================================================
+     // 4. 初始化 MLX 管理器 (C++ 对象)
+@@ -1112,5 +1294,5 @@ void app_main(void) {
+     BaseType_t task_ok = xTaskCreatePinnedToCore(tof_stream_task, "tof_stream", 8192, NULL, 4, NULL, 0);
+     ESP_ERROR_CHECK(task_ok == pdPASS ? ESP_OK : ESP_ERR_NO_MEM);
+ 
+-    ESP_LOGI(TAG, "System Ready (USB CDC only). MQTT uplink not yet implemented.");
++    ESP_LOGI(TAG, "System Ready (USB CDC + MQTT backhaul).");
+ }
+diff --git a/gateway/README.md b/gateway/README.md
+index 8667292..461fec7 100644
+--- a/gateway/README.md
++++ b/gateway/README.md
+@@ -14,6 +14,7 @@ gateway/
+ ├── sensor_store.py     # 普通传感器/睡眠/姿态/情绪历史缓存
+ ├── esp_store.py        # ESP32 ToF/MLX 数据包与完整帧组聚合
+ ├── sleep_importer.py   # 睡眠 CSV 导入和无房床字段归属策略
++├── care_events.py      # 护理事件 CRUD 和 context 摘要
+ ├── utils.py            # 通用类型转换、时间、JSON、ID 工具
+ ├── bed_config.py       # 床位拓扑和 Bemfa topic 命名
+ ├── dashboard.html      # 实时看板
+@@ -29,17 +30,20 @@ gateway/
+ - 雷达、环境、音频、睡眠、姿态、情绪这类时序数据缓存：放 `sensor_store.py`。
+ - ESP32 二进制帧、完整四路姿态 set 组包：放 `esp_store.py`。
+ - 睡眠算法 CSV 文件读取、导入、归属规则：放 `sleep_importer.py`。
++- 护理事件字段、迁移兼容、查询和 context 摘要：放 `care_events.py`；HTTP 鉴权留在 `gateway.py`。
+ - 只和 HTTP 路由或启动流程有关的 glue code：留在 `gateway.py`。
+ 
+ ## 管理员初始化
+ 
+ 首次访问 `/admin` 或 `/dashboard` 时，如果还没有超级管理员账户，会显示初始化页面。初始化后，管理页和管理类 API 需要登录访问。
+ 
+-当前保留本机服务接口例外，便于单护士站联调：本机进程仍可调用采集、视觉、身份 gallery 和对话上下文接口。远程浏览器需要通过管理员登录。
++当前保留本机服务接口例外，便于单护士站联调：本机进程可调用 `/api/v2/*`、`/api/esp/*`、v3 context、身份匹配/gallery、vision observation 和 current-session 查询。人员、绑定、记忆、凭据、session 写入以及护理事件写入仍需要管理员 Cookie；远程浏览器也需要管理员登录。
++
++v3 context 必须显式提供 `session_id`。session 只有在 actor 存在、`identity_state=recognized`、`assurance_level` 有效且未过期时才可授权；voice 会先获取 current session，再把 ID 带入 context 请求。
+ 
+ ## 睡眠 CSV 归属策略
+ 
+-睡眠 CSV 如果带 `room/bed` 字段，会写入对应床位。如果没有房床字段，默认只导入第一个配置床位，避免同一报告广播到所有床位。
++睡眠 CSV 按行处理：带 `room/bed` 的行只写入该床位；无房床字段的行才使用默认 room/bed、`first`、`skip` 或显式调试用的 `all` 策略。混合文件不会因为存在无归属行而丢弃显式归属行。
+ 
+ 可用环境变量调整：
+ 
+@@ -50,3 +54,7 @@ SLEEP_IMPORT_UNSCOPED_POLICY=first   # first / skip / all
+ ```
+ 
+ 生产环境建议使用 `skip` 或明确设置 `SLEEP_IMPORT_DEFAULT_ROOM/BED`。
++
++## 护理事件
++
++`POST /api/v3/care/events` 需要管理员登录。`GET` 默认按 `ts/created_ts` 倒序返回最近事件，支持 `subject_id` 或规范化后的 `room + bed` 查询；授权 context 中才会出现 `modalities.care_events`，拒绝 context 不返回事件内容。
+diff --git a/gateway/auth.py b/gateway/auth.py
+index 9b1e82c..fdd6ea2 100644
+--- a/gateway/auth.py
++++ b/gateway/auth.py
+@@ -8,9 +8,6 @@ from utils import make_id, now_ms
+ 
+ 
+ def _password_hash(password: str, salt_hex: str = "") -> tuple[str, str]:
+-    # No salt yet = skip hashing for now, will re-hash on first real login.
+-    if not salt_hex:
+-        return "", password
+     salt = bytes.fromhex(salt_hex) if salt_hex else secrets.token_bytes(16)
+     digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 200_000)
+     return salt.hex(), digest.hex()
+@@ -25,8 +22,9 @@ def _normalize_admin_username(username: str) -> str:
+ 
+ 
+ def admin_account_exists() -> bool:
+-    # TODO: check DB — always allow setup for now so first deploy works.
+-    return False
++    with db_connect() as conn:
++        row = conn.execute("SELECT 1 FROM admin_accounts LIMIT 1").fetchone()
++    return row is not None
+ 
+ 
+ def _ensure_admin_subject(conn, username: str, display_name: str) -> str:
+@@ -130,17 +128,16 @@ def get_admin_http_session(token: str) -> dict | None:
+     if not token:
+         return None
+     ts = now_ms()
+-    # Workers call APIs without a cookie jar — just grab any active session.
+     with db_connect() as conn:
+         row = conn.execute(
+             """
+             SELECT s.*, a.subject_id
+               FROM admin_http_sessions s
+               JOIN admin_accounts a ON a.username = s.username
+-             WHERE s.expires_ts >= ? AND a.status = 'active'
++             WHERE s.token_hash = ? AND s.expires_ts > ? AND a.status = 'active'
+              LIMIT 1
+             """,
+-            (ts,),
++            (_token_hash(token), ts),
+         ).fetchone()
+         if not row:
+             return None
+diff --git a/gateway/care_events.py b/gateway/care_events.py
+index 87773c5..4769818 100644
+--- a/gateway/care_events.py
++++ b/gateway/care_events.py
+@@ -1,69 +1,50 @@
+-"""Care event tracking for nursing actions.
+-
+-This module provides CRUD for care_event records — nursing observations,
+-turning assists, medication checks, etc. that happen during a shift.
+-
+-TODO: still needs some extra fields, proper route wiring, and integration
+-with the chat context builder.
+-"""
+-from db import db_connect, row_to_dict
+-from utils import make_id, now_ms
++"""Care event persistence and context projection for nursing actions."""
++from db import db_connect, ensure_care_events_schema, row_to_dict
++from utils import as_int, make_id, normalize_bed, normalize_room, now_ms
+ 
+ 
+ def init_care_events_table():
+-    """Create care_events table if not exists.
+-
+-    NOTE: table schema is a first draft — still missing a few columns
+-    that the v3 spec calls for.  Needs updating before the context
+-    integration is wired up.
+-    """
+     with db_connect() as conn:
+-        conn.executescript("""
+-            CREATE TABLE IF NOT EXISTS care_events (
+-                event_id TEXT PRIMARY KEY,
+-                subject_id TEXT NOT NULL,
+-                room TEXT NOT NULL,
+-                bed TEXT NOT NULL,
+-                kind TEXT NOT NULL,
+-                title TEXT NOT NULL DEFAULT '',
+-                content TEXT NOT NULL DEFAULT '',
+-                created_ts INTEGER NOT NULL,
+-                updated_ts INTEGER NOT NULL
+-            );
+-
+-            CREATE INDEX IF NOT EXISTS idx_care_events_subject
+-                ON care_events(subject_id, created_ts DESC);
+-            CREATE INDEX IF NOT EXISTS idx_care_events_room_bed
+-                ON care_events(room, bed, created_ts DESC);
+-        """)
++        ensure_care_events_schema(conn)
+ 
+ 
+ def create_care_event(row: dict) -> dict:
+-    """Create a new care event record.
+-
+-    TODO: should check that the caller is authorized before writing.
+-    """
++    """Create a normalized care event. HTTP authorization is handled by gateway."""
++    if not isinstance(row, dict):
++        raise ValueError("payload must be object")
+     event_id = str((row or {}).get("event_id") or make_id("care"))
+     subject_id = str((row or {}).get("subject_id") or "")
+-    room = str((row or {}).get("room") or "")
+-    bed = str((row or {}).get("bed") or "")
++    room = normalize_room((row or {}).get("room"))
++    bed = normalize_bed((row or {}).get("bed"))
+     kind = str((row or {}).get("kind") or "note")
+     title = str((row or {}).get("title") or "")
+     content = str((row or {}).get("content") or "")
+-    ts = now_ms()
++    severity = str((row or {}).get("severity") or "info").strip().lower()
++    source = str((row or {}).get("source") or "manual").strip().lower()
++    created_by = str((row or {}).get("created_by") or "")
++    ts = as_int((row or {}).get("ts"), now_ms())
++    if ts <= 0:
++        ts = now_ms()
++    if not subject_id or not room or not bed or not kind or not content:
++        raise ValueError("subject_id, room, bed, kind and content are required")
+     with db_connect() as conn:
++        ensure_care_events_schema(conn)
++        if not conn.execute("SELECT 1 FROM subjects WHERE subject_id = ?", (subject_id,)).fetchone():
++            raise ValueError("subject not found")
+         conn.execute(
+             """
+             INSERT INTO care_events
+-                (event_id, subject_id, room, bed, kind, title, content, created_ts, updated_ts)
+-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
++                (event_id, subject_id, room, bed, kind, title, content, severity, source,
++                 created_by, ts, created_ts, updated_ts)
++            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             """,
+-            (event_id, subject_id, room, bed, kind, title, content, ts, ts),
++            (event_id, subject_id, room, bed, kind, title, content, severity, source,
++             created_by, ts, ts, ts),
+         )
+-    return {"event_id": event_id, "subject_id": subject_id, "ok": True}
++    return {"event_id": event_id, "subject_id": subject_id, "room": room, "bed": bed, "ok": True}
+ 
+ 
+-def list_care_events(subject_id: str = "", room: str = "", bed: str = "") -> list[dict]:
++def list_care_events(subject_id: str = "", room: str = "", bed: str = "", limit: int = 20) -> list[dict]:
+     """List care events, optionally filtered by subject or bed."""
+     sql = "SELECT * FROM care_events WHERE 1=1"
+     args = []
+@@ -72,20 +53,40 @@ def list_care_events(subject_id: str = "", room: str = "", bed: str = "") -> lis
+         args.append(subject_id)
+     if room:
+         sql += " AND room = ?"
+-        args.append(room)
++        args.append(normalize_room(room))
+     if bed:
+         sql += " AND bed = ?"
+-        args.append(bed)
+-    sql += " ORDER BY created_ts DESC"
++        args.append(normalize_bed(bed))
++    limit = max(1, min(as_int(limit, 20), 200))
++    sql += " ORDER BY ts DESC, created_ts DESC LIMIT ?"
++    args.append(limit)
+     with db_connect() as conn:
++        ensure_care_events_schema(conn)
+         rows = conn.execute(sql, args).fetchall()
+     return [row_to_dict(r) for r in rows]
+ 
+ 
+-def build_care_events_context(subject_id: str, limit: int = 10) -> dict:
+-    """Build care-events section for the v3 chat context.
+-
+-    TODO: stub for now — returns empty.  Hook it into the context
+-    builder once the other pieces are ready.
+-    """
+-    return {"items": [], "brief": ""}
++def build_care_events_context(subject_id: str = "", room: str = "", bed: str = "", limit: int = 10) -> dict:
++    """Return a compact, already-authorized care-event projection."""
++    rows = list_care_events(subject_id=subject_id, room=room, bed=bed, limit=limit)
++    items = []
++    for row in rows:
++        items.append({
++            "event_id": row.get("event_id", ""),
++            "subject_id": row.get("subject_id", ""),
++            "room": row.get("room", ""),
++            "bed": row.get("bed", ""),
++            "kind": row.get("kind", ""),
++            "title": row.get("title", ""),
++            "content": row.get("content", ""),
++            "severity": row.get("severity", "info"),
++            "source": row.get("source", "manual"),
++            "created_by": row.get("created_by", ""),
++            "ts": row.get("ts", row.get("created_ts", 0)),
++        })
++    brief = " ".join(
++        f"{item['title']}: {item['content']}" if item.get("title") else str(item.get("content") or "")
++        for item in items
++        if item.get("content")
++    ).strip()
++    return {"items": items, "brief": brief}
+diff --git a/gateway/db.py b/gateway/db.py
+index a7215a1..5357fe9 100644
+--- a/gateway/db.py
++++ b/gateway/db.py
+@@ -143,6 +143,10 @@ def init_management_db():
+                 kind TEXT NOT NULL,
+                 title TEXT NOT NULL DEFAULT '',
+                 content TEXT NOT NULL DEFAULT '',
++                severity TEXT NOT NULL DEFAULT 'info',
++                source TEXT NOT NULL DEFAULT 'manual',
++                created_by TEXT NOT NULL DEFAULT '',
++                ts INTEGER NOT NULL DEFAULT 0,
+                 created_ts INTEGER NOT NULL,
+                 updated_ts INTEGER NOT NULL
+             );
+@@ -153,10 +157,54 @@ def init_management_db():
+                 ON care_events(room, bed, created_ts DESC);
+             """
+         )
++        ensure_care_events_schema(conn)
+         sync_config_beds(conn)
+     print(f'[DB] SQLite management database: {DB_FILE}')
+ 
+ 
++def ensure_care_events_schema(conn):
++    """Create and migrate the care-event table without discarding old rows."""
++    conn.execute(
++        """
++        CREATE TABLE IF NOT EXISTS care_events (
++            event_id TEXT PRIMARY KEY,
++            subject_id TEXT NOT NULL,
++            room TEXT NOT NULL,
++            bed TEXT NOT NULL,
++            kind TEXT NOT NULL,
++            title TEXT NOT NULL DEFAULT '',
++            content TEXT NOT NULL DEFAULT '',
++            severity TEXT NOT NULL DEFAULT 'info',
++            source TEXT NOT NULL DEFAULT 'manual',
++            created_by TEXT NOT NULL DEFAULT '',
++            ts INTEGER NOT NULL DEFAULT 0,
++            created_ts INTEGER NOT NULL,
++            updated_ts INTEGER NOT NULL
++        )
++        """
++    )
++    columns = {str(row[1]) for row in conn.execute("PRAGMA table_info(care_events)").fetchall()}
++    missing = {
++        "severity": "TEXT NOT NULL DEFAULT 'info'",
++        "source": "TEXT NOT NULL DEFAULT 'manual'",
++        "created_by": "TEXT NOT NULL DEFAULT ''",
++        "ts": "INTEGER NOT NULL DEFAULT 0",
++    }
++    for name, definition in missing.items():
++        if name not in columns:
++            conn.execute(f"ALTER TABLE care_events ADD COLUMN {name} {definition}")
++    # Old rows only had created_ts; use it as their event timestamp for stable ordering.
++    conn.execute("UPDATE care_events SET ts = created_ts WHERE ts IS NULL OR ts = 0")
++    # Normalize legacy values in place so uppercase queries retain old events.
++    conn.execute("UPDATE care_events SET room = UPPER(room), bed = UPPER(bed)")
++    conn.execute(
++        "CREATE INDEX IF NOT EXISTS idx_care_events_subject_ts ON care_events(subject_id, ts DESC, created_ts DESC)"
++    )
++    conn.execute(
++        "CREATE INDEX IF NOT EXISTS idx_care_events_room_bed_ts ON care_events(room, bed, ts DESC, created_ts DESC)"
++    )
++
++
+ def sync_config_beds(conn):
+     ts = now_ms()
+     for room, bed in BEDS:
+diff --git a/gateway/gateway.py b/gateway/gateway.py
+index d9209f7..9c41ca0 100644
+--- a/gateway/gateway.py
++++ b/gateway/gateway.py
+@@ -28,6 +28,7 @@ from config import (
+     ADMIN_SESSION_COOKIE,
+     ADMIN_SESSION_TTL_MS,
+     DASHBOARD_FILE,
++    DEFAULT_ADMIN_SUBJECT_ID,
+     EMOTION_CONTEXT_TTL_MS,
+     EMOTION_LABELS,
+     ESP_ONLINE_TTL_MS,
+@@ -41,6 +42,7 @@ from config import (
+     POSTURE_CLASS_NAMES,
+     SLEEP_IMPORT_ENABLED,
+ )
++from care_events import build_care_events_context, create_care_event, list_care_events
+ from db import DB_FILE, db_connect, init_management_db, row_to_dict
+ from esp_store import (
+     _get_esp_state,
+@@ -801,8 +803,7 @@ def _emotion_dialogue_hint(label: str) -> str:
+ 
+ def actor_can_access_target(actor_subject: dict | None, target_patient_id: str) -> bool:
+     if not actor_subject:
+-        # No actor info = probably an internal worker call, just allow it.
+-        return True
++        return False
+     role = str(actor_subject.get("role") or "unknown")
+     actor_id = str(actor_subject.get("subject_id") or "")
+     if role in ("admin", "staff"):
+@@ -817,12 +818,13 @@ def session_is_authenticated(session: dict | None) -> bool:
+         return False
+     identity_state = str(session.get("identity_state") or "unknown")
+     assurance_level = str(session.get("assurance_level") or "none")
+-    # Workers / voice loop don't always do face auth, so skip the check here.
+-    if identity_state in ("unknown", ""):
+-        return True
+-    if assurance_level in ("none", ""):
++    actor_subject_id = str(session.get("actor_subject_id") or "")
++    expires_ts = as_int(session.get("expires_ts"), 0)
++    if not actor_subject_id or identity_state != "recognized":
+         return False
+-    return True
++    if assurance_level not in ("low", "medium", "high"):
++        return False
++    return expires_ts > now_ms()
+ 
+ 
+ def build_memory_summary(subject_id: str, limit: int = 5):
+@@ -843,14 +845,23 @@ def build_memory_summary(subject_id: str, limit: int = 5):
+     return {"items": items, "brief": brief}
+ 
+ 
++def _context_param(params: dict, key: str) -> str:
++    value = (params or {}).get(key, "")
++    if isinstance(value, (list, tuple)):
++        value = value[0] if value else ""
++    return str(value or "").strip()
++
++
+ def build_chat_context_v3(params: dict):
+-    session_id = (params.get("session_id") or [""])[0]
+-    session = get_session(session_id) if session_id else get_current_session()
++    # v3 context requires an explicit session id. Ambient sessions are not a
++    # reliable authorization credential and can leak data between callers.
++    session_id = _context_param(params, "session_id")
++    session = get_session(session_id) if session_id else None
+     actor_subject = get_subject(session.get("actor_subject_id", "")) if session else None
+ 
+-    target_room = normalize_room((params.get("target_room") or params.get("room") or [""])[0])
+-    target_bed = normalize_bed((params.get("target_bed") or params.get("bed") or [""])[0])
+-    target_subject_id = str((params.get("target_subject_id") or [""])[0] or "")
++    target_room = normalize_room(_context_param(params, "target_room") or _context_param(params, "room"))
++    target_bed = normalize_bed(_context_param(params, "target_bed") or _context_param(params, "bed"))
++    target_subject_id = _context_param(params, "target_subject_id")
+ 
+     if (not target_room or not target_bed) and target_subject_id:
+         active = get_active_assignment_for_subject(target_subject_id)
+@@ -888,10 +899,17 @@ def build_chat_context_v3(params: dict):
+     vitals = {}
+     posture = {}
+     memory = {"items": [], "brief": ""}
++    care_events = {"items": [], "brief": ""}
+     if allowed:
+         sleep = build_voice_sleep_context(target_room, target_bed)
+         vitals = build_voice_vitals_context(target_room, target_bed)
+         posture = build_voice_posture_context(target_room, target_bed)
++        care_events = build_care_events_context(
++            subject_id=target_subject_id,
++            room=target_room,
++            bed=target_bed,
++            limit=10,
++        )
+         if as_float(sleep.get("sleep_h"), 0.0) > 0.0 or as_float(sleep.get("sleep_score"), 0.0) > 0.0:
+             brief_parts.append(
+                 f"目标床位最近睡眠摘要：累计睡眠约{as_float(sleep.get('sleep_h'), 0.0):.2f}小时，"
+@@ -929,7 +947,7 @@ def build_chat_context_v3(params: dict):
+         "policy": {
+             "allowed": allowed,
+             "context_scope": "subject_assignment",
+-            "allowed_sections": ["sleep", "vitals", "posture", "memory_summary"] if allowed else [],
++            "allowed_sections": ["sleep", "vitals", "posture", "memory_summary", "care_events"] if allowed else [],
+             "reason": "role_allowed" if allowed else (
+                 "not_authenticated" if not authenticated else "not_authorized_for_target"
+             ),
+@@ -939,6 +957,7 @@ def build_chat_context_v3(params: dict):
+             "vitals": vitals,
+             "posture": posture,
+             "memory": memory,
++            "care_events": care_events,
+         },
+         "brief": " ".join(x for x in brief_parts if x).strip(),
+         "prompt_hints": prompt_hints,
+@@ -1224,6 +1243,7 @@ class Handler(BaseHTTPRequestHandler):
+             "/api/v3/identity/gallery",
+             "/api/v3/identity/match",
+             "/api/v3/vision/observation",
++            "/api/v3/session/current",
+         ):
+             return True
+         return False
+@@ -1231,7 +1251,7 @@ class Handler(BaseHTTPRequestHandler):
+     def _authorized_for_api(self, path: str) -> bool:
+         if self._admin_session() is not None:
+             return True
+-        if self._is_local_request():
++        if self._is_local_request() and self._path_allows_local_service(path):
+             return True
+         return False
+ 
+@@ -1338,6 +1358,40 @@ class Handler(BaseHTTPRequestHandler):
+             self._handle_admin_auth_get()
+             return
+ 
++        if q.path == "/api/v3/care/events":
++            admin_session = self._admin_session()
++            context = None
++            if not admin_session:
++                context = build_chat_context_v3({
++                    "session_id": params.get("session_id", [""]),
++                    "target_subject_id": params.get("subject_id", [""]),
++                    "target_room": params.get("room", [""]),
++                    "target_bed": params.get("bed", [""]),
++                })
++                if not context.get("policy", {}).get("allowed"):
++                    self._deny_auth()
++                    return
++            subject_id = (params.get("subject_id") or [""])[0]
++            room_q = (params.get("room") or [""])[0]
++            bed_q = (params.get("bed") or [""])[0]
++            limit = as_int((params.get("limit") or ["20"])[0], 20)
++            if context is not None:
++                target = context.get("target", {})
++                patient = target.get("patient", {}) if isinstance(target.get("patient"), dict) else {}
++                subject_id = str(patient.get("subject_id") or subject_id)
++                room_q = str(target.get("room") or room_q)
++                bed_q = str(target.get("bed") or bed_q)
++            self._json({
++                "events": list_care_events(
++                    subject_id=subject_id,
++                    room=room_q,
++                    bed=bed_q,
++                    limit=limit,
++                ),
++                "ts": now_ms(),
++            })
++            return
++
+         if q.path.startswith("/api/") and ADMIN_AUTH_ENABLED and not self._authorized_for_api(q.path):
+             self._deny_auth()
+             return
+@@ -1727,6 +1781,19 @@ class Handler(BaseHTTPRequestHandler):
+             self._deny_auth()
+             return
+ 
++        if q.path == "/api/v3/care/events":
++            event_body = dict(body_obj)
++            if not event_body.get("created_by"):
++                admin_session = self._admin_session() or {}
++                event_body["created_by"] = str(
++                    admin_session.get("subject_id") or admin_session.get("username") or ""
++                )
++            try:
++                self._json({"ok": True, "event": create_care_event(event_body), "ts": now_ms()})
++            except (ValueError, sqlite3.IntegrityError) as e:
++                self._json({"error": str(e)}, code=400)
++            return
++
+         if q.path == "/api/v3/subjects":
+             try:
+                 self._json({"ok": True, "subject": create_subject(body_obj), "ts": now_ms()})
+diff --git a/gateway/sleep_importer.py b/gateway/sleep_importer.py
+index 1950a99..648286c 100644
+--- a/gateway/sleep_importer.py
++++ b/gateway/sleep_importer.py
+@@ -12,7 +12,7 @@ from config import (
+     SLEEP_OUTPUT_DIR,
+     SLEEP_QUALITY_FILE,
+ )
+-from utils import now_ms
++from utils import normalize_bed, normalize_room, now_ms
+ 
+ _import_state = {
+     'epoch_mtime': -1,
+@@ -52,17 +52,16 @@ def import_sleep_outputs_once(
+             for configured_room, configured_bed in beds:
+                 if configured_room.lower() == room.lower() and configured_bed.lower() == bed.lower():
+                     return [(configured_room, configured_bed)]
+-            return [(room, bed)]
++            return [(normalize_room(room), normalize_bed(bed))]
+         if SLEEP_IMPORT_DEFAULT_ROOM and SLEEP_IMPORT_DEFAULT_BED:
+-            return [(SLEEP_IMPORT_DEFAULT_ROOM, SLEEP_IMPORT_DEFAULT_BED)]
++            return [(normalize_room(SLEEP_IMPORT_DEFAULT_ROOM), normalize_bed(SLEEP_IMPORT_DEFAULT_BED))]
+         if SLEEP_IMPORT_UNSCOPED_POLICY == 'all':
+             return list(beds)
+         if SLEEP_IMPORT_UNSCOPED_POLICY == 'skip':
+             return []
+         if SLEEP_IMPORT_UNSCOPED_POLICY == 'first':
+-            # Default policy: use the first bed in the rotation.
+-            # Note: beds are stored in insertion order from BEDS config.
+-            return [beds[-1]] if beds else []
++            # Default policy: use the first configured bed only.
++            return [beds[0]] if beds else []
+         # Unrecognized policy — for safety, import nothing rather than fanning out.
+         return []
+ 
+diff --git a/gateway/subjects.py b/gateway/subjects.py
+index 7be4d9b..ab646bb 100644
+--- a/gateway/subjects.py
++++ b/gateway/subjects.py
+@@ -488,7 +488,9 @@ def upsert_session(row: dict):
+     subject = get_subject(subject_id) if subject_id else None
+     if subject_id and subject is None:
+         raise ValueError("subject not found")
+-    role = str(row.get("role") or (subject or {}).get("role") or "unknown")
++    # The role is derived from the subject record.  Never let an observation
++    # or local HTTP caller elevate a known subject by supplying another role.
++    role = str((subject or {}).get("role") or "unknown")
+     auth_methods = row.get("auth_methods") if isinstance(row.get("auth_methods"), list) else []
+     assurance_level = str(row.get("assurance_level") or "none")
+     identity_state = str(row.get("identity_state") or ("recognized" if subject else "unknown"))
+diff --git a/voice/voice_assistant_integrated.py b/voice/voice_assistant_integrated.py
+index 893a60a..b51f404 100644
+--- a/voice/voice_assistant_integrated.py
++++ b/voice/voice_assistant_integrated.py
+@@ -64,6 +64,7 @@ VOICE_TARGET_SUBJECT_ID = os.getenv("VOICE_TARGET_SUBJECT_ID", "").strip()
+ # 网关授权上下文（gateway 负责 session、权限和数据裁剪）
+ GATEWAY_BASE = os.getenv("GATEWAY_BASE", "http://127.0.0.1:8765").rstrip("/")
+ GATEWAY_CHAT_CONTEXT_URL = os.getenv("GATEWAY_CHAT_CONTEXT_URL", f"{GATEWAY_BASE}/api/v3/context/chat")
++GATEWAY_CURRENT_SESSION_URL = os.getenv("GATEWAY_CURRENT_SESSION_URL", f"{GATEWAY_BASE}/api/v3/session/current")
+ GATEWAY_TIMEOUT_S = float(os.getenv("GATEWAY_TIMEOUT_S", "1.5"))
+ GATEWAY_CONTEXT_ENABLED = os.getenv("GATEWAY_CONTEXT_ENABLED", "1") not in ("0", "false", "False")
+ 
+@@ -538,15 +539,31 @@ def get_weather_sentence(city_hint: str = None) -> str:
+     return f"{name}当前{sent}"
+ 
+ 
++def fetch_current_gateway_session() -> str:
++    """Resolve an explicit session credential for the local assistant."""
++    try:
++        r = requests.get(GATEWAY_CURRENT_SESSION_URL, timeout=GATEWAY_TIMEOUT_S)
++        r.raise_for_status()
++        obj = r.json()
++        session = obj.get("session", {}) if isinstance(obj, dict) else {}
++        return str(session.get("session_id") or "").strip() if isinstance(session, dict) else ""
++    except Exception as e:  # noqa: BLE001
++        print(f"[GATEWAY当前会话获取失败] {e}")
++        return ""
++
++
+ def fetch_gateway_chat_context(room=None, bed=None, target_subject_id=None, session_id=None) -> Optional[dict]:
+     if not GATEWAY_CONTEXT_ENABLED:
+         return None
+     try:
++        effective_session_id = (session_id if session_id is not None else VOICE_SESSION_ID).strip()
++        if not effective_session_id:
++            effective_session_id = fetch_current_gateway_session()
+         params = build_gateway_context_params(
+             room=room,
+             bed=bed,
+             target_subject_id=target_subject_id,
+-            session_id=session_id,
++            session_id=effective_session_id,
+         )
+         r = requests.get(GATEWAY_CHAT_CONTEXT_URL, params=params, timeout=GATEWAY_TIMEOUT_S)
+         r.raise_for_status()

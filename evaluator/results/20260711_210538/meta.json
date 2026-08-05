@@ -1,0 +1,7 @@
+{
+  "model": "grok-4.5",
+  "channel": "grok-cli",
+  "harness": "grok-cli",
+  "benchmark": "project2-v4",
+  "seed_tag": "project2-v4-broken-seed"
+}

@@ -1,0 +1,27 @@
+{
+  "auto": [
+    "E-contract"
+  ],
+  "manual": [],
+  "final": [
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "E-contract"
+  ],
+  "semantic_only": [
+    {
+      "item_id": "V4-F12-04",
+      "scenario_id": "no_actor_session",
+      "test_method": "test_session_without_actor_subject_reason",
+      "expected_reason_hint": null,
+      "message": "AssertionError: 'not_authenticated' != 'not_authorized_for_target'"
+    }
+  ],
+  "semantic_only_codes": [
+    "V4-F12-04"
+  ],
+  "cascade": null,
+  "cascades": [],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision. V4.1b: unauth care leak is under F3-05 only; F5-05 is authorized care path."
+}

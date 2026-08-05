@@ -1,0 +1,74 @@
+{
+  "auto": [
+    "P-report",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "manual": [],
+  "final": [
+    "P-report",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "behavior_blockers": [
+    "P-report",
+    "S-ambient",
+    "R-regression",
+    "M-fidelity",
+    "E-contract"
+  ],
+  "semantic_only": [],
+  "semantic_only_codes": [],
+  "cascade": {
+    "roots": [
+      {
+        "root": "M-fidelity",
+        "family": "F6",
+        "affected_items": [
+          "V4-F6-03"
+        ],
+        "note": "one or more F6 items failed; see item_results for per-item status"
+      },
+      {
+        "root": "S-ambient",
+        "family": "F3",
+        "affected_items": [
+          "V4-F3-05"
+        ],
+        "suppressed_or_diagnostic": [
+          "care_unauth_zero_leak_under_F3_05"
+        ],
+        "f5_05_status": "authorized_care_path_passed",
+        "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+      }
+    ],
+    "note": "multiple cascade roots; see roots[]"
+  },
+  "cascades": [
+    {
+      "root": "M-fidelity",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-03"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    },
+    {
+      "root": "S-ambient",
+      "family": "F3",
+      "affected_items": [
+        "V4-F3-05"
+      ],
+      "suppressed_or_diagnostic": [
+        "care_unauth_zero_leak_under_F3_05"
+      ],
+      "f5_05_status": "authorized_care_path_passed",
+      "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+    }
+  ],
+  "note": "Ship/Class use behavior_blockers only; semantic_only is F12/reason precision. V4.1b: unauth care leak is under F3-05 only; F5-05 is authorized care path."
+}

@@ -1,0 +1,8 @@
+{
+  "model": "GPT-5.6-sol",
+  "channel": "codex-medium",
+  "harness": "codex",
+  "benchmark": "project2-v4",
+  "seed_tag": "project2-v4-broken-seed",
+  "complete": true
+}

@@ -1,0 +1,82 @@
+{
+  "overestimate_risk": [],
+  "unscored_items": [],
+  "notes": [
+    "cascade: M-crash affects ['V4-F6-01', 'V4-F6-03']",
+    "cascade: S-ambient affects ['V4-F3-05']"
+  ],
+  "f9_mode": "real_pass",
+  "f9_evidence": {
+    "status": "passed",
+    "return_code": 0,
+    "project": "E:\\Desktop\\mytests\\modeltest\\workspace\\project2_task",
+    "log": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_192716\\espidf_build.log",
+    "artifacts": [
+      {
+        "name": "stdpro.bin",
+        "source": "E:\\esp\\builds\\modeltest\\project2_task\\esp32\\testpro4\\build\\stdpro.bin",
+        "archived": "E:\\Desktop\\mytests\\modeltest\\evaluator\\results\\20260718_192716\\espidf_build_artifacts\\stdpro.bin",
+        "bytes": 971872,
+        "sha256": "713f0533933de8fbbca935f03ae35502f6d0856e1d8f14a4f6120e07647c62b9",
+        "mtime_utc": "2026-07-18T11:29:14.686069+00:00"
+      }
+    ],
+    "evidence_complete": true
+  },
+  "f9_evidence_valid": true,
+  "f9_evidence_validation_errors": [],
+  "f11_status": "heuristic",
+  "public_ok": true,
+  "debug_probe_ok": true,
+  "git_changed_files": 11,
+  "meta_complete": true,
+  "cascade": {
+    "roots": [
+      {
+        "root": "M-crash",
+        "family": "F6",
+        "affected_items": [
+          "V4-F6-01",
+          "V4-F6-03"
+        ],
+        "note": "one or more F6 items failed; see item_results for per-item status"
+      },
+      {
+        "root": "S-ambient",
+        "family": "F3",
+        "affected_items": [
+          "V4-F3-05"
+        ],
+        "suppressed_or_diagnostic": [
+          "care_unauth_zero_leak_under_F3_05"
+        ],
+        "f5_05_status": "authorized_care_path_passed",
+        "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+      }
+    ],
+    "note": "multiple cascade roots; see roots[]"
+  },
+  "cascades": [
+    {
+      "root": "M-crash",
+      "family": "F6",
+      "affected_items": [
+        "V4-F6-01",
+        "V4-F6-03"
+      ],
+      "note": "one or more F6 items failed; see item_results for per-item status"
+    },
+    {
+      "root": "S-ambient",
+      "family": "F3",
+      "affected_items": [
+        "V4-F3-05"
+      ],
+      "suppressed_or_diagnostic": [
+        "care_unauth_zero_leak_under_F3_05"
+      ],
+      "f5_05_status": "authorized_care_path_passed",
+      "note": "unauth/ambient care leakage is scored under F3-05 only; F5-05 measures authorized care-in-context wiring only"
+    }
+  ]
+}

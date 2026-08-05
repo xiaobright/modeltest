@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sleep Gateway Dashboard</title>
+    <style>
+        :root {
+            --bg0: #eef4ff;
+            --bg1: #f6f9ff;
+            --card: rgba(255, 255, 255, 0.85);
+            --ink: #12213b;
+            --muted: #5f6f87;
+            --good: #0f9d58;
+            --bad: #c93535;
+            --line: #d8e3f5;
+            --ring: #9fb8f2;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(1200px 700px at -20% -20%, #d8e8ff 0%, transparent 60%),
+                radial-gradient(1100px 700px at 120% -10%, #d9f4ff 0%, transparent 60%),
+                linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%);
+            color: var(--ink);
+            font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px 28px; }
+        .top {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .title {
+            margin: 0;
+            font-size: clamp(1.2rem, 3.1vw, 2rem);
+            font-weight: 700;
+            color: #102449;
+        }
+        .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 12px 30px rgba(27, 55, 110, 0.08);
+            padding: 14px;
+            margin-top: 12px;
+            animation: rise 360ms ease both;
+            transform-origin: top center;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(10px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .section-title { margin: 0 0 10px; font-size: 1rem; }
+
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .grid2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .grid4 {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .kv {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .k { display: block; font-size: 0.78rem; color: var(--muted); }
+        .v { display: block; margin-top: 6px; font-size: 1.08rem; font-weight: 700; }
+
+        .badge {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 2px 8px;
+            border: 1px solid transparent;
+        }
+        .online { color: #0b6b3c; background: #d8f5e6; border-color: #9ad8b7; }
+        .offline { color: #972929; background: #ffe1e1; border-color: #f0b9b9; }
+        .unknown { color: #6f6288; background: #f1e8ff; border-color: #d9c8fb; }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            border: 1px solid var(--ring);
+            background: #ffffff;
+            color: #1a3160;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 140ms ease, box-shadow 140ms ease;
+        }
+        button:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(56, 99, 170, 0.18); }
+
+        .meta {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 720px) {
+            .grid3 { grid-template-columns: 1fr; }
+            .grid2 { grid-template-columns: 1fr; }
+            .grid4 { grid-template-columns: 1fr; }
+            .wrap { padding: 14px 12px 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1 class="title">多模态居家监测</h1>
+                <p class="sub">网页仪表盘 (局域网网关)</p>
+            </div>
+            <div class="toolbar">
+                <button id="refreshBtn">手动刷新</button>
+            </div>
+        </div>
+
+        <section class="panel">
+            <h2 class="section-title">基础信息</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">位置</span><span class="v" id="location">default</span></div>
+                <div class="kv"><span class="k">网关时间</span><span class="v" id="gatewayTs">--</span></div>
+            </div>
+            <div class="meta" id="metaText">每 5 秒自动刷新一次。</div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">ESP32 局域网连接状态</h2>
+            <div class="grid4">
+                <div class="kv"><span class="k">连接状态</span><span class="v" id="espStatus">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">最近接收</span><span class="v" id="espLastSeen">--</span></div>
+                <div class="kv"><span class="k">缓存深度</span><span class="v" id="espDepth">--</span></div>
+                <div class="kv"><span class="k">累计字节</span><span class="v" id="espBytes">--</span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">设备在线状态</h2>
+            <div class="grid3">
+                <div class="kv"><span class="k">雷达</span><span class="v" id="sRadar">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">环境</span><span class="v" id="sEnv">未知 <span class="badge unknown">unknown</span></span></div>
+                <div class="kv"><span class="k">音频</span><span class="v" id="sAudio">未知 <span class="badge unknown">unknown</span></span></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">实时生命体征 (雷达)</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">呼吸 (bpm)</span><span class="v" id="rBreath">--</span></div>
+                <div class="kv"><span class="k">心率 (bpm)</span><span class="v" id="rHeart">--</span></div>
+                <div class="kv"><span class="k">体动幅度</span><span class="v" id="rMotion">--</span></div>
+                <div class="kv"><span class="k">翻身 (次)</span><span class="v" id="rTurning">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="rTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">环境监测</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">CO2 (ppm)</span><span class="v" id="eCo2">--</span></div>
+                <div class="kv"><span class="k">温度 (C)</span><span class="v" id="eTemp">--</span></div>
+                <div class="kv"><span class="k">湿度 (RH)</span><span class="v" id="eRh">--</span></div>
+                <div class="kv"><span class="k">噪声 (dB)</span><span class="v" id="eNoise">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="eTs">--</span></div>
+        </section>
+
+        <section class="panel">
+            <h2 class="section-title">鼾声/音频统计</h2>
+            <div class="grid2">
+                <div class="kv"><span class="k">鼾声等级</span><span class="v" id="aLevel">--</span></div>
+                <div class="kv"><span class="k">1分钟次数</span><span class="v" id="aCount">--</span></div>
+            </div>
+            <div class="meta">更新时间: <span id="aTs">--</span></div>
+        </section>
+    </div>
+
+    <script>
+        const POLL_MS = 5000;
+
+        const $ = (id) => document.getElementById(id);
+
+        function timeFmt(ts) {
+            if (!ts) return '--';
+            const d = new Date(Number(ts));
+            if (Number.isNaN(d.getTime())) return '--';
+            return d.toLocaleString('zh-CN', { hour12: false });
+        }
+
+        function statusText(s) {
+            if (s === 'online') return '在线';
+            if (s === 'offline') return '离线';
+            if (s === 'connected') return '连接成功';
+            if (s === 'disconnected') return '未连接';
+            return '未知';
+        }
+
+        function statusClass(s) {
+            if (s === 'online' || s === 'connected') return 'online';
+            if (s === 'offline' || s === 'disconnected') return 'offline';
+            return 'unknown';
+        }
+
+        function setStatus(id, s) {
+            const el = $(id);
+            const txt = statusText(s);
+            const cls = statusClass(s);
+            el.innerHTML = txt + ' <span class="badge ' + cls + '">' + s + '</span>';
+        }
+
+        function setNum(id, value) {
+            $(id).textContent = (value === null || value === undefined || value === '') ? '--' : String(value);
+        }
+
+        async function pollSensorData() {
+            const resp = await fetch('/api/v2/latest', { cache: 'no-store' });
+            if (!resp.ok) {
+                throw new Error('HTTP ' + resp.status);
+            }
+            const d = await resp.json();
+
+            $('location').textContent = d.location || 'default';
+            $('gatewayTs').textContent = timeFmt(d.ts);
+
+            const st = d.status || {};
+            setStatus('sRadar', st.radar || 'unknown');
+            setStatus('sEnv', st.env || 'unknown');
+            setStatus('sAudio', st.audio || 'unknown');
+
+            const r = d.radar || {};
+            setNum('rBreath', r.breath_bpm);
+            setNum('rHeart', r.heart_bpm);
+            setNum('rMotion', r.motion);
+            setNum('rTurning', r.turning);
+            $('rTs').textContent = timeFmt(r.ts);
+
+            const e = d.env || {};
+            setNum('eCo2', e.co2_ppm);
+            setNum('eTemp', e.temp_c);
+            setNum('eRh', e.rh);
+            setNum('eNoise', e.noise_db);
+            $('eTs').textContent = timeFmt(e.ts);
+
+            const a = d.audio || {};
+            setNum('aLevel', a.snore_level);
+            setNum('aCount', a.snore_count_1min);
+            $('aTs').textContent = timeFmt(a.ts);
+        }
+
+        async function pollEspStatus() {
+            const resp = await fetch('/api/esp/status', { cache: 'no-store' });
+            if (!resp.ok) {
+                throw new Error('HTTP ' + resp.status);
+            }
+            const d = await resp.json();
+            const status = d.status || (d.online ? 'connected' : 'disconnected');
+
+            setStatus('espStatus', status);
+            $('espLastSeen').textContent = timeFmt(d.last_seen_ts);
+            setNum('espDepth', d.store_depth);
+            setNum('espBytes', d.bytes_rx);
+        }
+
+        async function pollOnce() {
+            const errors = [];
+
+            try {
+                await pollSensorData();
+            } catch (err) {
+                errors.push('传感数据失败: ' + String(err));
+            }
+
+            try {
+                await pollEspStatus();
+            } catch (err) {
+                errors.push('ESP状态失败: ' + String(err));
+                setStatus('espStatus', 'disconnected');
+            }
+
+            if (errors.length === 0) {
+                $('metaText').textContent = '每 5 秒自动刷新一次。最近成功: ' + timeFmt(Date.now());
+            } else {
+                $('metaText').textContent = errors.join(' | ');
+            }
+        }
+
+        $('refreshBtn').addEventListener('click', pollOnce);
+        pollOnce();
+        setInterval(pollOnce, POLL_MS);
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "model": "DeepSeek-V4-Flash",
+  "channel": "workbuddy",
+  "harness": "workbuddy",
+  "benchmark": "project2-v4.1b",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1b",
+  "run_group_id": "DeepSeek-V4-Flash_harness-compare",
+  "run_index": 4,
+  "complete": true,
+  "meta_partial": true
+}

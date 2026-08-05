@@ -1,0 +1,10 @@
+# modeltest evaluator dependencies (Python 3.10+)
+#
+# The evaluator scripts themselves only use the Python standard library.
+# The candidate project (workspace/project2_task) and the hidden tests import
+# heavier libraries (numpy, pandas, scipy, joblib, scikit-learn, wfdb, ...).
+# Install the candidate's own requirements too if you want to run the full
+# evaluation end-to-end:
+#   pip install -r workspace/project2_task/requirements.txt
+
+pytest>=7.0
