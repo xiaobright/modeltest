@@ -17,8 +17,9 @@ DeepSeek V4 Flash 对照
    91/96/91/93，均值 92.75；第四跑还出现约 400k 上下文和大量无效工具探索。
 3. **该效应具有 Pro 特异性。** V4 Flash 在四个常规 harness 为 92-95，在 DSH
    standard（Windows）为 90、DSH minimal + max（WSL）为 92，没有获得相同提升。
-4. **当前证据支持“模型与官方 harness/推理策略强耦合”，但不能证明具体原因。**
-   Max 路由、system prompt、工具协议、Linux 环境和发布后的后训练都可能参与。
+4. **官方源码为“训练接口对齐”解释提供了直接证据。** minimal 的官方测试明确称其
+   发送 “exact RL prompt and schemas”；它固定为一句完整 system prompt 和两个训练对齐
+   工具，而不是 standard 的简单精简版。跑分因果仍需消融实验确认。
 5. **没有证据证明灰测或正式服务代理了 Claude Fable 5。** 分数和失分指纹相似只能
    说明能力处于相近区间；DSH/Fable 的 harness 名称也不能作为后端身份依据。
 
@@ -41,6 +42,74 @@ CSV 归属、care event 和 voice 显式会话路径连续通过。
 `esp_mqtt_client_enqueue` 与测试期待的 `publish` 标记，以及 `wifi_ssid` readiness。
 真实 ESP-IDF v6.0 构建仍然成功，因此这 3 分主要反映静态契约符合度；其中
 `wifi_ssid` 完整性检查仍可能是实际配置风险，不能一概视为误判。
+
+## 官方 harness 源码审计
+
+以下结论基于 `deepseek-ai/deepseek-harness` 的固定提交
+[`47f9438`](https://github.com/deepseek-ai/deepseek-harness/tree/47f943859bef60e4160492346772ded9b24f765a)，
+避免把后续仓库改动误算进本次实验。
+
+### minimal 是 RL 对齐 preset，不只是更短的 standard
+
+[`minimal/agent.cordis.yml`](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/apps/cli/config/agent-presets/minimal/agent.cordis.yml)
+把完整 system prompt 固定为 `You are a helpful software engineer assistant.`，设置
+`complete: true` 和 `includeRuntimeContext: false`，仅保留持久化 `bash` 与
+`str_replace_editor`。它还使用本地文件系统 provider，没有 sandbox mode，也没有上下文
+压缩组件。
+
+更关键的证据来自官方
+[`minimal-preset.snapshot.ts`](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/apps/web/tests/minimal-preset.snapshot.ts#L49)：
+测试名称就是 `sends the exact RL prompt and schemas`，快照又确认请求中只有上述一句
+prompt 和两个工具。这里的 “RL” 是仓库作者的明文定义，不是根据跑分反推的猜测。
+
+[`system-prompt/src/index.ts`](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/packages/core/system-prompt/src/index.ts#L504)
+进一步显示，标记为 `complete` 的 section 会成为唯一完整提示，runtime context 也可被
+抑制。因此 minimal 会屏蔽 harness 身份、Web 运行提示、各工具指导、sandbox/approval
+上下文以及后续注入的 prompt 文本。真正特殊的是整个 prompt/schema 分布，不太可能只是
+那句泛化 persona 本身。
+
+### standard 同时扩大了工具与控制面
+
+[`standard/agent.cordis.yml`](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/apps/cli/config/agent-presets/standard/agent.cordis.yml)
+包含 26 个插件配置项。除 shell、读写编辑、搜索和图片工具外，还挂载后台任务、skills、
+goals、plan mode、compaction、subagent、workflow、ask-user、todo 和 web search 等能力。
+模型不只要解决工程问题，还要在约 25 个 Linux 工具中持续选择和管理状态；minimal 则
+把决策面压缩为两个训练时 schema。
+
+standard 还会以最多 65536 字节自动加载工作区说明。其
+[`agent-instructions` 默认配置](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/packages/context/agent-instructions/src/config.ts#L11)
+会发现 `AGENTS.md`、`CLAUDE.md` 及 local overlay。本项目题面又明确要求模型自行阅读
+`AGENTS.md`，所以 standard 可能先自动接收一次、随后再手动读取一次；minimal 没有该插件，
+只会按题面读取。这是解释重复阅读和上下文膨胀的一个具体机制。
+
+standard 的
+[`read` 工具提示](https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/packages/fs/tool-fs/src/read.ts#L70)
+要求不用 shell、改用带 `offset`/`limit` 的分段读取。在仓库级任务中，这可能诱发更多串行
+读取。其 compaction 又会在工具结果超过 8192 字符时只保留 4096 字符开头和 1024 字符
+结尾；ESP-IDF 的关键错误若位于中段，模型可能再次搜索或重跑构建。minimal 没有这套压缩。
+这些机制与第四次 OpenCode 的偏航模式方向一致，但没有逐调用轨迹对照，不能断言它们就是
+该次偏航的唯一原因。
+
+### 本轮仍不是 prompt 单变量实验
+
+Windows standard 会使用 `pwsh`，非 Windows standard 使用 `bash`；minimal 则始终使用
+持久化 Bash。本次从 Windows standard 移到 WSL minimal，同时改变了 system prompt、工具
+schema 与数量、shell、shell 持久性、文件系统 provider、sandbox、工作区说明注入、上下文
+压缩和操作系统。因此现有各次分数差异不能归因于某一句 system prompt，也不能仅归因于
+Windows 或 Linux。
+
+结合源码与对照结果，当前最可能的影响顺序是：
+
+1. RL 对齐的工具 schema；
+2. 两工具带来的决策简化；
+3. 工作区说明自动注入及潜在重复阅读；
+4. 持久化 Bash 与 Linux 环境；
+5. 上下文压缩和工具结果裁剪；
+6. 各工具附带的 system prompt 指导；
+7. `helpful software engineer assistant` 这句通用 persona。
+
+前三项的先后仍是因果推断，不是消融实验结果；但官方把 minimal 称为 exact RL prompt
+and schemas，已经显著加强“训练分布/agent scaffold 对齐”这一总解释。
 
 ## 对第四次 OpenCode 正式跑的重新定性
 
@@ -68,16 +137,18 @@ DSH 还可能发送专用请求字段、system prompt 或路由元数据。没�
 
 DeepSeek V4 Pro 的公开模型卡描述了领域 specialist 培养和 unified on-policy
 distillation。使用固定工具协议和 rollout 环境进行后训练，容易让模型对 system prompt、
-工具 schema、上下文压缩和停止策略形成明显依赖。这能解释 Pro 在官方栈中很强、在通用
-harness 中容易偏航，而不需要假设模型记住了本项目。
+工具 schema、上下文压缩和停止策略形成明显依赖。官方测试对 minimal 使用 “exact RL
+prompt and schemas” 的措辞，为此提供了直接源码依据。这能解释 Pro 在官方栈中很强、在
+通用 harness 中容易偏航，而不需要假设模型记住了本项目。
 
 参考：<https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro>
 
 ### 3. minimal 与 Linux 工具链减少了控制干扰
 
 DSH 跑法明确限制可见 workspace，禁止 subagent，并通过固定脚本调用 Linux ESP-IDF
-v6.0。它消除了 Windows 正式第四跑里最昂贵的环境逆向路径。不过，Python hidden 的
-稳定提升无法仅靠 ESP 工具链解释，因此环境不是唯一因素。
+v6.0。它消除了 Windows 正式第四跑里最昂贵的环境逆向路径；两工具 preset 也减少了工具
+选择与状态管理负担。不过，Python hidden 的稳定提升无法仅靠 ESP 工具链解释，因此环境
+和题面约束都不是唯一因素。
 
 ### 4. 发布期间发生额外后训练或蒸馏
 
@@ -91,6 +162,7 @@ v6.0。它消除了 Windows 正式第四跑里最昂贵的环境逆向路径。�
 可以说：
 
 - 正式 V4 Pro 在官方对齐栈下可以复现灰测级成绩；
+- 官方 minimal preset 明确复刻 RL prompt/schema，V4 Pro 的高分具有训练接口对齐特征；
 - V4 Pro 的可用能力比 V4 Flash 更依赖 harness；
 - V4 Flash 峰值较低，但跨 harness 鲁棒性和单位成本更好；
 - 正式 OpenCode 四跑的 91-96 是真实部署表现，不应被官方配置的高分覆盖。
@@ -98,6 +170,7 @@ v6.0。它消除了 Windows 正式第四跑里最昂贵的环境逆向路径。�
 不能据此说：
 
 - DSH 单独贡献了全部 4.75 分均值差；
+- 极简模式的某一句 system prompt 单独造成了增益；
 - 灰测就是 Claude Fable 5 或其他闭源模型代理；
 - V4 Pro 在所有代码任务上都达到 Fable、Opus 或 Sol 水平；
 - 已证明 DeepSeek 在 7 月至 8 月间专门对 minimal preset 过拟合。
@@ -105,8 +178,9 @@ v6.0。它消除了 Windows 正式第四跑里最昂贵的环境逆向路径。�
 ## 对照限制与后续验证
 
 当前不是严格单变量实验。OpenCode 到 DSH minimal 同时改变了 harness、preset、
-推理档位、操作系统、命令后端和 ESP-IDF 工具链。V4 Flash 对照排除了“所有模型在
-Linux minimal 都自然上涨”的粗解释，但还不能拆开 Pro 的具体增益来源。
+推理档位、system prompt、工具 schema、操作系统、命令后端、文件系统/沙箱策略、上下文
+管理和 ESP-IDF 工具链。V4 Flash 对照排除了“所有模型在 Linux minimal 都自然上涨”的
+粗解释，但还不能拆开 Pro 的具体增益来源。
 
 若继续验证，最有价值的是在同一 Ubuntu 工作区、同一候选提示词和同一构建脚本上做：
 
@@ -116,6 +190,10 @@ Linux minimal 都自然上涨”的粗解释，但还不能拆开 Pro 的具体�
 4. 每格至少三次，并记录请求 JSON、实际 model id、route/request id、上下文峰值、
    工具调用次数和总耗时；
 5. 再用第二个结构不同的工程任务复验，区分 scaffold 适配与单题过拟合。
+
+目前最稳妥的总表述是：**V4 Pro 在官方 RL 对齐的两工具 scaffold 下接近灰测表现，但在
+更宽的 agent 接口下明显退化，说明它具备较高能力上限，同时存在强接口依赖和较弱的工具
+策略泛化。**
 
 ## 证据索引
 
