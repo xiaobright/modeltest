@@ -1,0 +1,3 @@
+name: 两阶段锚定标准模式（实验）
+description: 首次请求仅提供 shell/read，首次工具调用后开放标准模式完整工具；用于验证 V4 Pro 推理轨迹与任务表现。
+order: 5
