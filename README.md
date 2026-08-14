@@ -24,7 +24,8 @@ PR 一致性预审。
 
 > **核心发现：** V4 Pro 在 DSH minimal + max 下两跑 **99/96**，但相同 WSL/max
 > 环境的 standard 和 PTC 只有 **91/92**。我们随后在 Windows 上做了两阶段 preset：
-> 首次请求只给 `pwsh/read`，第一次工具调用后恢复 25 项 Standard 工具，得到 **98**。
+> 首次请求只给 `pwsh/read`，第一次工具调用后恢复 25 项 Standard 工具，连续得到
+> **98/99（worst 98，均值 98.5）**。
 > 这把增益进一步定位到首次请求的 RL 对齐 scaffold，而不是 Linux、官方 harness、
 > `run_code` 或“全程只能用两个工具”。
 
@@ -35,7 +36,7 @@ PR 一致性预审。
 | Claude Opus 5 / max | **97** | Claude Code 临时测试，单次参考，不进主榜 |
 | DeepSeek V4 Pro / 灰测 OpenCode | **99, 96** | 发布前灰测路线 |
 | DeepSeek V4 Pro / 正式 DSH minimal | **99, 96** | 正式版在 RL 对齐 scaffold 下复现 |
-| DeepSeek V4 Pro / DSH anchored-standard | **98** | Windows 两阶段目录；完整 Standard 工具可用 |
+| DeepSeek V4 Pro / DSH anchored-standard | **98, 99** | Windows 两阶段目录；完整 Standard 工具可用 |
 
 因此可以说，**V4 Pro 的已观测能力上限在本题上确实进入了 Fable 5、Opus 5 和 Sol
 的同一顶端分数带**；这不是跨任务通用等价证明，也不能证明灰测实际代理了任何 Claude
@@ -49,7 +50,7 @@ PR 一致性预审。
   [`V4.1b 成绩榜`](./evaluator/reports/v4.1b_scoreboard.md)
 - **可复算聚合证据：**
   [`轨迹统计脚本、哈希清单与 CSV/JSON`](./evaluator/trajectory_evidence/README.md)
-- **98 分实验 preset：**
+- **98/99 分实验 preset：**
   [`DSH anchored-standard 源码与安装说明`](./tools/deepseek-harness-presets/README.md)
 
 原始 session/OpenCode 导出包含完整 reasoning、system prompt、绝对路径和本地环境信息，

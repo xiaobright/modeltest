@@ -1,7 +1,7 @@
 # DeepSeek V4 轨迹证据
 
 本目录保存 2026-08-14 harness 对照分析的本地原始证据和可复算聚合统计，包括
-Windows 上两阶段 `anchored-standard` 的 98 分验证。
+Windows 上两阶段 `anchored-standard` 的 98/99 分双跑验证。
 
 ## 目录
 

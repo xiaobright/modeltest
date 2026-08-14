@@ -2,7 +2,7 @@
 
 ## anchored-standard
 
-这是 Project2 98 分运行使用的两阶段 preset，针对 DeepSeek Harness 提交
+这是 Project2 98/99 分双跑使用的两阶段 preset，针对 DeepSeek Harness 提交
 [`47f9438`](https://github.com/deepseek-ai/deepseek-harness/tree/47f943859bef60e4160492346772ded9b24f765a)
 编写和验证：
 
@@ -10,7 +10,7 @@
 2. 会话出现第一个持久 `tool/call` 后，后续请求恢复 Standard 的完整工具目录；
 3. 阶段由 session event 推导，重载会话不会丢失，也不会跨 session 共享状态。
 
-Windows 首次目录为 `pwsh/read`，Linux 为 `bash/read`。本次 98 分实测使用 Windows、
+Windows 首次目录为 `pwsh/read`，Linux 为 `bash/read`。本次 98/99 分实测使用 Windows、
 DeepSeek V4 Pro、`reasoningEffort=max`；它不是官方 preset，也不保证在其他 Harness 版本或
 其他任务上得到相同提升。
 

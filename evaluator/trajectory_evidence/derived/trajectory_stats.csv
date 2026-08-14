@@ -7,5 +7,6 @@ v4pro-minimal-96-dsh,DeepSeek-V4-Pro,96,DSH minimal/max/WSL,dsh-jsonl,150,163393
 v4pro-standard-91-dsh,DeepSeek-V4-Pro,91,DSH standard/max/WSL,dsh-jsonl,99,150383,21675,437,2636,0,11,208,2,137,55,189,,,,114622,39338,29576320,24.08
 v4pro-ptc-92-dsh,DeepSeek-V4-Pro,92,DSH PTC/max/WSL,dsh-jsonl,94,165736,23376,550,2443,0,16,194,0,237,33,164,187,10,3,117952,43981,22626048,25.95
 v4pro-anchored-standard-98-dsh,DeepSeek-V4-Pro,98,DSH anchored-standard/max/Windows,dsh-jsonl,193,162056,22568,111,1872,7,179,1,88,17,1,242,,,,117800,38956,44946560,30.07
+v4pro-anchored-standard-99-dsh,DeepSeek-V4-Pro,99,DSH anchored-standard/max/Windows,dsh-jsonl,162,166652,22757,144,1733,5,165,0,98,18,1,201,,,,102805,40767,36585728,25.74
 v4flash-formal-92-opencode,DeepSeek-V4-Flash,92,formal/OpenCode,opencode-json,67,97440,13846,365,2365,0,5,124,1,108,47,149,,,,58899,26459,25173248,29.22
 v4flash-minimal-92-dsh,DeepSeek-V4-Flash,92,DSH minimal/max/WSL,dsh-jsonl,173,129554,17902,128,1526,14,209,0,163,9,1,178,,,,70293,31821,29051136,25.47

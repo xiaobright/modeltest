@@ -12,13 +12,13 @@ DeepSeek V4 Flash 对照，以及 Fable 5、Opus 5、GPT-5.6-sol 顶端参照
 ## 结论摘要
 
 1. **V4 Pro 正式版具备灰测级能力上限。** DSH minimal + max 两跑为 99/96；Windows
-   上先以两工具启动、首个工具调用后恢复完整 Standard 目录的 `anchored-standard` 又得到
-   **98**。它们与灰测 99/96、Fable 5（98）、Opus 5（97）和 Sol（99/98）处于同一分数带。
+   上先以两工具启动、首个工具调用后恢复完整 Standard 目录的 `anchored-standard` 又连续
+   得到 **98/99**。它们与灰测 99/96、Fable 5（98）、Opus 5（97）和 Sol（99/98）处于同一分数带。
 2. **正式版对 agent scaffold 高度敏感。** 同一正式模型在 OpenCode 四跑为
    91/96/91/93，均值 92.75；第四跑还出现约 400k 上下文和大量无效工具探索。
 3. **同环境三 preset 对照已排除 OS 和官方 harness 本身。** 同一 WSL/max 环境中，
    minimal 为 99/96，standard 为 91，PTC 为 92；Linux、DSH 或单一 `run_code` 入口
-   都不足以解释高分。Windows 两阶段 98 又证明完整工具目录本身不是低分原因，关键在
+   都不足以解释高分。Windows 两阶段 98/99 又证明完整工具目录本身不是低分原因，关键在
    首次请求是否先进入 minimal 对齐的策略。
 4. **官方源码为“训练接口对齐”解释提供了直接证据。** minimal 的官方测试明确称其
    发送 “exact RL prompt and schemas”；它固定为一句完整 system prompt 和两个训练对齐
@@ -37,7 +37,7 @@ DeepSeek V4 Flash 对照，以及 Fable 5、Opus 5、GPT-5.6-sol 顶端参照
 | V4 Pro 正式 / DSH minimal + max / WSL | 2 | 99, 96 | 96 | **97.5** | hidden 两跑均 44/45 |
 | V4 Pro 正式 / DSH standard + max / WSL | 1 | 91 | 91 | 91 | 与 Windows standard 同档 |
 | V4 Pro 正式 / DSH PTC + max / WSL | 1 | 92 | 92 | 92 | `run_code` 未恢复 minimal 能力 |
-| **V4 Pro 正式 / DSH anchored-standard + max / Windows** | **1** | **98** | **98** | **98** | **首轮 2 工具，随后恢复 25 工具** |
+| **V4 Pro 正式 / DSH anchored-standard + max / Windows** | **2** | **98, 99** | **98** | **98.5** | **首轮 2 工具，随后恢复 25 工具** |
 | V4 Pro 正式 / WorkBuddy | 1 | 91 | 91 | 91 | 官方渠道仍为常规档 |
 | Claude Fable 5 / max / 临时渠道 | 1 | 98 | 98 | 98 | 顶端参考；非主榜正式样本 |
 | Claude Opus 5 / max / Claude Code | 1 | 97 | 97 | 97 | 顶端参考；非主榜正式样本 |
@@ -145,10 +145,11 @@ prompt、两工具 schema、持久 shell、本地文件系统、无 compaction �
 导出日志中确实只有两次工具目录快照，分别为 2 项和 25 项，随后模型正常使用
 `edit/glob/grep/pwsh/read/todo_write/write`，没有牺牲标准模式的实际能力。
 
-首块 reasoning 以 `We need` 起步；工具目录扩展后的第一块出现全程唯一一次 `Let me`，
-之后不再出现。整轮 `we=179`、`let's=88`、`let me=1`，过程可见回复只有最终 1 次，
-最终得到 **98**。相比之下，standard 为 `let me=208`、55 次阶段回复和 91 分。这个对照
-说明关键不是让整个任务永远停留在两工具环境，而是用训练对齐的首次请求确定会话轨迹。
+第一轮首块 reasoning 以 `We need` 起步；工具目录扩展后的第一块出现全程唯一一次
+`Let me`，之后不再出现。第二轮从头到尾 `let me=0`。两轮分别为 `we=179/165`、
+`let's=88/98`，过程可见回复都只有最终 1 次，最终得到 **98/99**。相比之下，standard
+为 `let me=208`、55 次阶段回复和 91 分。这个对照说明关键不是让整个任务永远停留在
+两工具环境，而是用训练对齐的首次请求确定会话轨迹。
 
 结合源码与对照结果，当前最可能的影响顺序是：
 
@@ -162,7 +163,7 @@ prompt、两工具 schema、持久 shell、本地文件系统、无 compaction �
 
 前三项的先后仍是因果推断，不是逐项消融结果；但 standard/PTC 的同环境低分和官方
 “exact RL prompt and schemas”措辞，已经显著加强“训练分布/agent scaffold 对齐”这一
-总解释。两阶段 98 已把“必须全程保持两工具”与“必须使用 Linux/Bash”的解释显著降权。
+总解释。两阶段 98/99 已把“必须全程保持两工具”与“必须使用 Linux/Bash”的解释显著降权。
 
 ## 对第四次 OpenCode 正式跑的重新定性
 

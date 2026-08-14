@@ -2,7 +2,7 @@
 
 **日期：** 2026-08-14
 
-**范围：** Project2 V4.1b；10 份 DSH/OpenCode 原始导出
+**范围：** Project2 V4.1b；11 份 DSH/OpenCode 原始导出
 
 **复算数据：** [`../../evaluator/trajectory_evidence/`](../../evaluator/trajectory_evidence/README.md)
 
@@ -12,7 +12,8 @@ V4 Pro 的高分不是“Linux 红利”或“只能使用官方原生 minimal�
 首步暴露的提示词和两工具 scaffold 强相关。同一 Ubuntu 24.04、max 推理、相同任务提示词
 下，minimal 两跑得到 **99/96**，standard 为 **91**，PTC 为 **92**。随后在 Windows
 DSH 中用实验 preset 首步只暴露 `pwsh/read`，首个工具调用后恢复完整 Standard 工具目录，
-得到 **98**。这证明先进入 minimal 轨迹、再扩展工具目录，可以同时保住高能力与完整工具。
+连续得到 **98/99**。这证明先进入 minimal 轨迹、再扩展工具目录，可以同时保住高能力与
+完整工具，而且在本题的两次运行中可以复现。
 
 轨迹风格可以识别 scaffold 是否生效，但不能单独充当模型身份或能力证据。minimal 会把
 Pro 和 Flash 都推向短块、`we`、`Good./Great./Excellent.` 首行和零阶段回复；Flash 的
@@ -32,7 +33,8 @@ Pro 和 Flash 都推向短块、`we`、`Good./Great./Excellent.` 首行和零阶
 | Pro formal worst | OpenCode | 93 | 119 | 973 | 17 | 249 | 1 | 216 | 37 | 274 |
 | Pro minimal 1 | DSH / WSL / max | 99 | 177 | 235 | 272 | 0 | 101 | 17 | 1 | 194 |
 | Pro minimal 2 | DSH / WSL / max | 96 | 150 | 239 | 231 | 0 | 117 | 18 | 1 | 171 |
-| **Pro anchored-standard** | **DSH / Windows / max** | **98** | **193** | **111** | **179** | **1** | **88** | **17** | **1** | **242** |
+| **Pro anchored-standard r1** | **DSH / Windows / max** | **98** | **193** | **111** | **179** | **1** | **88** | **17** | **1** | **242** |
+| **Pro anchored-standard r2** | **DSH / Windows / max** | **99** | **162** | **144** | **165** | **0** | **98** | **18** | **1** | **201** |
 | Pro standard | DSH / WSL / max | 91 | 99 | 437 | 11 | 208 | 2 | 137 | 55 | 189 |
 | Pro PTC | DSH / WSL / max | 92 | 94 | 550 | 16 | 194 | 0 | 237 | 33 | 164 外层 |
 | Flash formal | OpenCode | 92 | 67 | 365 | 5 | 124 | 1 | 108 | 47 | 149 |
@@ -62,15 +64,17 @@ Pro 上同时发生，但还不能从相关性推出某个词本身造成了增�
 ## 两阶段锚定验证
 
 `anchored-standard` 保持 minimal 的完整 system prompt，第一次请求只在 wire 上暴露
-`pwsh/read`。模型首块以 `We need` 进入任务，完成第一次工具调用后，第二次请求把目录
-扩展到 Standard 的 25 项工具。恰好在这个切换后的第一块出现了全程唯一一次 `Let me`，
-后续 191 个 reasoning 块再未出现。
+`pwsh/read`。模型完成第一次工具调用后，第二次请求把目录扩展到 Standard 的 25 项工具。
+第一轮首块以 `We need` 进入任务，目录切换后的第一块出现全程唯一一次 `Let me`，后续
+191 个 reasoning 块再未出现；第二轮从头到尾 `let me=0`。
 
-整轮共有 `we=179`、`let's=88`、`let me=1`，只有最终一次可见回复；这与原生 minimal
-同属一类轨迹，和 standard 的 `let me=208`、55 次阶段回复明显分离。单独的
-`Good./Great./Excellent.` 首行只有 7 次，少于两轮原生 minimal 的 28/16 次，但没有阻碍
-98 分交付。因此首行赞许词只是弱指纹，`let me`/`let's`、消息长度和阶段回复组合起来才
-更适合判断轨迹是否漂移。
+两轮分别为 `we=179/165`、`let's=88/98`、`let me=1/0`，都只有最终一次可见回复；
+这与原生 minimal 同属一类轨迹，和 standard 的 `let me=208`、55 次阶段回复明显分离。
+合计 355 个 reasoning 块只有 1 次 `let me`，而 Standard 单轮 99 块就有 208 次，分离度
+足以作为本实验中的稳定轨迹指纹。
+单独的 `Good./Great./Excellent.` 首行只有 7/5 次，少于两轮原生 minimal 的 28/16 次，
+但没有阻碍 98/99 分交付。因此首行赞许词只是弱指纹，`let me`/`let's`、消息长度和阶段
+回复组合起来才更适合判断轨迹是否漂移。
 
 这次结果还把因果范围收窄了一步：模型不需要在整个 agent loop 中一直只看两项工具。
 关键更像是首轮请求时的策略选择；一旦 minimal 风格成为当前会话的轨迹，后续增加工具
@@ -132,6 +136,7 @@ OpenCode，轨迹和交付质量都明显不同，这支持“灰测与正式通
 变强”的解释，两阶段对照则证明不必牺牲 Standard 工具能力，只需让首轮请求先落入
 minimal 对齐的策略区域。
 
-98 分只丢了一个 context reason 语义字符串和一个 MQTT 静态标记；真实 ESP-IDF 编译成功，
-ambient 泄漏也被堵住。这个差距不像轨迹失效。现有证据已经不值得再为同一题追加付费运行；
-下一次有免费额度时，应换结构不同的工程任务复验，检验两阶段锚定是否能跨题泛化。
+两阶段两跑为 **98/99，均值 98.5，worst 98**。第二轮 ESP static 9/9、真实编译成功，
+只丢一个 context reason 语义字符串；两轮 ambient 泄漏都被堵住。这已经足以否定第一轮只是
+偶然抽到高分样本的简单解释。现有证据不值得再为同一题追加付费运行；下一次应换结构不同
+的工程任务复验，检验两阶段锚定是否能跨题泛化。

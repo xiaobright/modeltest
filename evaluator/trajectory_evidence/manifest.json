@@ -74,6 +74,15 @@
       "sha256": "9809ce16ac6b67079c3b51cbe19c050f30f5d69d706a77ddb86b87bb76a0d3d7"
     },
     {
+      "label": "v4pro-anchored-standard-99-dsh",
+      "model": "DeepSeek-V4-Pro",
+      "score": 99,
+      "configuration": "DSH anchored-standard/max/Windows",
+      "format": "dsh-jsonl",
+      "path": "raw/v4pro_anchored_standard_99_dsh.jsonl",
+      "sha256": "f1cf0b76f630de1e1e80f43d0df4b463823db965c84ba732d27bcab6371afd47"
+    },
+    {
       "label": "v4flash-formal-92-opencode",
       "model": "DeepSeek-V4-Flash",
       "score": 92,
