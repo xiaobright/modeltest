@@ -12,6 +12,8 @@ PR 一致性预审。
 
 - **当前正式稳定基线:V4.1b**,已于 2026-07-23 正式冻结。不再迭代、不开发 V5。
   详见 [`PROJECT_FROZEN.md`](./PROJECT_FROZEN.md)。
+- 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账仍会追加。
+  最新一轮记录截至 2026-08-14。
 - 这是一个**个人项目**,不是面向社区的公开 benchmark;Ability 阈值与结论只对本
   题面、本工具环境有效,**不构成跨项目通用认证**。
 - V5 两次尝试均失败,工作区与归档见独立 repo **`modeltest-v5`**。
@@ -153,6 +155,8 @@ python evaluator\prepare_candidate_handoff.py
 ## Results & Reports
 
 - 现行成绩榜:[`evaluator/reports/v4.1b_scoreboard.md`](./evaluator/reports/v4.1b_scoreboard.md)
+- DeepSeek V4 Pro 正式版与 harness 对照分析:
+  [`docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
 - 最终评估与使用阈值:[`docs/v4.1/FINAL_ASSESSMENT_20260719.md`](./docs/v4.1/FINAL_ASSESSMENT_20260719.md)
 - 轮次事实终稿:[`docs/v4.1/ROUND_SUMMARY_20260719.md`](./docs/v4.1/ROUND_SUMMARY_20260719.md)
 - 评分面冻结哈希:[`evaluator/reports/v4.1b_freeze_manifest.md`](./evaluator/reports/v4.1b_freeze_manifest.md)

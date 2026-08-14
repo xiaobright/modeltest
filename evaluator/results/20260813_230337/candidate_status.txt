@@ -1,0 +1,59 @@
+ M .gitignore
+ M CHANGES.md
+ M PULL_REQUEST_TEMPLATE.md
+ M README.md
+ M RK3588_TEST_GUIDE.md
+ M esp32/NVS_CONFIG.md
+ M esp32/testpro4/CHANGELOG.md
+ M esp32/testpro4/QUICKSTART.md
+ M esp32/testpro4/README.md
+ M esp32/testpro4/components/mlx90640/include/MLX90640_API.h
+ M esp32/testpro4/components/mlx90640/include/MLX90640_I2C_Driver.h
+ M esp32/testpro4/components/mlx90640/src/MLX90640_API.cpp
+ M esp32/testpro4/docs/protocol.md
+ M esp32/testpro4/gateway.py
+ M esp32/testpro4/main/CMakeLists.txt
+ M esp32/testpro4/main/idf_component.yml
+ M esp32/testpro4/main/main.cpp
+ M esp32/testpro4/sdkconfig.defaults
+ M gateway/README.md
+ M gateway/admin.html
+ M gateway/auth.py
+ M gateway/care_events.py
+ M gateway/config.py
+ M gateway/db.py
+ M gateway/esp_store.py
+ M gateway/gateway.py
+ M gateway/sensor_store.py
+ M gateway/sleep_importer.py
+ M gateway/subjects.py
+ M rkllm_py/rkllm_sdk/client.py
+ M rkllm_py/rkllm_sdk/native.py
+ M rkllm_py/tools/chat_demo.py
+ M rkllm_py/tools/selftest.py
+ M sleep_deploy_pack/docs/README.txt
+ M sleep_deploy_pack/docs/requirements.txt
+ M sleep_deploy_pack/docs/requirements_min.txt
+ M sleep_deploy_pack/examples/features_eeg_c4a1_N3merge.csv
+ M sleep_deploy_pack/examples/fusion_eeg_final_conf.csv
+ M sleep_deploy_pack/scripts/extract_br_features_real.py
+ M sleep_deploy_pack/scripts/extract_hrv_features_real.py
+ M sleep_deploy_pack/scripts/fusion_with_eeg_conf.py
+ M sleep_deploy_pack/scripts/run_demo.py
+ M sleep_deploy_pack/scripts/score_sleep_quality_per_record.py
+ M start_project.py
+ M voice/collect_results.py
+ M voice/intent_tuner.py
+ M voice/requirements.txt
+ M voice/voice_assistant_integrated.py
+ M voice/voice_loop_talk.py
+?? esp32/testpro4/main/device_config.cpp
+?? esp32/testpro4/main/device_config.h
+?? esp32/testpro4/main/maixsense_parser.cpp
+?? esp32/testpro4/main/maixsense_parser.h
+?? esp32/testpro4/main/mqtt_payload.cpp
+?? esp32/testpro4/main/mqtt_payload.h
+?? esp32/testpro4/main/network_backhaul.cpp
+?? esp32/testpro4/main/network_backhaul.h
+?? esp32/testpro4/main/protocol_packet.cpp
+?? esp32/testpro4/main/protocol_packet.h

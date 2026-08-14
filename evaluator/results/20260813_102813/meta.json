@@ -1,0 +1,11 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "channel": "opencode",
+  "harness": "opencode",
+  "benchmark": "project2-v4.1b",
+  "seed_tag": "project2-v4-broken-seed",
+  "registry_version": "v4.1b",
+  "thinking_level": "high",
+  "complete": true,
+  "meta_partial": true
+}

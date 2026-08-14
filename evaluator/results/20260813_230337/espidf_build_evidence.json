@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "return_code": 0,
+  "project": "/home/xiaoming/modeltest/workspace/project2_task",
+  "log": "/home/xiaoming/modeltest/evaluator/results/20260813_230337/espidf_build.log",
+  "artifacts": [
+    {
+      "name": "stdpro.bin",
+      "source": "/home/xiaoming/.cache/modeltest/espidf/project2_task/esp32/testpro4/build/stdpro.bin",
+      "archived": "/home/xiaoming/modeltest/evaluator/results/20260813_230337/espidf_build_artifacts/stdpro.bin",
+      "bytes": 980720,
+      "sha256": "8aa869d52c70bc08e59b2add6233f2d59c4f15daf845de0b864589b112f3cf45",
+      "mtime_utc": "2026-08-13T15:04:12.868805+00:00"
+    }
+  ],
+  "evidence_complete": true
+}
