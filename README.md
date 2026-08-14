@@ -27,6 +27,18 @@ PR 一致性预审。
 > 风格明显变化，Ability 仍为 **92**。证据更支持“Pro 具备高上限但强依赖 RL 对齐
 > scaffold”，而不是 Linux、官方 harness 或 `run_code` 本身带来增益。
 
+| Project2 顶端能力参照 | 单跑 Ability | 说明 |
+|---|---:|---|
+| GPT-5.6-sol / Codex high | **99, 98** | 正式主榜顶端，worst 98 |
+| Claude Fable 5 / max | **98** | 第三方临时渠道，单次参考，不进主榜 |
+| Claude Opus 5 / max | **97** | Claude Code 临时测试，单次参考，不进主榜 |
+| DeepSeek V4 Pro / 灰测 OpenCode | **99, 96** | 发布前灰测路线 |
+| DeepSeek V4 Pro / 正式 DSH minimal | **99, 96** | 正式版在 RL 对齐 scaffold 下复现 |
+
+因此可以说，**V4 Pro 的已观测能力上限在本题上确实进入了 Fable 5、Opus 5 和 Sol
+的同一顶端分数带**；这不是跨任务通用等价证明，也不能证明灰测实际代理了任何 Claude
+后端。
+
 - **完整 harness 分析：**
   [`DeepSeek V4 Pro 正式版：harness 对照分析`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
 - **思维链风格与 PTC：**

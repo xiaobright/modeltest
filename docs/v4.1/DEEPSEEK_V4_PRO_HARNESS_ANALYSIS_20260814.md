@@ -5,14 +5,15 @@
 **基准：** Project2 V4.1b（题面、测试与计分规则冻结）
 
 **范围：** DeepSeek V4 Pro 灰测、正式版 OpenCode、DeepSeek Harness（DSH/Fable）以及
-DeepSeek V4 Flash 对照
+DeepSeek V4 Flash 对照，以及 Fable 5、Opus 5、GPT-5.6-sol 顶端参照
 
 本文只解释本项目内观察到的工程维护表现，不把单项目分数外推为通用模型排名。
 
 ## 结论摘要
 
 1. **V4 Pro 正式版具备灰测级能力上限。** DSH minimal + max 两跑为 99/96，均值
-   97.5，与 7 月灰测 OpenCode 两跑 99/96 完全相同。
+   97.5，与 7 月灰测 OpenCode 两跑 99/96 完全相同；在本题上进入 Fable 5（98）、
+   Opus 5（97）和 GPT-5.6-sol（99/98）的同一顶端分数带。
 2. **正式版对 agent scaffold 高度敏感。** 同一正式模型在 OpenCode 四跑为
    91/96/91/93，均值 92.75；第四跑还出现约 400k 上下文和大量无效工具探索。
 3. **同环境三 preset 对照已排除 OS 和官方 harness 本身。** 同一 WSL/max 环境中，
@@ -36,6 +37,9 @@ DeepSeek V4 Flash 对照
 | V4 Pro 正式 / DSH standard + max / WSL | 1 | 91 | 91 | 91 | 与 Windows standard 同档 |
 | V4 Pro 正式 / DSH PTC + max / WSL | 1 | 92 | 92 | 92 | `run_code` 未恢复 minimal 能力 |
 | V4 Pro 正式 / WorkBuddy | 1 | 91 | 91 | 91 | 官方渠道仍为常规档 |
+| Claude Fable 5 / max / 临时渠道 | 1 | 98 | 98 | 98 | 顶端参考；非主榜正式样本 |
+| Claude Opus 5 / max / Claude Code | 1 | 97 | 97 | 97 | 顶端参考；非主榜正式样本 |
+| GPT-5.6-sol / Codex high | 2 | 99, 98 | 98 | **98.5** | 正式主榜顶端参照 |
 | V4 Flash / OC、Codex、Reasonix、WorkBuddy | 4 | 92, 93, 95, 93 | 92 | **93.25** | 跨 harness 稳定 |
 | V4 Flash / DSH standard / Windows | 1 | 90 | 90 | 90 | 官方 harness 无增益 |
 | V4 Flash / DSH minimal + max / WSL | 1 | 92 | 92 | 92 | 与 OpenCode 持平 |
@@ -48,6 +52,19 @@ CSV 归属、care event 和 voice 显式会话路径连续通过。
 `esp_mqtt_client_enqueue` 与测试期待的 `publish` 标记，以及 `wifi_ssid` readiness。
 真实 ESP-IDF v6.0 构建仍然成功，因此这 3 分主要反映静态契约符合度；其中
 `wifi_ssid` 完整性检查仍可能是实际配置风险，不能一概视为误判。
+
+### 与 Fable、Opus、Sol 的能力参照
+
+Fable 5 单跑 **98**，Opus 5 单跑 **97**，GPT-5.6-sol 两跑 **99/98**。V4 Pro 的
+灰测与正式 DSH minimal 都为 **99/96**：best 达到 Sol 的 99，均值 97.5 与 Fable 5
+和 Opus 5 落在同一窄区间。更细看，Fable/Opus 都拿到 F3 隐私 16/16、F6 迁移 10/10
+和 voice 满分，主要只在 ESP 静态契约丢 1–2 分；V4 Pro minimal 的 Python hidden 也
+达到 44/45，首跑 ESP static 9/9 并真实编译通过。
+
+所以，“V4 Pro 确实有 Fable/Opus/Sol 档的工程能力上限”在 **Project2 本题和已测配置**
+内有直接分数支持。限制同样明确：Fable/Opus 各只有一次且来自临时渠道，Sol 是不同
+harness，V4 Pro 在通用接口下仍只有 91–96。这里比较的是已观测交付结果，不是参数效率、
+通用能力或服务端模型身份。
 
 ## 官方 harness 源码审计
 
@@ -185,6 +202,7 @@ Python hidden 的稳定提升也无法仅靠 ESP 工具链解释。
 可以说：
 
 - 正式 V4 Pro 在官方对齐栈下可以复现灰测级成绩；
+- 在 Project2 上，V4 Pro minimal/灰测的 99/96 与 Fable 5、Opus 5、Sol 同属顶端分数带；
 - 官方 minimal preset 明确复刻 RL prompt/schema，V4 Pro 的高分具有训练接口对齐特征；
 - 同环境 standard/PTC 对照把增益定位到 minimal 组合，而非 Linux、DSH 或 `run_code`；
 - V4 Pro 的可用能力比 V4 Flash 更依赖 harness；
@@ -233,6 +251,10 @@ Ability 提升。现有证据已经足够回答本轮关于正式 V4 Pro 的核�
   [20260814_102941 / minimal/WSL / 92](../../evaluator/reviews/v4.1b_DeepSeek-V4-Flash_dsh-minimal-wsl_20260814_102941.md)
 - 轨迹风格、PTC 调用结构和公开统计方法：
   [`DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](./DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
+- 顶端参照：[Fable 5 / 98](../../evaluator/reviews/v4.1b_Claude-Fable-5_third-party_20260726_172943.md)、
+  [Opus 5 / 97](../../evaluator/reviews/v4.1b_Claude-Opus-5_claude-code_20260726_200256.md)、
+  [Sol run1 / 99](../../evaluator/reviews/v4.1b_GPT-5.6-sol_codex-high_20260718_201302.md)、
+  [Sol run2 / 98](../../evaluator/reviews/v4.1b_GPT-5.6-sol_codex-high_20260719_102931.md)
 
 每次运行的 `summary.json`、hidden/ESP 摘要、candidate diff、PR 文档与固件产物均位于
 `evaluator/results/<result_id>/`，对应人工评审位于 `evaluator/reviews/`。
