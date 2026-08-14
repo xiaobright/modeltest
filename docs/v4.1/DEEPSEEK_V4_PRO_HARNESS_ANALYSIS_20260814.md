@@ -11,14 +11,15 @@ DeepSeek V4 Flash 对照，以及 Fable 5、Opus 5、GPT-5.6-sol 顶端参照
 
 ## 结论摘要
 
-1. **V4 Pro 正式版具备灰测级能力上限。** DSH minimal + max 两跑为 99/96，均值
-   97.5，与 7 月灰测 OpenCode 两跑 99/96 完全相同；在本题上进入 Fable 5（98）、
-   Opus 5（97）和 GPT-5.6-sol（99/98）的同一顶端分数带。
+1. **V4 Pro 正式版具备灰测级能力上限。** DSH minimal + max 两跑为 99/96；Windows
+   上先以两工具启动、首个工具调用后恢复完整 Standard 目录的 `anchored-standard` 又得到
+   **98**。它们与灰测 99/96、Fable 5（98）、Opus 5（97）和 Sol（99/98）处于同一分数带。
 2. **正式版对 agent scaffold 高度敏感。** 同一正式模型在 OpenCode 四跑为
    91/96/91/93，均值 92.75；第四跑还出现约 400k 上下文和大量无效工具探索。
 3. **同环境三 preset 对照已排除 OS 和官方 harness 本身。** 同一 WSL/max 环境中，
    minimal 为 99/96，standard 为 91，PTC 为 92；Linux、DSH 或单一 `run_code` 入口
-   都不足以解释高分，特殊增益与 minimal 的完整 prompt/schema/scaffold 绑定。
+   都不足以解释高分。Windows 两阶段 98 又证明完整工具目录本身不是低分原因，关键在
+   首次请求是否先进入 minimal 对齐的策略。
 4. **官方源码为“训练接口对齐”解释提供了直接证据。** minimal 的官方测试明确称其
    发送 “exact RL prompt and schemas”；它固定为一句完整 system prompt 和两个训练对齐
    工具，而不是 standard 的简单精简版。跑分因果仍需消融实验确认。
@@ -36,6 +37,7 @@ DeepSeek V4 Flash 对照，以及 Fable 5、Opus 5、GPT-5.6-sol 顶端参照
 | V4 Pro 正式 / DSH minimal + max / WSL | 2 | 99, 96 | 96 | **97.5** | hidden 两跑均 44/45 |
 | V4 Pro 正式 / DSH standard + max / WSL | 1 | 91 | 91 | 91 | 与 Windows standard 同档 |
 | V4 Pro 正式 / DSH PTC + max / WSL | 1 | 92 | 92 | 92 | `run_code` 未恢复 minimal 能力 |
+| **V4 Pro 正式 / DSH anchored-standard + max / Windows** | **1** | **98** | **98** | **98** | **首轮 2 工具，随后恢复 25 工具** |
 | V4 Pro 正式 / WorkBuddy | 1 | 91 | 91 | 91 | 官方渠道仍为常规档 |
 | Claude Fable 5 / max / 临时渠道 | 1 | 98 | 98 | 98 | 顶端参考；非主榜正式样本 |
 | Claude Opus 5 / max / Claude Code | 1 | 97 | 97 | 97 | 顶端参考；非主榜正式样本 |
@@ -136,19 +138,31 @@ minimal 99/96。这个对照足以排除“Linux 自然涨分”和“官方 DSH
 prompt、两工具 schema、持久 shell、本地文件系统、无 compaction 等组合，不能把增益归于
 某一句 system prompt。
 
+### Windows 两阶段实验定位到首次请求
+
+实验 preset `anchored-standard` 保留 minimal 的完整 system prompt，并让第一次请求只
+暴露 `pwsh/read`；首个工具调用后，同一 session 的后续请求恢复 Standard 的 25 项工具。
+导出日志中确实只有两次工具目录快照，分别为 2 项和 25 项，随后模型正常使用
+`edit/glob/grep/pwsh/read/todo_write/write`，没有牺牲标准模式的实际能力。
+
+首块 reasoning 以 `We need` 起步；工具目录扩展后的第一块出现全程唯一一次 `Let me`，
+之后不再出现。整轮 `we=179`、`let's=88`、`let me=1`，过程可见回复只有最终 1 次，
+最终得到 **98**。相比之下，standard 为 `let me=208`、55 次阶段回复和 91 分。这个对照
+说明关键不是让整个任务永远停留在两工具环境，而是用训练对齐的首次请求确定会话轨迹。
+
 结合源码与对照结果，当前最可能的影响顺序是：
 
-1. RL 对齐的工具 schema；
-2. 两工具带来的决策简化；
+1. 首次请求中的 RL 对齐 prompt 与工具 schema；
+2. 两工具启动带来的初始策略选择；
 3. 工作区说明自动注入及潜在重复阅读；
-4. 持久化 Bash 与 Linux 环境；
+4. 后续工具指导与目录扩展方式；
 5. 上下文压缩和工具结果裁剪；
 6. 各工具附带的 system prompt 指导；
 7. `helpful software engineer assistant` 这句通用 persona。
 
 前三项的先后仍是因果推断，不是逐项消融结果；但 standard/PTC 的同环境低分和官方
 “exact RL prompt and schemas”措辞，已经显著加强“训练分布/agent scaffold 对齐”这一
-总解释。
+总解释。两阶段 98 已把“必须全程保持两工具”与“必须使用 Linux/Bash”的解释显著降权。
 
 ## 对第四次 OpenCode 正式跑的重新定性
 
@@ -169,9 +183,10 @@ prompt、两工具 schema、持久 shell、本地文件系统、无 compaction �
 ### 1. minimal 激活了不同的有效推理策略
 
 OpenCode 的 `high` 跑法仍为 91，但 DSH standard/PTC 在 `max` 下也只有 91/92，所以
-`max` 档位本身不是充分解释。minimal 的 prompt/schema 可能激活了训练分布内的工具策略，
-也可能伴随专用路由元数据。没有服务端 route id 和 checkpoint 信息，无法区分“同一权重
-的策略激活”与“请求命中 specialist”；客户端证据只能确认 preset 依赖。
+`max` 档位本身不是充分解释。minimal 的首次 prompt/schema 会激活训练分布内的工具策略；
+两阶段实验显示这种策略能在后续完整工具目录下持续。它也可能伴随专用路由元数据。没有
+服务端 route id 和 checkpoint 信息，仍无法区分“同一权重的策略激活”与“请求命中
+specialist”；客户端证据能确认的是首次请求结构依赖。
 
 ### 2. 后训练与官方 agent scaffold 联合设计
 
@@ -201,10 +216,11 @@ Python hidden 的稳定提升也无法仅靠 ESP 工具链解释。
 
 可以说：
 
-- 正式 V4 Pro 在官方对齐栈下可以复现灰测级成绩；
+- 正式 V4 Pro 在 minimal 及两阶段锚定栈下可以复现灰测级成绩；
 - 在 Project2 上，V4 Pro minimal/灰测的 99/96 与 Fable 5、Opus 5、Sol 同属顶端分数带；
 - 官方 minimal preset 明确复刻 RL prompt/schema，V4 Pro 的高分具有训练接口对齐特征；
-- 同环境 standard/PTC 对照把增益定位到 minimal 组合，而非 Linux、DSH 或 `run_code`；
+- standard/PTC 与 Windows 两阶段对照把增益进一步定位到首次请求的 minimal 组合，而非
+  Linux、DSH、`run_code` 或全程限制工具数量；
 - V4 Pro 的可用能力比 V4 Flash 更依赖 harness；
 - V4 Flash 峰值较低，但跨 harness 鲁棒性和单位成本更好；
 - 正式 OpenCode 四跑的 91-96 是真实部署表现，不应被官方配置的高分覆盖。
@@ -219,10 +235,10 @@ Python hidden 的稳定提升也无法仅靠 ESP 工具链解释。
 
 ## 对照限制与停止条件
 
-当前仍不是 minimal 内部逐项消融实验：system prompt、工具 schema、shell 持久性、文件
-系统 provider、sandbox 和 compaction 是一起变化的。但同 WSL/max 的 standard/PTC 对照
-已关闭 OS、官方 harness 和推理档位这三个主要混杂项；V4 Flash 又证明风格变化本身不等于
-Ability 提升。现有证据已经足够回答本轮关于正式 V4 Pro 的核心问题。
+当前仍未拆开首次 system prompt 与两工具 schema 各自的贡献。但同 WSL/max 的
+standard/PTC 对照已关闭 OS、官方 harness 和推理档位三个主要混杂项；Windows 两阶段又
+证明后续完整工具目录可以兼容高分轨迹；V4 Flash 则证明风格变化本身不等于 Ability 提升。
+现有证据已经足够回答本轮关于正式 V4 Pro 的核心问题。
 
 不建议继续在 Project2 上付费刷同配置。未来若有免费额度，真正有信息增量的实验只有：
 

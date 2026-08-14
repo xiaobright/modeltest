@@ -65,6 +65,7 @@ def text_stats(texts: list[str]) -> dict[str, Any]:
         "exact_marker_first_lines": exact_marker_first_lines,
         "we": count_phrase(texts, r"\bwe\b"),
         "let_me": count_phrase(texts, r"\blet me\b"),
+        "lets": count_phrase(texts, r"\blet's\b"),
         "i": count_phrase(texts, r"\bi\b"),
         "top_first_tokens": dict(first_tokens.most_common(12)),
     }
@@ -81,6 +82,7 @@ def analyze_dsh(path: Path) -> dict[str, Any]:
     tools: Counter[str] = Counter()
     usage: Counter[str] = Counter()
     header: dict[str, Any] = {}
+    wire_tool_snapshots: list[list[str]] = []
     start: int | None = None
     end: int | None = None
     assistant_messages = 0
@@ -97,6 +99,14 @@ def analyze_dsh(path: Path) -> dict[str, Any]:
             data = event.get("data", {})
             if event_type == "request/header":
                 header = data.get("header", {})
+                snapshot_tools = [
+                    tool.get("name") for tool in header.get("tools", [])
+                ]
+                if (
+                    not wire_tool_snapshots
+                    or snapshot_tools != wire_tool_snapshots[-1]
+                ):
+                    wire_tool_snapshots.append(snapshot_tools)
             elif event_type == "turn/start":
                 start = event.get("time")
             elif event_type == "turn/end":
@@ -143,6 +153,7 @@ def analyze_dsh(path: Path) -> dict[str, Any]:
             header.get("system", "").encode("utf-8")
         ).hexdigest(),
         "wire_tools": wire_tools,
+        "wire_tool_snapshots": wire_tool_snapshots,
         "assistant_messages": assistant_messages,
         "tool_calls": sum(tools.values()),
         "tool_breakdown": dict(sorted(tools.items())),
@@ -247,6 +258,7 @@ def csv_row(item: dict[str, Any]) -> dict[str, Any]:
         "marker_first_lines": reasoning["exact_marker_first_lines"],
         "we": reasoning["we"],
         "let_me": reasoning["let_me"],
+        "lets": reasoning["lets"],
         "i": reasoning["i"],
         "visible_blocks": item["visible_blocks"],
         "tool_calls": item["tool_calls"],
@@ -286,7 +298,7 @@ def main() -> None:
         records.append(record)
 
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "method": "Completed assistant messages only; raw streaming chunks excluded.",
         "records": records,
     }

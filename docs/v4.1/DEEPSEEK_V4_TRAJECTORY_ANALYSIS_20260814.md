@@ -2,16 +2,17 @@
 
 **日期：** 2026-08-14
 
-**范围：** Project2 V4.1b；9 份 DSH/OpenCode 原始导出
+**范围：** Project2 V4.1b；10 份 DSH/OpenCode 原始导出
 
 **复算数据：** [`../../evaluator/trajectory_evidence/`](../../evaluator/trajectory_evidence/README.md)
 
 ## 结论
 
-V4 Pro 的高分不是“Linux 红利”或“官方 harness 红利”，而是与 DSH minimal 的完整
-RL 对齐 scaffold 强相关。同一 Ubuntu 24.04、max 推理、相同任务提示词下，minimal 两跑
-得到 **99/96**，standard 为 **91**，PTC 为 **92**。PTC 虽把标准模式全部能力映射为
-单个 `run_code`，仍未恢复 minimal 的表现。
+V4 Pro 的高分不是“Linux 红利”或“只能使用官方原生 minimal”的红利，而是与 minimal
+首步暴露的提示词和两工具 scaffold 强相关。同一 Ubuntu 24.04、max 推理、相同任务提示词
+下，minimal 两跑得到 **99/96**，standard 为 **91**，PTC 为 **92**。随后在 Windows
+DSH 中用实验 preset 首步只暴露 `pwsh/read`，首个工具调用后恢复完整 Standard 工具目录，
+得到 **98**。这证明先进入 minimal 轨迹、再扩展工具目录，可以同时保住高能力与完整工具。
 
 轨迹风格可以识别 scaffold 是否生效，但不能单独充当模型身份或能力证据。minimal 会把
 Pro 和 Flash 都推向短块、`we`、`Good./Great./Excellent.` 首行和零阶段回复；Flash 的
@@ -24,17 +25,18 @@ Pro 和 Flash 都推向短块、`we`、`Good./Great./Excellent.` 首行和零阶
 只读取 assistant 的 `reasoning`、`text` 和 `tool` parts。原始导出保留在私有目录，公开
 仓库只发布哈希、脚本和聚合结果，不发布完整思维链、绝对路径、system prompt 或命令输出。
 
-| 模型/样本 | 配置 | 分数 | reasoning 块 | p50 字符 | `we` | `let me` | `I` | 阶段回复 | 工具调用 |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Pro gray 1 | OpenCode | 99 | 46 | 285 | 4 | 9 | 137 | 24 | 129 |
-| Pro gray 2 | OpenCode | 96 | 45 | 336 | 2 | 4 | 172 | 25 | 131 |
-| Pro formal worst | OpenCode | 93 | 119 | 973 | 17 | 249 | 216 | 37 | 274 |
-| Pro minimal 1 | DSH / WSL / max | 99 | 177 | 235 | 272 | 0 | 17 | 1 | 194 |
-| Pro minimal 2 | DSH / WSL / max | 96 | 150 | 239 | 231 | 0 | 18 | 1 | 171 |
-| Pro standard | DSH / WSL / max | 91 | 99 | 437 | 11 | 208 | 137 | 55 | 189 |
-| Pro PTC | DSH / WSL / max | 92 | 94 | 550 | 16 | 194 | 237 | 33 | 164 外层 |
-| Flash formal | OpenCode | 92 | 67 | 365 | 5 | 124 | 108 | 47 | 149 |
-| Flash minimal | DSH / WSL / max | 92 | 173 | 128 | 209 | 0 | 9 | 1 | 178 |
+| 模型/样本 | 配置 | 分数 | reasoning 块 | p50 字符 | `we` | `let me` | `let's` | `I` | 阶段回复 | 工具调用 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Pro gray 1 | OpenCode | 99 | 46 | 285 | 4 | 9 | 0 | 137 | 24 | 129 |
+| Pro gray 2 | OpenCode | 96 | 45 | 336 | 2 | 4 | 0 | 172 | 25 | 131 |
+| Pro formal worst | OpenCode | 93 | 119 | 973 | 17 | 249 | 1 | 216 | 37 | 274 |
+| Pro minimal 1 | DSH / WSL / max | 99 | 177 | 235 | 272 | 0 | 101 | 17 | 1 | 194 |
+| Pro minimal 2 | DSH / WSL / max | 96 | 150 | 239 | 231 | 0 | 117 | 18 | 1 | 171 |
+| **Pro anchored-standard** | **DSH / Windows / max** | **98** | **193** | **111** | **179** | **1** | **88** | **17** | **1** | **242** |
+| Pro standard | DSH / WSL / max | 91 | 99 | 437 | 11 | 208 | 2 | 137 | 55 | 189 |
+| Pro PTC | DSH / WSL / max | 92 | 94 | 550 | 16 | 194 | 0 | 237 | 33 | 164 外层 |
+| Flash formal | OpenCode | 92 | 67 | 365 | 5 | 124 | 1 | 108 | 47 | 149 |
+| Flash minimal | DSH / WSL / max | 92 | 173 | 128 | 209 | 0 | 163 | 9 | 1 | 178 |
 
 词频是大小写不敏感的边界匹配；`I` 包含 `I'm`、`I'll` 等第一人称形式。不同 harness
 的消息切分不完全一致，因此这些数字用于轨迹画像，不用于直接评价 token 效率。
@@ -56,6 +58,23 @@ reasoning 块的第一行，后面仍有诊断和操作计划。这个现象更�
 standard 和 PTC 则回到另一套稳定风格：大量 `let me`/`I`，reasoning 块更长，并向
 用户发送正常的阶段性回复。它们的分数也回落到 **91/92**。因此风格变化与得分变化在
 Pro 上同时发生，但还不能从相关性推出某个词本身造成了增益。
+
+## 两阶段锚定验证
+
+`anchored-standard` 保持 minimal 的完整 system prompt，第一次请求只在 wire 上暴露
+`pwsh/read`。模型首块以 `We need` 进入任务，完成第一次工具调用后，第二次请求把目录
+扩展到 Standard 的 25 项工具。恰好在这个切换后的第一块出现了全程唯一一次 `Let me`，
+后续 191 个 reasoning 块再未出现。
+
+整轮共有 `we=179`、`let's=88`、`let me=1`，只有最终一次可见回复；这与原生 minimal
+同属一类轨迹，和 standard 的 `let me=208`、55 次阶段回复明显分离。单独的
+`Good./Great./Excellent.` 首行只有 7 次，少于两轮原生 minimal 的 28/16 次，但没有阻碍
+98 分交付。因此首行赞许词只是弱指纹，`let me`/`let's`、消息长度和阶段回复组合起来才
+更适合判断轨迹是否漂移。
+
+这次结果还把因果范围收窄了一步：模型不需要在整个 agent loop 中一直只看两项工具。
+关键更像是首轮请求时的策略选择；一旦 minimal 风格成为当前会话的轨迹，后续增加工具
+schema 会带来一次短暂扰动，却没有把 Pro 拉回 Standard 的长块、第一人称执行风格。
 
 ## PTC 为什么没有奏效
 
@@ -107,11 +126,12 @@ OpenCode，轨迹和交付质量都明显不同，这支持“灰测与正式通
 
 ## 最终判断
 
-本轮已经足够回答最初问题：V4 Pro 正式权重具备接近灰测的能力上限，但这个上限只在
-官方 RL 对齐的 minimal 两工具 scaffold 下稳定出现；standard、PTC、OpenCode 和
-WorkBuddy 展示的是更接近日常部署的 91–93 档能力。PTC 对照进一步排除了“只要官方
-harness 或把工具合成一个入口就能变强”的解释。
+本轮已经足够回答最初问题：V4 Pro 正式权重具备接近灰测的能力上限。原生 minimal 两跑
+为 99/96，两阶段 `anchored-standard` 为 98；standard、PTC、OpenCode 和 WorkBuddy 的
+常规路径大多落在 91–93。PTC 对照排除了“只要官方 harness 或把工具合成一个入口就能
+变强”的解释，两阶段对照则证明不必牺牲 Standard 工具能力，只需让首轮请求先落入
+minimal 对齐的策略区域。
 
-因此不建议继续为同一题追加付费运行。更有价值的下一步不是再刷一枪，而是在未来有免费
-额度时，用结构不同的第二个工程任务复验 minimal 与通用 harness 的差距，检验这是普遍的
-接口依赖，还是 Project2 单题上的 scaffold 适配。
+98 分只丢了一个 context reason 语义字符串和一个 MQTT 静态标记；真实 ESP-IDF 编译成功，
+ambient 泄漏也被堵住。这个差距不像轨迹失效。现有证据已经不值得再为同一题追加付费运行；
+下一次有免费额度时，应换结构不同的工程任务复验，检验两阶段锚定是否能跨题泛化。

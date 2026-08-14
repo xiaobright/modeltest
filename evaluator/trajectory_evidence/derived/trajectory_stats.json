@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "method": "Completed assistant messages only; raw streaming chunks excluded.",
   "records": [
     {
@@ -29,6 +29,7 @@
         "exact_marker_first_lines": 0,
         "we": 4,
         "let_me": 9,
+        "lets": 0,
         "i": 137,
         "top_first_tokens": {
           "i": 13,
@@ -89,6 +90,7 @@
         "exact_marker_first_lines": 0,
         "we": 2,
         "let_me": 4,
+        "lets": 0,
         "i": 172,
         "top_first_tokens": {
           "i'm": 13,
@@ -146,6 +148,7 @@
         "exact_marker_first_lines": 0,
         "we": 17,
         "let_me": 249,
+        "lets": 1,
         "i": 216,
         "top_first_tokens": {
           "now": 27,
@@ -188,6 +191,12 @@
         "bash",
         "str_replace_editor"
       ],
+      "wire_tool_snapshots": [
+        [
+          "bash",
+          "str_replace_editor"
+        ]
+      ],
       "assistant_messages": 188,
       "tool_calls": 194,
       "tool_breakdown": {
@@ -205,6 +214,7 @@
         "exact_marker_first_lines": 28,
         "we": 272,
         "let_me": 0,
+        "lets": 101,
         "i": 17,
         "top_first_tokens": {
           "good": 32,
@@ -243,6 +253,12 @@
         "bash",
         "str_replace_editor"
       ],
+      "wire_tool_snapshots": [
+        [
+          "bash",
+          "str_replace_editor"
+        ]
+      ],
       "assistant_messages": 151,
       "tool_calls": 171,
       "tool_breakdown": {
@@ -260,6 +276,7 @@
         "exact_marker_first_lines": 16,
         "we": 231,
         "let_me": 0,
+        "lets": 117,
         "i": 18,
         "top_first_tokens": {
           "now": 19,
@@ -321,6 +338,35 @@
         "workflow",
         "write"
       ],
+      "wire_tool_snapshots": [
+        [
+          "ask_user_question",
+          "bash",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ]
+      ],
       "assistant_messages": 164,
       "tool_calls": 189,
       "tool_breakdown": {
@@ -345,6 +391,7 @@
         "exact_marker_first_lines": 0,
         "we": 11,
         "let_me": 208,
+        "lets": 2,
         "i": 137,
         "top_first_tokens": {
           "now": 30,
@@ -382,6 +429,11 @@
       "wire_tools": [
         "run_code"
       ],
+      "wire_tool_snapshots": [
+        [
+          "run_code"
+        ]
+      ],
       "assistant_messages": 148,
       "tool_calls": 164,
       "tool_breakdown": {
@@ -399,6 +451,7 @@
         "exact_marker_first_lines": 0,
         "we": 16,
         "let_me": 194,
+        "lets": 0,
         "i": 237,
         "top_first_tokens": {
           "now": 21,
@@ -457,6 +510,124 @@
       "source_sha256": "f8bc6b07da96859d200a8ea6d422de8ff82be00d4b0ff2fdade0d019bd6f1b90"
     },
     {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Pro",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "5fab6e32f283d71510531ce850df2690b8fb77437d36bfabbe8c4ac862f19df9",
+      "wire_tools": [
+        "ask_user_question",
+        "create_goal",
+        "edit",
+        "exit_plan_mode",
+        "get_goal",
+        "glob",
+        "grep",
+        "interrupt_agent",
+        "job_kill",
+        "job_list",
+        "job_output",
+        "list_agents",
+        "pwsh",
+        "ralph",
+        "read",
+        "read_image",
+        "send_message",
+        "skill",
+        "subagent",
+        "subagent_fork",
+        "todo_write",
+        "update_goal",
+        "web_search",
+        "workflow",
+        "write"
+      ],
+      "wire_tool_snapshots": [
+        [
+          "pwsh",
+          "read"
+        ],
+        [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ]
+      ],
+      "assistant_messages": 202,
+      "tool_calls": 242,
+      "tool_breakdown": {
+        "edit": 92,
+        "glob": 2,
+        "grep": 15,
+        "pwsh": 42,
+        "read": 72,
+        "todo_write": 3,
+        "write": 16
+      },
+      "visible_blocks": 1,
+      "visible_chars": 1413,
+      "reasoning": {
+        "blocks": 193,
+        "chars": 162056,
+        "words": 22568,
+        "p50_chars": 111,
+        "p90_chars": 1872,
+        "marker_starts": 9,
+        "exact_marker_first_lines": 7,
+        "we": 179,
+        "let_me": 1,
+        "lets": 88,
+        "i": 17,
+        "top_first_tokens": {
+          "now": 37,
+          "update": 11,
+          "need": 9,
+          "good": 9,
+          "potential": 7,
+          "continue": 5,
+          "also": 5,
+          "build": 4,
+          "add": 4,
+          "interesting": 3,
+          "we'll": 3,
+          "edit": 3
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 44946560,
+        "inputTokens": 236266,
+        "outputTokens": 117800,
+        "reasoningTokens": 38956
+      },
+      "duration_minutes": 30.07,
+      "label": "v4pro-anchored-standard-98-dsh",
+      "score": 98,
+      "configuration": "DSH anchored-standard/max/Windows",
+      "sha256": "9809ce16ac6b67079c3b51cbe19c050f30f5d69d706a77ddb86b87bb76a0d3d7",
+      "source_sha256": "9809ce16ac6b67079c3b51cbe19c050f30f5d69d706a77ddb86b87bb76a0d3d7"
+    },
+    {
       "format": "opencode-json",
       "model": "DeepSeek-V4-Flash",
       "agent": "build",
@@ -482,6 +653,7 @@
         "exact_marker_first_lines": 0,
         "we": 5,
         "let_me": 124,
+        "lets": 1,
         "i": 108,
         "top_first_tokens": {
           "now": 19,
@@ -524,6 +696,12 @@
         "bash",
         "str_replace_editor"
       ],
+      "wire_tool_snapshots": [
+        [
+          "bash",
+          "str_replace_editor"
+        ]
+      ],
       "assistant_messages": 173,
       "tool_calls": 178,
       "tool_breakdown": {
@@ -541,6 +719,7 @@
         "exact_marker_first_lines": 14,
         "we": 209,
         "let_me": 0,
+        "lets": 163,
         "i": 9,
         "top_first_tokens": {
           "need": 44,
