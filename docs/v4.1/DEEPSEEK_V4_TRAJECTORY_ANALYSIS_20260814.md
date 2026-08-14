@@ -131,7 +131,7 @@ OpenCode，轨迹和交付质量都明显不同，这支持“灰测与正式通
 ## 最终判断
 
 本轮已经足够回答最初问题：V4 Pro 正式权重具备接近灰测的能力上限。原生 minimal 两跑
-为 99/96，两阶段 `anchored-standard` 为 98；standard、PTC、OpenCode 和 WorkBuddy 的
+为 99/96，两阶段 `anchored-standard` 为 98/99；standard、PTC、OpenCode 和 WorkBuddy 的
 常规路径大多落在 91–93。PTC 对照排除了“只要官方 harness 或把工具合成一个入口就能
 变强”的解释，两阶段对照则证明不必牺牲 Standard 工具能力，只需让首轮请求先落入
 minimal 对齐的策略区域。

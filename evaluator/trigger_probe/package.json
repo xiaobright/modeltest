@@ -1,0 +1,13 @@
+{
+  "name": "modeltest-deepseek-v4-trigger-probe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dry-run": "node src/cli.mjs",
+    "test": "node --test"
+  }
+}

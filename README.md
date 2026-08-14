@@ -46,6 +46,8 @@ PR 一致性预审。
   [`DeepSeek V4 Pro 正式版：harness 对照分析`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
 - **思维链风格与 PTC：**
   [`DeepSeek V4 Pro：轨迹风格与 PTC 对照分析`](./docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
+- **Pro / Flash 触发机制消融：**
+  [`首轮工具目录、system persona 与动态晋升实验`](./docs/v4.1/DEEPSEEK_V4_TRIGGER_MECHANISM_EXPERIMENTS_20260814.md)
 - **完整成绩与单次评审：**
   [`V4.1b 成绩榜`](./evaluator/reports/v4.1b_scoreboard.md)
 - **可复算聚合证据：**
@@ -196,6 +198,8 @@ python evaluator\prepare_candidate_handoff.py
   [`docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
 - DeepSeek V4 轨迹风格、PTC 与可复算统计:
   [`docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
+- DeepSeek V4 Pro / Flash 触发机制实验:
+  [`docs/v4.1/DEEPSEEK_V4_TRIGGER_MECHANISM_EXPERIMENTS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_TRIGGER_MECHANISM_EXPERIMENTS_20260814.md)
 - 最终评估与使用阈值:[`docs/v4.1/FINAL_ASSESSMENT_20260719.md`](./docs/v4.1/FINAL_ASSESSMENT_20260719.md)
 - 轮次事实终稿:[`docs/v4.1/ROUND_SUMMARY_20260719.md`](./docs/v4.1/ROUND_SUMMARY_20260719.md)
 - 评分面冻结哈希:[`evaluator/reports/v4.1b_freeze_manifest.md`](./evaluator/reports/v4.1b_freeze_manifest.md)
