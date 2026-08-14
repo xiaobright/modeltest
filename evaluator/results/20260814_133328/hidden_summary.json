@@ -1,0 +1,1080 @@
+{
+  "kind": "hidden",
+  "benchmark": "project2-v4.1b",
+  "project": "/home/xiaoming/modeltest/workspace/project2_task",
+  "files": [
+    {
+      "file": "test_api_regression.py",
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_1_test_api_regression.ApiRegressionTest.test_esp_set_requires_all_streams_and_payload_is_opt_in",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F10-02",
+              "family": "F10",
+              "scenario_id": "regression_esp_set",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F10-02",
+          "family": "F10",
+          "scenario_id": "regression_esp_set",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_1_test_api_regression.ApiRegressionTest.test_legacy_v2_and_esp_paths_still_work",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F10-01",
+              "family": "F10",
+              "scenario_id": "regression_v2_esp",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F10-01",
+          "family": "F10",
+          "scenario_id": "regression_v2_esp",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "regression"
+    },
+    {
+      "file": "test_auth_boundary.py",
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_login_returns_a_new_valid_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-05",
+              "family": "F2",
+              "scenario_id": "admin_login_cookie",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-05",
+          "family": "F2",
+          "scenario_id": "admin_login_cookie",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_page_and_auth_state_after_setup",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-02",
+              "family": "F2",
+              "scenario_id": "admin_page_state",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-02",
+          "family": "F2",
+          "scenario_id": "admin_page_state",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_admin_setup_stores_password_and_session_token_hashes",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-01",
+              "family": "F2",
+              "scenario_id": "admin_password_hash",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-plaintext-admin"
+            }
+          ],
+          "item_id": "V4-F2-01",
+          "family": "F2",
+          "scenario_id": "admin_password_hash",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_local_session_spoofing_requires_admin_auth",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-08",
+              "family": "F2",
+              "scenario_id": "session_spoof",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": "S-admin-bypass"
+            }
+          ],
+          "item_id": "V4-F2-08",
+          "family": "F2",
+          "scenario_id": "session_spoof",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_logout_invalidates_the_old_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-04",
+              "family": "F2",
+              "scenario_id": "admin_logout",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-04",
+          "family": "F2",
+          "scenario_id": "admin_logout",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_management_api_requires_exact_valid_admin_cookie",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-03",
+              "family": "F2",
+              "scenario_id": "admin_cookie_required",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "S-admin-bypass"
+            }
+          ],
+          "item_id": "V4-F2-03",
+          "family": "F2",
+          "scenario_id": "admin_cookie_required",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_remote_identity_gallery_is_not_public",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-06",
+              "family": "F2",
+              "scenario_id": "gallery_privacy",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-06",
+          "family": "F2",
+          "scenario_id": "gallery_privacy",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_2_test_auth_boundary.AuthBoundaryTest.test_unknown_identity_session_is_not_authenticated",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F2-07",
+              "family": "F2",
+              "scenario_id": "unknown_identity",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F2-07",
+          "family": "F2",
+          "scenario_id": "unknown_identity",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "admin_auth"
+    },
+    {
+      "file": "test_care_event.py",
+      "tests_run": 6,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventAuthGateTest.test_care_event_create_requires_admin_auth",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-06",
+              "family": "F5",
+              "scenario_id": "care_auth",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-06",
+          "family": "F5",
+          "scenario_id": "care_auth",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventContextTest.test_care_event_authorized_context_includes_care",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-05",
+              "family": "F5",
+              "scenario_id": "care_context_authorized",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-05",
+          "family": "F5",
+          "scenario_id": "care_context_authorized",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_create_and_query",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-01",
+              "family": "F5",
+              "scenario_id": "care_create_query",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-01",
+          "family": "F5",
+          "scenario_id": "care_create_query",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_limit_and_descending_order",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-03",
+              "family": "F5",
+              "scenario_id": "care_limit_order",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-03",
+          "family": "F5",
+          "scenario_id": "care_limit_order",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_query_by_room_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-02",
+              "family": "F5",
+              "scenario_id": "care_room_bed",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-02",
+          "family": "F5",
+          "scenario_id": "care_room_bed",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_3_test_care_event.CareEventModuleCrudTest.test_care_event_room_bed_case_normalization",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F5-04",
+              "family": "F5",
+              "scenario_id": "care_normalize",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F5-04",
+          "family": "F5",
+          "scenario_id": "care_normalize",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "care_event"
+    },
+    {
+      "file": "test_context_policy.py",
+      "tests_run": 10,
+      "passed": 8,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_expired_session_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-03",
+              "family": "F3",
+              "scenario_id": "expired_session",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-expired"
+            }
+          ],
+          "item_id": "V4-F3-03",
+          "family": "F3",
+          "scenario_id": "expired_session",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_expired_session_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-03",
+              "family": "F12",
+              "scenario_id": "expired_session",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-03",
+          "family": "F12",
+          "scenario_id": "expired_session",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_patient_cannot_access_other_patient_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-02",
+              "family": "F3",
+              "scenario_id": "cross_patient",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "S-cross-patient"
+            }
+          ],
+          "item_id": "V4-F3-02",
+          "family": "F3",
+          "scenario_id": "cross_patient",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_patient_cannot_access_other_patient_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-02",
+              "family": "F12",
+              "scenario_id": "cross_patient",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-02",
+          "family": "F12",
+          "scenario_id": "cross_patient",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_sensitive_target_context_requires_explicit_session_behavior",
+          "status": "failed",
+          "message": "AssertionError: True is not false",
+          "items": [
+            {
+              "item_id": "V4-F3-05",
+              "family": "F3",
+              "scenario_id": "ambient_session",
+              "points": 5,
+              "semantic_only": false,
+              "blocker": "S-ambient"
+            }
+          ],
+          "item_id": "V4-F3-05",
+          "family": "F3",
+          "scenario_id": "ambient_session",
+          "points": 5,
+          "semantic_only": false,
+          "blocker": "S-ambient"
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_session_without_actor_subject_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-04",
+              "family": "F3",
+              "scenario_id": "no_actor_session",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "S-no-actor"
+            }
+          ],
+          "item_id": "V4-F3-04",
+          "family": "F3",
+          "scenario_id": "no_actor_session",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_session_without_actor_subject_reason",
+          "status": "failed",
+          "message": "AssertionError: 'not_authenticated' != 'not_authorized_for_target'",
+          "items": [
+            {
+              "item_id": "V4-F12-04",
+              "family": "F12",
+              "scenario_id": "no_actor_session",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-04",
+          "family": "F12",
+          "scenario_id": "no_actor_session",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_staff_can_access_target_patient_context",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-06",
+              "family": "F3",
+              "scenario_id": "staff_positive",
+              "points": 0,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F3-06",
+          "family": "F3",
+          "scenario_id": "staff_positive",
+          "points": 0,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_unauthenticated_context_behavior",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F3-01",
+              "family": "F3",
+              "scenario_id": "unauthenticated_context",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "S-unauth"
+            }
+          ],
+          "item_id": "V4-F3-01",
+          "family": "F3",
+          "scenario_id": "unauthenticated_context",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_4_test_context_policy.ContextPolicyTest.test_unauthenticated_context_reason",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F12-01",
+              "family": "F12",
+              "scenario_id": "unauthenticated_context",
+              "points": 1,
+              "semantic_only": true,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F12-01",
+          "family": "F12",
+          "scenario_id": "unauthenticated_context",
+          "points": 1,
+          "semantic_only": true,
+          "blocker": null
+        }
+      ],
+      "family": "context_policy"
+    },
+    {
+      "file": "test_db_migration.py",
+      "tests_run": 5,
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_existing_old_care_events_table_is_migrated_without_data_loss",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-01",
+              "family": "F6",
+              "scenario_id": "migration_no_crash",
+              "points": 3,
+              "semantic_only": false,
+              "blocker": "M-crash"
+            }
+          ],
+          "item_id": "V4-F6-01",
+          "family": "F6",
+          "scenario_id": "migration_no_crash",
+          "points": 3,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_adds_columns_and_keeps_old_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-02",
+              "family": "F6",
+              "scenario_id": "migration_columns",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-02",
+          "family": "F6",
+          "scenario_id": "migration_columns",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_backfills_ts_from_created_ts",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-03",
+              "family": "F6",
+              "scenario_id": "migration_ts_backfill",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-03",
+          "family": "F6",
+          "scenario_id": "migration_ts_backfill",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_init_is_idempotent",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-04",
+              "family": "F6",
+              "scenario_id": "migration_idempotent",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F6-04",
+          "family": "F6",
+          "scenario_id": "migration_idempotent",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_5_test_db_migration.DbMigrationTest.test_migration_mixed_old_new_sort_order",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F6-05",
+              "family": "F6",
+              "scenario_id": "migration_mixed_sort",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "M-fidelity"
+            }
+          ],
+          "item_id": "V4-F6-05",
+          "family": "F6",
+          "scenario_id": "migration_mixed_sort",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "db_migration"
+    },
+    {
+      "file": "test_pr_template_contract.py",
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_6_test_pr_template_contract.PrTemplateContractTest.test_pr_template_covers_required_review_topics",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-02",
+              "family": "F1",
+              "scenario_id": "process_final",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-02",
+          "family": "F1",
+          "scenario_id": "process_final",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_6_test_pr_template_contract.PrTemplateContractTest.test_pr_template_exists_and_is_nontrivial",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-03",
+              "family": "F1",
+              "scenario_id": "process_esp_record",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-03",
+          "family": "F1",
+          "scenario_id": "process_esp_record",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "process_reporting"
+    },
+    {
+      "file": "test_process_contract.py",
+      "tests_run": 3,
+      "passed": 2,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_candidate_did_not_modify_visible_test_or_probe_scripts",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-04",
+              "family": "F1",
+              "scenario_id": "process_no_tamper",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "T-tamper"
+            }
+          ],
+          "item_id": "V4-F1-04",
+          "family": "F1",
+          "scenario_id": "process_no_tamper",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_pr_template_does_not_claim_missing_esp_helper_files",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F1-05",
+              "family": "F1",
+              "scenario_id": "process_helper_claim",
+              "points": 0,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-05",
+          "family": "F1",
+          "scenario_id": "process_helper_claim",
+          "points": 0,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_7_test_process_contract.ProcessContractTest.test_pr_template_records_required_debug_commands",
+          "status": "failed",
+          "message": "AssertionError: 'run_espidf_build.py' not found in '# pull request 提测说明 (pull request template) 本文件记录本次 sprint 的最终实现说明。ci 与 reviewer 会对本自检报告与实际 diff、自检日志做交叉一致性校验。 ## 初始自检诊断（修改前） 修改前在 workspace 根目录运行（linux 等价命令）： ```text ../.venv/bin/python tests/run_public_tests.py project2_task ../.venv/bin/python tools/run_debug_probe.py project2_task ``` 结果： - `run_public_tests.py`：4 个公开测试文件全部通过（compile / functional smoke / refactored features / smoke gateway）。公开测试本身不校验安全属性。 - `run_debug_probe.py`：**6 项失败 + 1 条 voice warning**： 1. `management api rejects missing cookie` — 无 cookie 请求 `/api/v3/subjects` 返回 200 并带出数据； 2. `management api rejects forged cookie` — 伪造 cookie 同样返回 200（session 查询不校验 token hash）； 3. `unknown identity session is denied` — `identity_state=unknown` 的 session 被当作已认证； 4. `expired session is denied` — `expires_ts` 过期未检查； 5. `care_event write rejects missing admin cookie` — `post /api/v3/care/events` 路由不存在，返回 404； 6. `care_event normalizes room/bed for create and query` — 小写 `r1203/b1` 写入后大写查询查不到。 - voice warning：`voice_assistant_integrated.py` 未引用当前会话获取逻辑，收紧鉴权后本地助手可能取不到上下文。 - esp32-s3 `testpro4`：`main.cpp` 中 wi-fi/mqtt 回传整体缺失（todo 注释），`main/cmakelists.txt`/`idf_component.yml` 缺少网络组件依赖，尚未跑编译。 ## 修改的文件列表 ### gateway（python） - `gateway/auth.py`：管理员密码改为「随机盐 + pbkdf2-hmac-sha256」；`admin_account_exists()` 改为真实查库；`get_admin_http_session()` 按 token hash 精确匹配并检查过期；历史明文密码行在首次成功登录时自动重哈希；响应中不再泄漏 `token_hash`。 - `gateway/gateway.py`：管理 api 统一要求有效管理员 cookie（本机请求不再放行）；本机 worker 例外收窄到指定服务接口（`/api/v2/*`、`/api/esp/*`、`/api/v3/context/chat`、`/api/v3/session/current`、`/api/v3/identity/gallery|match`、`/api/v3/vision/observation`）；`session_is_authenticated()`/`actor_can_access_target()` 按契约收紧；`build_chat_context_v3()` 支持管理员 cookie 作为认证 actor、未授权时彻底清空 `target/actor/modalities`；新增 `post/get /api/v3/care/events` 路由。 - `gateway/db.py`：`care_events` 新 schema（`severity/source/created_by/ts`）+ `migrate_care_events_table()` 旧表迁移（pragma table_info 检查缺列、alter table 补列、`ts=created_ts` 回填，旧行不丢）。 - `gateway/care_events.py`：care_event crud（room/bed trim+大写规范化、subject 存在性校验、`limit` 与 `ts/created_ts` 倒序）、`build_care_events_context()` 摘要，模块不再只是 todo 骨架。 - `gateway/sleep_importer.py`：`sleep_import_unscoped_policy=first` 修正为写入第一个配置床位（原实现误取 `beds[-1]`）。 - `voice/voice_assistant_integrated.py`：新增 `fetch_current_session()`（读 `/api/v3/session/current`），`fetch_gateway_chat_context()` 在无显式 `voice_session_id` 时先取当前会话再显式携带 `session_id` 请求 v3 上下文。 ### esp32-s3 固件（`esp32/testpro4`） - 新增 `main/protocol_packet.{h,cpp}`：usb 包常量（`aa 55`、type=0x01 mlx / 0x02 tof）、crc16-ccitt（初始 0xffff、多项式 0x1021）、包头/crc 小端序构造。 - 新增 `main/maixsense_parser.{h,cpp}`：maixsense 帧解析器（`00 ff ... dd`），处理噪声、分块/半帧、坏尾字节、异常长度与缓冲区溢出；tof payload 保持完整原始帧，不裁剪成 10000b 图像区。 - 新增 `main/device_config.{h,cpp}`：nvs namespace `project2` 配置读写（`wifi_ssid/wifi_pass/bemfa_uid/bemfa_host/bemfa_port/room/bed/device_id`）、完整性校验（ssid+uid+room+bed）、`cfg?/cfgset/cfgreset/reboot` 串口命令。 - 新增 `main/mqtt_payload.{h,cpp}`：topic 小写拼接 `{room}{bed}tof1/tof2/mlx1/mlx2` 与 `{\"payload_b64\":\"<base64>\"}` json 构造（mbedtls base64，容量上限校验）。 - 新增 `main/network_backhaul.{h,cpp}`：wi-fi sta（esp_wifi/esp_netif/esp_event）+ 巴法云 mqtt 客户端（`mqtt://bemfa.com:9501`，client id/username/password = uid，断线自动重连）。 - `main/main.cpp`：改为模块 glue；`usb_send_tof_payload()` 与 mlx 发送路径在保留 usb cdc 输出的同时向对应 mqtt topic 并行发布原始 payload；启动顺序为 nvs → 配置 → 网络回传 → usb → tof 初始化 → mlx → 任务。 - `main/cmakelists.txt`：补齐 `esp_wifi / esp_netif / esp_event / lwip / mqtt / mbedtls` 依赖并登记新源文件。 - `main/idf_component.yml`：新增 `espressif/mqtt: \\'^1.0.0\\'`。 ### 文档 - `readme.md`、`gateway/readme.md`、`rk3588_test_guide.md`、`changes.md`、`esp32/nvs_config.md`、`esp32/testpro4/readme.md`、`quickstart.md`、`changelog.md`：同步管理员鉴权、v3 上下文权限、care_event api、睡眠 csv 按行归属策略、esp32 wi-fi+mqtt 回传与编译自检说明。 ## 架构调整与模块设计 - 认证逻辑收敛在 `gateway/auth.py`，路由只做 glue；care_event crud 放 `gateway/care_events.py`，schema/迁移放 `gateway/db.py`，未把业务逻辑塞回 `gateway.py`。 - 固件按「协议常量 / 帧解析 / 设备配置 / mqtt 封装 / 网络回传 / main glue」拆成 6 个文件，纯协议逻辑不再堆在 `main.cpp`。 - v3 context 授权判定统一走 `session_is_authenticated()` + `actor_can_access_target()`，未授权响应结构固定裁剪为空对象，避免散落的 if 判断导致数据泄漏。 ## 安全边界及鉴权设计 - 管理员密码不落明文：pbkdf2-hmac-sha256（16 字节随机盐，20 万次迭代）；旧明文行登录时自动迁移重哈希。 - cookie 只携带随机 token（`secrets.token_urlsafe(32)`），数据库只存 sha-256(token)；每次校验按 token hash 精确查找并检查 `expires_ts`，伪造/过期 cookie 一律 401。 - 管理 api（subjects/assignments/memories/credentials/sessions/care events 等）无论本机或远程都必须带有效管理员 cookie；远程未登录请求同样被拒，不能导出 face/credential template（`include_template` 仅限本机服务）。 - 本机 worker 例外仅限指定服务接口（见上），`/api/v3/session/current` 仅本机可取，用于 voice 显式携带会话。 - v3 session 视为未认证的条件：`identity_state=unknown/空`、`assurance_level=none/空`、`expires_ts` 过期、缺少 `actor_subject_id`。 - 授权：staff/admin 可查看任意目标患者；patient 只能查看自己；未授权时 `target.patient/assignment`、`modalities`（含记忆与护理事件）全部为空，reason 明确区分 `not_authenticated` / `not_authorized_for_target`。 - voice 通过 `/api/v3/session/current` 取当前会话并显式传 `session_id`，不再依赖静默 ambient session 泄漏数据。 ## 睡眠 csv 无 room/bed 时的特殊处理 - 按「行」执行归属策略，同一 csv 内显式 `room/bed` 行与无归属行可混排： - 行带 `room/bed`：只写入对应床位，策略不作用于该行； - 行不带：设置 `sleep_import_default_room/bed` → 写入指定床位；否则 `sleep_import_unscoped_policy=first`（默认）→ 第一个配置床位；`skip` → 跳过；`all` 仅为显式调试模式，不是默认行为。 - 修复了 `first` 误取最后一个床位（`beds[-1]`）的缺陷；未知策略宁可跳过也不广播。 ## care_event 实现细节 - 表：`care_events(event_id pk, subject_id, room, bed, kind, title, content, severity, source, created_by, ts, created_ts, updated_ts)`，索引覆盖 subject 与 room+bed，按 `ts` 倒序。 - 旧表迁移：`pragma table_info` 检查缺列 → `alter table add column`（severity/source/created_by/ts）→ `update care_events set ts=created_ts where ts=0`，旧行保留。 - 路由：`post /api/v3/care/events`（管理员登录，400 校验错误）；`get /api/v3/care/events?subject_id= | room=+bed= | limit=`（管理员登录，默认 50 条，`ts/created_ts` 倒序）。 - room/bed 写入与查询都做 trim + 大写规范化：`r1203/b1` 写入可用 `r1203/b1` 查到。 - `/api/v3/context/chat` 授权通过时在 `modalities.care_events` 返回最近事件摘要（items + brief），未授权返回空。 ## esp32-s3 固件接口对齐说明 - 恢复 wi-fi sta 初始化与 mqtt 客户端连接；broker 默认 `bemfa.com:9501`（nvs 可配 host/port），mqtt client id/username/password 使用巴法云 uid。 - 从 nvs 读取并校验 `ssid/password/uid/room/bed`；任一缺失则不启动网络回传、仅走 usb cdc 并打印配置帮助。 - topic 使用规范化后的 `{room}{bed}tof1/tof2/mlx1/mlx2` 小写拼接。 - mqtt json 为 `{\"payload_b64\":\"...\"}`，base64 内容是传感器原始 payload（tof 为完整 maixsense 原始帧 `[00 ff][len][meta(16)][img(10000)][checksum][dd]`，mlx 为 768×float32=3072b），不是完整 usb packet；编码缓冲按 16kb 校验上限，避免大 payload 溢出。 - `usb_send_tof_payload()` 与 mlx 发送路径在保留 usb cdc 输出的同时向对应 mqtt topic 发布原始 payload，双通道并行。 - usb packet 契约保持 `[aa 55][type][id][len_l len_h][payload][crc_l crc_h]`，crc16-ccitt（0xffff/0x1021）只覆盖 payload，len 与 crc 小端序。 - `main/cmakelists.txt` 补齐 `esp_wifi / esp_netif / esp_event / lwip / mqtt / mbedtls` 依赖；`idf_component.yml` 增加 `espressif/mqtt: ^1.0.0`。 ## 本地测试与编译验证结果（修复后） ```text ../.venv/bin/python tests/run_public_tests.py project2_task ``` 结果：**全部通过**（compile / functional smoke / refactored features / smoke gateway）。 ```text ../.venv/bin/python tools/run_debug_probe.py project2_task ``` 结果：**全部通过** — admin setup 200、管理 api 拒绝缺失/伪造 cookie、接受有效 cookie、unknown/expired session 被拒、care_event 无 cookie 写入 401、room/bed 规范化查询命中；voice 已引用 current-session 获取；无失败项。 ```text ../.venv/bin/python tools/run_espidf_linux_build.py project2_task ``` 结果：**esp-idf v6.0 编译成功**（linux runner，`/home/xiaoming/.espressif/tools`）。`stdpro.bin` 生成（大小 0xeefb0 ≈ 978kb，最小 app 分区 0x100000，剩余 7%）；bootloader 0x5760。修复过程中曾遇到并解决：`network_backhaul.cpp` 命名空间内未限定 `deviceconfig` 的编译错误、wi-fi 配置 `snprintf` 的 `-werror=format-truncation` 告警。未执行 flash/monitor（按规范要求）。 补充本地验证（临时 sqlite，未污染 `data/project2.db`）： - 密码哈希落库验证（非明文、32 位盐）、重复 setup 拒绝、错误密码拒绝、登录成功。 - 旧 schema `care_events` 库初始化后补列成功、旧行保留、`ts` 回填。 - 无 cookie/伪造 cookie 的管理 api 全部 401；本机服务接口（v2 ingest/latest、esp、context/chat、session/current、identity/gallery/match、vision/observation）无 cookie 仍可调用。 - care_event http 往返（小写写入、大写查询命中、按 subject 查询、无 cookie 401）。 - 上下文 rbac：staff 全量、patient 只看自己、patient 越权拒绝且响应无患者明细、无会话/过期/缺 actor 拒绝、管理员 cookie 视为认证 actor。 - 睡眠 csv：显式行只写对应床位、无归属行 first→首床、default_room/bed 覆盖、skip 跳过、all 显式广播，混排行互不影响。 ## 未验证的残留技术债与风险 1. **esp32 未做实机验证**：未执行 `idf.py flash/monitor`、真实 usb 枚举、真实 wi-fi/mqtt 连通、tof 上电时序与 mlx90640 实机读数均未验证（任务规范不要求）。巴法云 mqtt 的认证参数按常见约定（client id/username/password 均为 uid）实现，若巴法云侧有差异需在实机联调时确认。 2. **mqtt 大包断网时的行为**：链路未连接时 `publish()` 直接丢弃帧（不排队），弱网下会有数据空洞；如需保证完整回放需要引入有界发送队列。 3. **nvs 非强安全存储**：wi-fi 密码与 uid 以明文存在 nvs，部署建议已在 `nvs_config.md` 标注（nvs/flash encryption、每设备独立 token）。 4. **管理员会话清理**：过期的 `admin_http_sessions` 行目前只靠查询过滤，没有后台清理任务，长期运行会有少量垃圾行（不影响鉴权正确性）。 5. **`all` 归属策略**未在真实多床睡眠导出文件上回归，仅按行策略单测覆盖。 6. **远程来源判定依赖 client_address**：wsl/容器网络环境下非回环地址一律按远程处理，需要管理员登录后才能访问服务接口；如果现场反向代理（如 nginx）转发本地请求，需在代理层做来源控制或补 x-forwarded-for 白名单。' : PULL_REQUEST_TEMPLATE.md must record run_espidf_build.py result or explicit failure reason",
+          "items": [
+            {
+              "item_id": "V4-F1-01",
+              "family": "F1",
+              "scenario_id": "process_initial",
+              "points": 2,
+              "semantic_only": false,
+              "blocker": "P-report"
+            }
+          ],
+          "item_id": "V4-F1-01",
+          "family": "F1",
+          "scenario_id": "process_initial",
+          "points": 2,
+          "semantic_only": false,
+          "blocker": "P-report"
+        }
+      ],
+      "family": "process_reporting"
+    },
+    {
+      "file": "test_sleep_import.py",
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_default_room_bed_imports_only_configured_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-02",
+              "family": "F7",
+              "scenario_id": "sleep_default_bed",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-02",
+          "family": "F7",
+          "scenario_id": "sleep_default_bed",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_explicit_all_policy_imports_to_all_beds",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-05",
+              "family": "F7",
+              "scenario_id": "sleep_all",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-05",
+          "family": "F7",
+          "scenario_id": "sleep_all",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_explicit_room_bed_imports_only_that_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-04",
+              "family": "F7",
+              "scenario_id": "sleep_explicit",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-04",
+          "family": "F7",
+          "scenario_id": "sleep_explicit",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_mixed_explicit_and_unscoped_rows_are_routed_per_row",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-07",
+              "family": "F7",
+              "scenario_id": "sleep_mixed_first",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-07",
+          "family": "F7",
+          "scenario_id": "sleep_mixed_first",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_mixed_skip_policy_skips_only_unscoped_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-08",
+              "family": "F7",
+              "scenario_id": "sleep_mixed_skip",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-08",
+          "family": "F7",
+          "scenario_id": "sleep_mixed_skip",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_skip_policy_ignores_unscoped_rows",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-03",
+              "family": "F7",
+              "scenario_id": "sleep_skip",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-03",
+          "family": "F7",
+          "scenario_id": "sleep_skip",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_unscoped_default_imports_only_first_bed",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-01",
+              "family": "F7",
+              "scenario_id": "sleep_first",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-01",
+          "family": "F7",
+          "scenario_id": "sleep_first",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        },
+        {
+          "test": "_project2_hidden_8_test_sleep_import.SleepImportTest.test_unscoped_default_is_first_not_all",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F7-06",
+              "family": "F7",
+              "scenario_id": "sleep_no_fanout_default",
+              "points": 1,
+              "semantic_only": false,
+              "blocker": null
+            }
+          ],
+          "item_id": "V4-F7-06",
+          "family": "F7",
+          "scenario_id": "sleep_no_fanout_default",
+          "points": 1,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "sleep_import"
+    },
+    {
+      "file": "test_voice_bridge.py",
+      "tests_run": 1,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "records": [
+        {
+          "test": "_project2_hidden_9_test_voice_bridge.VoiceBridgeTest.test_voice_fetches_current_session_before_sensitive_context",
+          "status": "passed",
+          "items": [
+            {
+              "item_id": "V4-F4-01",
+              "family": "F4",
+              "scenario_id": "voice_bridge",
+              "points": 4,
+              "semantic_only": false,
+              "blocker": "R-regression"
+            }
+          ],
+          "item_id": "V4-F4-01",
+          "family": "F4",
+          "scenario_id": "voice_bridge",
+          "points": 4,
+          "semantic_only": false,
+          "blocker": null
+        }
+      ],
+      "family": "voice_bridge"
+    }
+  ],
+  "tests_run": 45,
+  "passed": 42,
+  "failed": 3,
+  "errors": 0,
+  "skipped": 0,
+  "families": {
+    "regression": {
+      "tests_run": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "admin_auth": {
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "care_event": {
+      "tests_run": 6,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "context_policy": {
+      "tests_run": 10,
+      "passed": 8,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "db_migration": {
+      "tests_run": 5,
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "process_reporting": {
+      "tests_run": 5,
+      "passed": 4,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "sleep_import": {
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "voice_bridge": {
+      "tests_run": 1,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "blockers": [
+    "S-ambient",
+    "P-report"
+  ],
+  "ship_gates": {
+    "S-ambient_present": true,
+    "note": "S-ambient does not set a numeric ship ceiling in V4"
+  }
+}

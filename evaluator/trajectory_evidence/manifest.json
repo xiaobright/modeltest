@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "label": "v4pro-gray-99-opencode",
+      "model": "DeepSeek-V4-Pro",
+      "score": 99,
+      "configuration": "gray/OpenCode",
+      "format": "opencode-json",
+      "path": "raw/v4pro_gray_99_opencode.json",
+      "sha256": "d714532e261679ef22ce54071a7734f24e5bd8fa243888eb6676d994aa5b65b7"
+    },
+    {
+      "label": "v4pro-gray-96-opencode",
+      "model": "DeepSeek-V4-Pro",
+      "score": 96,
+      "configuration": "gray/OpenCode",
+      "format": "opencode-json",
+      "path": "raw/v4pro_gray_96_opencode.json",
+      "sha256": "d0becbe73456030128e583b987118be25c0ff3147c86e968a48af6ce2a11873f"
+    },
+    {
+      "label": "v4pro-formal-93-opencode",
+      "model": "DeepSeek-V4-Pro",
+      "score": 93,
+      "configuration": "formal/OpenCode",
+      "format": "opencode-json",
+      "path": "raw/v4pro_formal_93_opencode.json",
+      "sha256": "0e3ca8b2df09fd91fc823c40490ea08c65a25b239e274be6d45e622cd65153e2"
+    },
+    {
+      "label": "v4pro-minimal-99-dsh",
+      "model": "DeepSeek-V4-Pro",
+      "score": 99,
+      "configuration": "DSH minimal/max/WSL",
+      "format": "dsh-jsonl",
+      "path": "raw/v4pro_minimal_99_dsh.jsonl",
+      "sha256": "d822364b1fd9758bf8501c024bb35c3d95ca77fe8fd248b3b706e0b6a92bd830"
+    },
+    {
+      "label": "v4pro-minimal-96-dsh",
+      "model": "DeepSeek-V4-Pro",
+      "score": 96,
+      "configuration": "DSH minimal/max/WSL",
+      "format": "dsh-jsonl",
+      "path": "raw/v4pro_minimal_96_dsh.jsonl",
+      "sha256": "23a3b293ec3fb9bab0fd4806e69673bcfefbebe1a65e8f29ac51dfd24e3082e7"
+    },
+    {
+      "label": "v4pro-standard-91-dsh",
+      "model": "DeepSeek-V4-Pro",
+      "score": 91,
+      "configuration": "DSH standard/max/WSL",
+      "format": "dsh-jsonl",
+      "path": "raw/v4pro_standard_91_dsh.jsonl",
+      "sha256": "c7a24f59bdfb61b42cd46d46e3c63daaeea11b3d15abe83f07f818b181565411"
+    },
+    {
+      "label": "v4pro-ptc-92-dsh",
+      "model": "DeepSeek-V4-Pro",
+      "score": 92,
+      "configuration": "DSH PTC/max/WSL",
+      "format": "dsh-jsonl",
+      "path": "raw/v4pro_ptc_92_dsh.jsonl",
+      "sha256": "f8bc6b07da96859d200a8ea6d422de8ff82be00d4b0ff2fdade0d019bd6f1b90"
+    },
+    {
+      "label": "v4flash-formal-92-opencode",
+      "model": "DeepSeek-V4-Flash",
+      "score": 92,
+      "configuration": "formal/OpenCode",
+      "format": "opencode-json",
+      "path": "raw/v4flash_formal_92_opencode.json",
+      "sha256": "238b6503f852f08ebcc9fc622a86771481630793759a37e239b12ffc0e4f3da4"
+    },
+    {
+      "label": "v4flash-minimal-92-dsh",
+      "model": "DeepSeek-V4-Flash",
+      "score": 92,
+      "configuration": "DSH minimal/max/WSL",
+      "format": "dsh-jsonl",
+      "path": "raw/v4flash_minimal_92_dsh.jsonl",
+      "sha256": "38cdc5e8afe496495858ec7f8192306ab4549eac554aa9bb0c10ad66af1f1a18"
+    }
+  ]
+}

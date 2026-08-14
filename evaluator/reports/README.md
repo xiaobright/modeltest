@@ -14,6 +14,8 @@
 | [`v4.1b_freeze_manifest.md`](./v4.1b_freeze_manifest.md) | 规则文件与正式 summary 冻结哈希 |
 | [`../../docs/v4.1/FINAL_ASSESSMENT_20260719.md`](../../docs/v4.1/FINAL_ASSESSMENT_20260719.md) | 使用阈值、局限与 V5 决策 |
 | [`../../docs/v4.1/ROUND_SUMMARY_20260719.md`](../../docs/v4.1/ROUND_SUMMARY_20260719.md) | 轮次事实终稿 |
+| [`../../docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md`](../../docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md) | V4 Pro 正式版 harness 与 preset 对照 |
+| [`../../docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](../../docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md) | 轨迹风格、PTC 与可复算聚合统计 |
 
 ## V4.1a（历史过渡锚点，不重算）
 

@@ -20,6 +20,25 @@ PR 一致性预审。
 - 9 轮历史评测快照(V1–V4.1b、PlanExec、V5 specialty/formal)体积较大且高度
   重复,不进 git 仓库,以压缩包形式放在 **GitHub Releases**。
 
+## DeepSeek V4 专项报告（2026-08-14）
+
+> **核心发现：** V4 Pro 在官方 DSH minimal + max 下两跑 **99/96**，但在相同
+> WSL/max 环境的 standard 和 PTC 只有 **91/92**；V4 Flash 更换 scaffold 后思维链
+> 风格明显变化，Ability 仍为 **92**。证据更支持“Pro 具备高上限但强依赖 RL 对齐
+> scaffold”，而不是 Linux、官方 harness 或 `run_code` 本身带来增益。
+
+- **完整 harness 分析：**
+  [`DeepSeek V4 Pro 正式版：harness 对照分析`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
+- **思维链风格与 PTC：**
+  [`DeepSeek V4 Pro：轨迹风格与 PTC 对照分析`](./docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
+- **完整成绩与单次评审：**
+  [`V4.1b 成绩榜`](./evaluator/reports/v4.1b_scoreboard.md)
+- **可复算聚合证据：**
+  [`轨迹统计脚本、哈希清单与 CSV/JSON`](./evaluator/trajectory_evidence/README.md)
+
+原始 session/OpenCode 导出包含完整 reasoning、system prompt、绝对路径和本地环境信息，
+因此只在私有证据目录保留；公开仓库提供源文件 SHA-256、复算脚本和不含原文的聚合统计。
+
 ## Directory Layout
 
 ```text
@@ -157,6 +176,8 @@ python evaluator\prepare_candidate_handoff.py
 - 现行成绩榜:[`evaluator/reports/v4.1b_scoreboard.md`](./evaluator/reports/v4.1b_scoreboard.md)
 - DeepSeek V4 Pro 正式版与 harness 对照分析:
   [`docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md)
+- DeepSeek V4 轨迹风格、PTC 与可复算统计:
+  [`docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
 - 最终评估与使用阈值:[`docs/v4.1/FINAL_ASSESSMENT_20260719.md`](./docs/v4.1/FINAL_ASSESSMENT_20260719.md)
 - 轮次事实终稿:[`docs/v4.1/ROUND_SUMMARY_20260719.md`](./docs/v4.1/ROUND_SUMMARY_20260719.md)
 - 评分面冻结哈希:[`evaluator/reports/v4.1b_freeze_manifest.md`](./evaluator/reports/v4.1b_freeze_manifest.md)

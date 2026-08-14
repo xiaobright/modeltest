@@ -28,6 +28,8 @@
 | `evaluator/reports/v4.1_efficiency_board.md` | 效率副榜（不进 Ability） |
 | `evaluator/reports/v4.1b_freeze_manifest.md` | **现行 V4.1b 冻结清单** |
 | [`FINAL_ASSESSMENT_20260719.md`](./FINAL_ASSESSMENT_20260719.md) | 使用阈值、版本结论与 V5 决策 |
+| [`DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md`](./DEEPSEEK_V4_PRO_HARNESS_ANALYSIS_20260814.md) | V4 Pro 灰测、正式版与 DSH 三 preset 对照 |
+| [`DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](./DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md) | 思维链风格、PTC 调用结构与统计方法 |
 
 ## 与 V4.0 / V5 边界
 

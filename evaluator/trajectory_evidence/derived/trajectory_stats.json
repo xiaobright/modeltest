@@ -1,0 +1,574 @@
+{
+  "schema_version": 1,
+  "method": "Completed assistant messages only; raw streaming chunks excluded.",
+  "records": [
+    {
+      "format": "opencode-json",
+      "model": "DeepSeek-V4-Pro",
+      "agent": "build",
+      "assistant_messages": 112,
+      "tool_calls": 129,
+      "tool_breakdown": {
+        "bash": 17,
+        "edit": 46,
+        "glob": 3,
+        "grep": 5,
+        "read": 42,
+        "todowrite": 3,
+        "write": 13
+      },
+      "visible_blocks": 24,
+      "visible_chars": 2633,
+      "reasoning": {
+        "blocks": 46,
+        "chars": 31823,
+        "words": 5051,
+        "p50_chars": 285,
+        "p90_chars": 995,
+        "marker_starts": 0,
+        "exact_marker_first_lines": 0,
+        "we": 4,
+        "let_me": 9,
+        "i": 137,
+        "top_first_tokens": {
+          "i": 13,
+          "the": 12,
+          "i'm": 6,
+          "now": 3,
+          "i'll": 2,
+          "looking": 1,
+          "good": 1,
+          "found": 1,
+          "all": 1,
+          "in": 1,
+          "only": 1,
+          "section": 1
+        }
+      },
+      "usage": {
+        "input": 3893,
+        "output": 51391,
+        "reasoning": 6536,
+        "cache": {
+          "read": 19058048,
+          "write": 0
+        }
+      },
+      "cost": 0.12117536899999996,
+      "duration_minutes": 32.16,
+      "label": "v4pro-gray-99-opencode",
+      "score": 99,
+      "configuration": "gray/OpenCode",
+      "sha256": "d714532e261679ef22ce54071a7734f24e5bd8fa243888eb6676d994aa5b65b7",
+      "source_sha256": "d714532e261679ef22ce54071a7734f24e5bd8fa243888eb6676d994aa5b65b7"
+    },
+    {
+      "format": "opencode-json",
+      "model": "DeepSeek-V4-Pro",
+      "agent": "build",
+      "assistant_messages": 108,
+      "tool_calls": 131,
+      "tool_breakdown": {
+        "bash": 16,
+        "edit": 43,
+        "glob": 4,
+        "grep": 7,
+        "read": 45,
+        "todowrite": 3,
+        "write": 13
+      },
+      "visible_blocks": 25,
+      "visible_chars": 2747,
+      "reasoning": {
+        "blocks": 45,
+        "chars": 36787,
+        "words": 5806,
+        "p50_chars": 336,
+        "p90_chars": 1896,
+        "marker_starts": 0,
+        "exact_marker_first_lines": 0,
+        "we": 2,
+        "let_me": 4,
+        "i": 172,
+        "top_first_tokens": {
+          "i'm": 13,
+          "i": 13,
+          "the": 7,
+          "i've": 3,
+          "now": 3,
+          "all": 2,
+          "i'll": 1,
+          "so": 1,
+          "finishing": 1,
+          "everything's": 1
+        }
+      },
+      "usage": {
+        "input": 3354,
+        "output": 54912,
+        "reasoning": 7764,
+        "cache": {
+          "read": 17841472,
+          "write": 0
+        }
+      },
+      "cost": 0.12066244600000006,
+      "duration_minutes": 32.08,
+      "label": "v4pro-gray-96-opencode",
+      "score": 96,
+      "configuration": "gray/OpenCode",
+      "sha256": "d0becbe73456030128e583b987118be25c0ff3147c86e968a48af6ce2a11873f",
+      "source_sha256": "d0becbe73456030128e583b987118be25c0ff3147c86e968a48af6ce2a11873f"
+    },
+    {
+      "format": "opencode-json",
+      "model": "DeepSeek-V4-Pro",
+      "agent": "build",
+      "assistant_messages": 251,
+      "tool_calls": 274,
+      "tool_breakdown": {
+        "bash": 136,
+        "edit": 63,
+        "grep": 4,
+        "read": 50,
+        "todowrite": 3,
+        "write": 18
+      },
+      "visible_blocks": 37,
+      "visible_chars": 5067,
+      "reasoning": {
+        "blocks": 119,
+        "chars": 230078,
+        "words": 32985,
+        "p50_chars": 973,
+        "p90_chars": 3940,
+        "marker_starts": 1,
+        "exact_marker_first_lines": 0,
+        "we": 17,
+        "let_me": 249,
+        "i": 216,
+        "top_first_tokens": {
+          "now": 27,
+          "the": 20,
+          "wait": 10,
+          "also": 6,
+          "confirmed": 4,
+          "all": 4,
+          "let": 3,
+          "no": 3,
+          "interesting": 3,
+          "my": 3,
+          "note": 2,
+          "good": 2
+        }
+      },
+      "usage": {
+        "input": 230420,
+        "output": 87468,
+        "reasoning": 61072,
+        "cache": {
+          "read": 64352000,
+          "write": 0
+        }
+      },
+      "cost": 0.46273850000000016,
+      "duration_minutes": 51.95,
+      "label": "v4pro-formal-93-opencode",
+      "score": 93,
+      "configuration": "formal/OpenCode",
+      "sha256": "0e3ca8b2df09fd91fc823c40490ea08c65a25b239e274be6d45e622cd65153e2",
+      "source_sha256": "0e3ca8b2df09fd91fc823c40490ea08c65a25b239e274be6d45e622cd65153e2"
+    },
+    {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Pro",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "5fab6e32f283d71510531ce850df2690b8fb77437d36bfabbe8c4ac862f19df9",
+      "wire_tools": [
+        "bash",
+        "str_replace_editor"
+      ],
+      "assistant_messages": 188,
+      "tool_calls": 194,
+      "tool_breakdown": {
+        "bash": 194
+      },
+      "visible_blocks": 1,
+      "visible_chars": 1840,
+      "reasoning": {
+        "blocks": 177,
+        "chars": 230787,
+        "words": 32317,
+        "p50_chars": 235,
+        "p90_chars": 3217,
+        "marker_starts": 29,
+        "exact_marker_first_lines": 28,
+        "we": 272,
+        "let_me": 0,
+        "i": 17,
+        "top_first_tokens": {
+          "good": 32,
+          "now": 18,
+          "need": 14,
+          "potential": 11,
+          "patch": 8,
+          "no": 5,
+          "fine": 4,
+          "great": 4,
+          "all": 4,
+          "we": 3,
+          "probe": 3,
+          "interesting": 3
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 34499328,
+        "inputTokens": 202013,
+        "outputTokens": 128176,
+        "reasoningTokens": 53053
+      },
+      "duration_minutes": 43.46,
+      "label": "v4pro-minimal-99-dsh",
+      "score": 99,
+      "configuration": "DSH minimal/max/WSL",
+      "sha256": "d822364b1fd9758bf8501c024bb35c3d95ca77fe8fd248b3b706e0b6a92bd830",
+      "source_sha256": "d822364b1fd9758bf8501c024bb35c3d95ca77fe8fd248b3b706e0b6a92bd830"
+    },
+    {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Pro",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "5fab6e32f283d71510531ce850df2690b8fb77437d36bfabbe8c4ac862f19df9",
+      "wire_tools": [
+        "bash",
+        "str_replace_editor"
+      ],
+      "assistant_messages": 151,
+      "tool_calls": 171,
+      "tool_breakdown": {
+        "bash": 171
+      },
+      "visible_blocks": 1,
+      "visible_chars": 1902,
+      "reasoning": {
+        "blocks": 150,
+        "chars": 163393,
+        "words": 23283,
+        "p50_chars": 239,
+        "p90_chars": 3006,
+        "marker_starts": 17,
+        "exact_marker_first_lines": 16,
+        "we": 231,
+        "let_me": 0,
+        "i": 18,
+        "top_first_tokens": {
+          "now": 19,
+          "good": 15,
+          "need": 13,
+          "update": 6,
+          "continue": 5,
+          "potential": 5,
+          "we": 4,
+          "no": 4,
+          "our": 3,
+          "build": 3,
+          "original": 3,
+          "great": 3
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 28434688,
+        "inputTokens": 202829,
+        "outputTokens": 101776,
+        "reasoningTokens": 38886
+      },
+      "duration_minutes": 40.24,
+      "label": "v4pro-minimal-96-dsh",
+      "score": 96,
+      "configuration": "DSH minimal/max/WSL",
+      "sha256": "23a3b293ec3fb9bab0fd4806e69673bcfefbebe1a65e8f29ac51dfd24e3082e7",
+      "source_sha256": "23a3b293ec3fb9bab0fd4806e69673bcfefbebe1a65e8f29ac51dfd24e3082e7"
+    },
+    {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Pro",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "cf1c3543439345b97fb7693c516fbf58fc6cf3a55c8026ae64867f4ceaed34f5",
+      "wire_tools": [
+        "ask_user_question",
+        "bash",
+        "create_goal",
+        "edit",
+        "exit_plan_mode",
+        "get_goal",
+        "glob",
+        "grep",
+        "interrupt_agent",
+        "job_kill",
+        "job_list",
+        "job_output",
+        "list_agents",
+        "ralph",
+        "read",
+        "read_image",
+        "send_message",
+        "skill",
+        "subagent",
+        "subagent_fork",
+        "todo_write",
+        "update_goal",
+        "web_search",
+        "workflow",
+        "write"
+      ],
+      "assistant_messages": 164,
+      "tool_calls": 189,
+      "tool_breakdown": {
+        "bash": 73,
+        "edit": 40,
+        "glob": 1,
+        "grep": 3,
+        "job_output": 4,
+        "read": 45,
+        "todo_write": 2,
+        "write": 21
+      },
+      "visible_blocks": 55,
+      "visible_chars": 7032,
+      "reasoning": {
+        "blocks": 99,
+        "chars": 150383,
+        "words": 21675,
+        "p50_chars": 437,
+        "p90_chars": 2636,
+        "marker_starts": 4,
+        "exact_marker_first_lines": 0,
+        "we": 11,
+        "let_me": 208,
+        "i": 137,
+        "top_first_tokens": {
+          "now": 30,
+          "the": 24,
+          "good": 6,
+          "interesting": 4,
+          "wait": 4,
+          "also": 4,
+          "let": 3,
+          "all": 3,
+          "while": 3,
+          "hmm": 2,
+          "not": 2,
+          "public": 1
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 29576320,
+        "inputTokens": 180774,
+        "outputTokens": 114622,
+        "reasoningTokens": 39338
+      },
+      "duration_minutes": 24.08,
+      "label": "v4pro-standard-91-dsh",
+      "score": 91,
+      "configuration": "DSH standard/max/WSL",
+      "sha256": "c7a24f59bdfb61b42cd46d46e3c63daaeea11b3d15abe83f07f818b181565411",
+      "source_sha256": "c7a24f59bdfb61b42cd46d46e3c63daaeea11b3d15abe83f07f818b181565411"
+    },
+    {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Pro",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "edcdc2a426b3d097e7a2ff37439c72fd83ce1fefa10fcd49ac34d4648d0f03d9",
+      "wire_tools": [
+        "run_code"
+      ],
+      "assistant_messages": 148,
+      "tool_calls": 164,
+      "tool_breakdown": {
+        "run_code": 164
+      },
+      "visible_blocks": 33,
+      "visible_chars": 4520,
+      "reasoning": {
+        "blocks": 94,
+        "chars": 165736,
+        "words": 23376,
+        "p50_chars": 550,
+        "p90_chars": 2443,
+        "marker_starts": 0,
+        "exact_marker_first_lines": 0,
+        "we": 16,
+        "let_me": 194,
+        "i": 237,
+        "top_first_tokens": {
+          "now": 21,
+          "the": 19,
+          "while": 7,
+          "wait": 6,
+          "all": 5,
+          "let": 3,
+          "hmm": 3,
+          "key": 2,
+          "public": 2,
+          "both": 2,
+          "js": 2,
+          "something": 1
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 22626048,
+        "inputTokens": 148936,
+        "outputTokens": 117952,
+        "reasoningTokens": 43981
+      },
+      "duration_minutes": 25.95,
+      "ptc": {
+        "outer_calls": 164,
+        "missing_description": 10,
+        "outer_errors": {
+          "CODE_RUN_FAILED": 3,
+          "INVALID_ARGS": 10
+        },
+        "subcalls": 187,
+        "subcall_breakdown": {
+          "bash": 57,
+          "edit": 39,
+          "grep": 4,
+          "job_output": 9,
+          "read": 54,
+          "todo_write": 3,
+          "write": 21
+        },
+        "subcall_errors": 0,
+        "subcall_distribution": {
+          "0": 13,
+          "1": 122,
+          "2": 24,
+          "3": 3,
+          "4": 2
+        },
+        "programs_with_promise_all": 0,
+        "programs_with_multiple_tool_syntax": 30
+      },
+      "label": "v4pro-ptc-92-dsh",
+      "score": 92,
+      "configuration": "DSH PTC/max/WSL",
+      "sha256": "f8bc6b07da96859d200a8ea6d422de8ff82be00d4b0ff2fdade0d019bd6f1b90",
+      "source_sha256": "f8bc6b07da96859d200a8ea6d422de8ff82be00d4b0ff2fdade0d019bd6f1b90"
+    },
+    {
+      "format": "opencode-json",
+      "model": "DeepSeek-V4-Flash",
+      "agent": "build",
+      "assistant_messages": 130,
+      "tool_calls": 149,
+      "tool_breakdown": {
+        "bash": 46,
+        "edit": 47,
+        "grep": 2,
+        "read": 33,
+        "todowrite": 2,
+        "write": 19
+      },
+      "visible_blocks": 47,
+      "visible_chars": 5963,
+      "reasoning": {
+        "blocks": 67,
+        "chars": 97440,
+        "words": 13846,
+        "p50_chars": 365,
+        "p90_chars": 2365,
+        "marker_starts": 0,
+        "exact_marker_first_lines": 0,
+        "we": 5,
+        "let_me": 124,
+        "i": 108,
+        "top_first_tokens": {
+          "now": 19,
+          "also": 7,
+          "the": 6,
+          "all": 5,
+          "let": 4,
+          "wait": 3,
+          "one": 2,
+          "key": 1,
+          "baseline": 1,
+          "no": 1,
+          "fix": 1,
+          "almost": 1
+        }
+      },
+      "usage": {
+        "input": 191605,
+        "output": 58899,
+        "reasoning": 26459,
+        "cache": {
+          "read": 25173248,
+          "write": 0
+        }
+      },
+      "cost": 0.12121003440000004,
+      "duration_minutes": 29.22,
+      "label": "v4flash-formal-92-opencode",
+      "score": 92,
+      "configuration": "formal/OpenCode",
+      "sha256": "238b6503f852f08ebcc9fc622a86771481630793759a37e239b12ffc0e4f3da4",
+      "source_sha256": "238b6503f852f08ebcc9fc622a86771481630793759a37e239b12ffc0e4f3da4"
+    },
+    {
+      "format": "dsh-jsonl",
+      "model": "DeepSeek-V4-Flash",
+      "reasoning_effort": "max",
+      "system_prompt_sha256": "5fab6e32f283d71510531ce850df2690b8fb77437d36bfabbe8c4ac862f19df9",
+      "wire_tools": [
+        "bash",
+        "str_replace_editor"
+      ],
+      "assistant_messages": 173,
+      "tool_calls": 178,
+      "tool_breakdown": {
+        "bash": 178
+      },
+      "visible_blocks": 1,
+      "visible_chars": 1883,
+      "reasoning": {
+        "blocks": 173,
+        "chars": 129554,
+        "words": 17902,
+        "p50_chars": 128,
+        "p90_chars": 1526,
+        "marker_starts": 16,
+        "exact_marker_first_lines": 14,
+        "we": 209,
+        "let_me": 0,
+        "i": 9,
+        "top_first_tokens": {
+          "need": 44,
+          "now": 14,
+          "good": 13,
+          "maybe": 7,
+          "we": 6,
+          "update": 5,
+          "no": 4,
+          "we'll": 4,
+          "could": 4,
+          "replace": 4,
+          "add": 4,
+          "initial": 3
+        }
+      },
+      "usage": {
+        "cacheReadTokens": 29051136,
+        "inputTokens": 229471,
+        "outputTokens": 70293,
+        "reasoningTokens": 31821
+      },
+      "duration_minutes": 25.47,
+      "label": "v4flash-minimal-92-dsh",
+      "score": 92,
+      "configuration": "DSH minimal/max/WSL",
+      "sha256": "38cdc5e8afe496495858ec7f8192306ab4549eac554aa9bb0c10ad66af1f1a18",
+      "source_sha256": "38cdc5e8afe496495858ec7f8192306ab4549eac554aa9bb0c10ad66af1f1a18"
+    }
+  ]
+}
