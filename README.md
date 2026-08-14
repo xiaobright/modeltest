@@ -51,7 +51,8 @@ PR 一致性预审。
 - **可复算聚合证据：**
   [`轨迹统计脚本、哈希清单与 CSV/JSON`](./evaluator/trajectory_evidence/README.md)
 - **98/99 分实验 preset：**
-  [`DSH anchored-standard 源码与安装说明`](./tools/deepseek-harness-presets/README.md)
+  [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard)
+  （独立仓库；本仓库保留[评测时冻结快照](./tools/deepseek-harness-presets/README.md)）
 
 原始 session/OpenCode 导出包含完整 reasoning、system prompt、绝对路径和本地环境信息，
 因此只在私有证据目录保留；公开仓库提供源文件 SHA-256、复算脚本和不含原文的聚合统计。

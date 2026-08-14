@@ -1,5 +1,9 @@
 # DeepSeek Harness 实验 preset
 
+> 独立发布与后续维护位于
+> [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard)。
+> 本目录保留 2026-08-14 Project2 98/99 双跑使用的冻结快照，便于证据复算。
+
 ## anchored-standard
 
 这是 Project2 98/99 分双跑使用的两阶段 preset，针对 DeepSeek Harness 提交
