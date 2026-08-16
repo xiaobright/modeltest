@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-15T03:47:01.218464+00:00",
+  "modeltest_head": "04255b55f16c4439e538239fb9783070c4165081",
+  "modeltest_status_paths": [
+    "gitignore",
+    "tools/deepseek-harness-presets/README.md",
+    "experiments/",
+    "tools/deepseek-harness-presets/minimal-full/"
+  ],
+  "dsh_package": "@deepseek-ai/dsh",
+  "dsh_version": "0.1.0-rc.6",
+  "dsh_source_commit_preregistered": "47f943859bef60e4160492346772ded9b24f765a",
+  "preset_hash_algorithm": "SHA-256 over sorted (UTF-8 relative path length/path, file length/bytes)",
+  "preset_hashes": {
+    "standard": "c189672ea0510032e76cd61c39e1d85da7e4cf84ba51b51909444bfe98a91987",
+    "minimal-full": "86359556bbc00623951b2b782f66b51626975e90d65a4400cfd8e85be3ab7106",
+    "anchored-standard": "30934f191facfd5956cb32a78a40fbbd761b32a3dfe1214e2ed45ecb8a1e74f3"
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.14.3",
+    "node": "v25.9.0",
+    "powershell": "Windows PowerShell host",
+    "processor_architecture": "AMD64"
+  }
+}

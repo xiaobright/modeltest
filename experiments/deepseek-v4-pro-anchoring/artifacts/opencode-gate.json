@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checked_at_utc": "2026-08-15T08:55:00Z",
+  "opencode_version": "1.18.17",
+  "opencode_tag": "v1.18.17",
+  "opencode_commit": "02546dfc2e4515a4f90aaf9ceb3890df2ac2b479",
+  "provider": "deepseek",
+  "model": "deepseek/deepseek-v4-pro",
+  "model_api_id": "deepseek-v4-pro",
+  "resolved_endpoint": "https://api.deepseek.com",
+  "provider_sdk": "@ai-sdk/openai-compatible",
+  "reasoning_variant": "max",
+  "resolved_reasoning_options": {
+    "reasoningEffort": "max"
+  },
+  "reasoning_export": {
+    "status": "statically_supported",
+    "evidence": "OpenCode export serializes full message parts; the pinned schema includes native reasoning parts. Raw exports remain private."
+  },
+  "agent": "build",
+  "agent_mode": "primary",
+  "pure": true,
+  "system_instruction_source": "OpenCode built-in build agent/system prompt; isolated home/config; no repository AGENTS.md, CLAUDE.md, CONTEXT.md, or opencode.json discovered before the run",
+  "tool_names": [
+    "bash",
+    "edit",
+    "glob",
+    "grep",
+    "invalid",
+    "question",
+    "read",
+    "skill",
+    "task",
+    "todowrite",
+    "webfetch",
+    "write"
+  ],
+  "models_catalog_sha256": "38c46f27db899736408a1371f78d79a3ade5f0d2fe5ca279e2c448ce2b247995",
+  "catalog_storage": "private/gitignored",
+  "credential_source": "existing DSH DeepSeek credential injected only as DEEPSEEK_API_KEY into the isolated OpenCode child process",
+  "credential_recorded": false,
+  "zen_used": false,
+  "custom_gateway_used": false,
+  "paid_smoke_run": false,
+  "limitations": [
+    "Tool catalog evidence is the pinned OpenCode debug-agent resolution rather than a raw HTTP wire capture.",
+    "The formal session score remains valid if the provider export omits reasoning text; trajectory comparison will then be marked incomplete."
+  ]
+}

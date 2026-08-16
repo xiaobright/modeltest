@@ -1,0 +1,3 @@
+name: 极简完整目录模式（实验消融）
+description: 保持 Minimal complete system condition 与 Standard capabilities，从第一次请求起暴露完整 Standard 工具目录。
+order: 6
