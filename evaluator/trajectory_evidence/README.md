@@ -3,6 +3,8 @@
 本目录保存 2026-08-14 harness 对照分析的本地原始证据和可复算聚合统计，包括
 Windows 上两阶段 `anchored-standard` 的 98/99 分双跑验证。
 
+本目录仍只负责维护者 2026-08-14 基线样本；[@NineThoughts0521](https://github.com/NineThoughts0521) 的 2026-08-15 独立复现聚合单独保存在 [`experiments/deepseek-v4-pro-anchoring/`](../../experiments/deepseek-v4-pro-anchoring/)，不改变本目录的原始样本、formal `n` 或 scoreboard。该目录公开 `reasoning_blocks`、`we`、`let_me`、`lets`、visible replies、tool calls、token/time/cost 和工具目录 transition 的派生统计，不公开 reasoning/CoT 或 raw session。
+
 ## 目录
 
 - `raw/`：DSH Session JSONL 与 OpenCode JSON 原始导出，仅本地保存，不公开。
@@ -10,6 +12,7 @@ Windows 上两阶段 `anchored-standard` 的 98/99 分双跑验证。
 - `analyze_trajectory_exports.py`：统一解析 DSH/OpenCode 完成态消息的脚本。
 - `derived/trajectory_stats.json`：完整聚合数据。
 - `derived/trajectory_stats.csv`：适合表格分析的扁平数据。
+- 第三方 3+1 对比：[`experiments/.../RESULTS.md`](../../experiments/deepseek-v4-pro-anchoring/RESULTS.md) 与 [`artifacts/comparison.json`](../../experiments/deepseek-v4-pro-anchoring/artifacts/comparison.json)。
 
 ## 复算
 

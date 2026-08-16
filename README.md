@@ -12,8 +12,7 @@ PR 一致性预审。
 
 - **当前正式稳定基线:V4.1b**,已于 2026-07-23 正式冻结。不再迭代、不开发 V5。
   详见 [`PROJECT_FROZEN.md`](./PROJECT_FROZEN.md)。
-- 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账仍会追加。
-  最新一轮记录截至 2026-08-14。
+- 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账仍会追加。维护者原始记录截至 2026-08-14；2026-08-15 新增 [@NineThoughts0521](https://github.com/NineThoughts0521) 的独立复现补充，不并入维护者 formal `n`。
 - 这是一个**个人项目**,不是面向社区的公开 benchmark;Ability 阈值与结论只对本
   题面、本工具环境有效,**不构成跨项目通用认证**。
 - V5 两次尝试均失败,工作区与归档见独立 repo **`modeltest-v5`**。
@@ -37,6 +36,13 @@ PR 一致性预审。
 | DeepSeek V4 Pro / 灰测 OpenCode | **99, 96** | 发布前灰测路线 |
 | DeepSeek V4 Pro / 正式 DSH minimal | **99, 96** | 正式版在 RL 对齐 scaffold 下复现 |
 | DeepSeek V4 Pro / DSH anchored-standard | **98, 99** | Windows 两阶段目录；完整 Standard 工具可用 |
+
+### 独立第三方复现（2026-08-15，不并入 formal n）
+
+[@NineThoughts0521](https://github.com/NineThoughts0521) 在同一 frozen Project2 V4.1b、DeepSeek V4 Pro、reasoning `max` 下完成 DSH Anchored Standard / Standard / Minimal-Full 三枪和一枪 OpenCode exploratory replacement。独立 Ability 为 **96 / 89 / 85.5 / 93**；其中 Anchored 相对同批 Standard 为 `+7`，相对 Minimal-Full 为 `+10.5`。该结果 supports 首请求工具目录具有额外贡献，并与维护者原 Anchored 高于 Standard 的方向 consistent with；它不追加到上表 `n`，也不证明跨任务普适因果。
+
+- **独立复现报告：** [`DeepSeek V4 Pro 首请求工具目录锚定：独立复现与 full-task 消融`](./docs/v4.1/DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md)
+- **预注册、runner 与公开证据：** [`experiments/deepseek-v4-pro-anchoring/`](./experiments/deepseek-v4-pro-anchoring/README.md)
 
 因此可以说，**V4 Pro 的已观测能力上限在本题上确实进入了 Fable 5、Opus 5 和 Sol
 的同一顶端分数带**；这不是跨任务通用等价证明，也不能证明灰测实际代理了任何 Claude
@@ -200,6 +206,8 @@ python evaluator\prepare_candidate_handoff.py
   [`docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_TRAJECTORY_ANALYSIS_20260814.md)
 - DeepSeek V4 Pro / Flash 触发机制实验:
   [`docs/v4.1/DEEPSEEK_V4_TRIGGER_MECHANISM_EXPERIMENTS_20260814.md`](./docs/v4.1/DEEPSEEK_V4_TRIGGER_MECHANISM_EXPERIMENTS_20260814.md)
+- DeepSeek V4 Pro 独立复现与 Minimal-Full full-task 消融（不并入维护者 formal `n`）:
+  [`docs/v4.1/DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md`](./docs/v4.1/DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md)
 - 最终评估与使用阈值:[`docs/v4.1/FINAL_ASSESSMENT_20260719.md`](./docs/v4.1/FINAL_ASSESSMENT_20260719.md)
 - 轮次事实终稿:[`docs/v4.1/ROUND_SUMMARY_20260719.md`](./docs/v4.1/ROUND_SUMMARY_20260719.md)
 - 评分面冻结哈希:[`evaluator/reports/v4.1b_freeze_manifest.md`](./evaluator/reports/v4.1b_freeze_manifest.md)

@@ -251,6 +251,14 @@ standard/PTC 对照已关闭 OS、官方 harness 和推理档位三个主要混�
 更宽的 agent 接口下明显退化，说明它具备较高能力上限，同时存在强接口依赖和较弱的工具
 策略泛化。**
 
+## 2026-08-15 第三方独立复现附录
+
+[@NineThoughts0521](https://github.com/NineThoughts0521) 在相同 frozen Project2 V4.1b task 上，使用 DSH `0.1.0-rc.6`、DeepSeek V4 Pro `max` 和同一 evaluator 完成了一次预注册机制消融：Anchored Standard `96`、Standard `89`、新增 Minimal-Full `85.5`。这三枪属于独立第三方证据，不追加到维护者原有 formal `n`、主榜排名、worst、均值或样本索引。
+
+Minimal-Full 保留 Anchored 的 Minimal complete system condition、`complete: true`、`includeRuntimeContext: false` 和 Standard capability roster，但从 request 1 暴露完整 25 项工具；Anchored request 1 仅暴露 `pwsh/read`，首次 durable tool call 后恢复相同完整目录。静态 schema gate 通过，因此本批次观察到 Standard → Minimal-Full `-3.5`、Minimal-Full → Anchored `+10.5`，结果 **supports** 首请求工具目录具有额外贡献，并与维护者 Anchored 优于 Standard 的方向 **consistent with**。不过 Anchored 还包含目录 transition 及其时序，单次同题运行不能把它们拆成唯一变量，也不能证明跨任务普适因果。
+
+同批次的 OpenCode `1.18.17` replacement 得到 `93`，但它是 post-preregistered exploratory harness comparison；原 partial 永久保留为不计分 infrastructure failure，二者都不进入 DSH mechanism ablation。完整结果、成本、轨迹聚合、工具目录快照和公开/私有证据边界见 [`DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md`](./DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md)。
+
 ## 证据索引
 
 - 灰测：[20260718_212524 / 99](../../evaluator/reviews/v4.1b_DeepSeek-V4-Pro_opencode_20260718_212524.md)、

@@ -1,7 +1,6 @@
 # Project2 3+1 结果
 
-**独立复现者：** [@NineThoughts0521](https://github.com/NineThoughts0521)  
-**统计边界：** 以下 runs 是第三方独立证据，不并入 `xiaobright/modeltest` 维护者原有 formal `n`、排名、worst、均值或样本索引。
+**独立复现者：** [@NineThoughts0521](https://github.com/NineThoughts0521) · **统计边界：** 以下 runs 是第三方独立证据，不并入 `xiaobright/modeltest` 维护者原有 formal `n`、排名、worst、均值或样本索引。
 
 本轮在同一 frozen Project2 V4.1b task `project2-v4-broken-seed`、同一 `CANDIDATE_PROMPT.md` 和同一 evaluator 下完成三枪 DSH 机制消融，并完成一枪经批准的 OpenCode exploratory replacement。模型为 DeepSeek V4 Pro，reasoning effort 为 `max`，价格按每枪运行时官方人民币单价记录，未使用峰谷价假设。
 

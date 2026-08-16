@@ -140,3 +140,16 @@ minimal 对齐的策略区域。
 只丢一个 context reason 语义字符串；两轮 ambient 泄漏都被堵住。这已经足以否定第一轮只是
 偶然抽到高分样本的简单解释。现有证据不值得再为同一题追加付费运行；下一次应换结构不同
 的工程任务复验，检验两阶段锚定是否能跨题泛化。
+
+## 2026-08-15 第三方独立复现指纹
+
+[@NineThoughts0521](https://github.com/NineThoughts0521) 在同一 frozen Project2 task 上追加了预注册的 DSH 三枪和一枪 OpenCode exploratory replacement。公开聚合如下；`let me` 保留绝对数量，所有 wording 只作轨迹指纹，不作能力指标或因果证据。
+
+| Harness / preset | Ability | reasoning blocks | `we` | `let me` | `let's` | visible replies | tool calls |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| DSH Anchored Standard | 96 | 191 | 324 | 31 | 167 | 1 | 244 |
+| DSH Standard | 89 | 88 | 25 | 149 | 2 | 41 | 166 |
+| DSH Minimal-Full | 85.5 | 47 | 67 | 14 | 16 | 8 | 83 |
+| OpenCode replacement | 93 | 65 | 22 | 119 | 3 | 35 | 152 |
+
+Anchored 的首请求仅含 `pwsh/read`，随后恢复完整目录；Minimal-Full 和 Standard 从首请求即暴露完整目录。该单批次的轨迹分离与分数方向 **consistent with** 首请求 schema anchoring 的解释，但不能把 `we`、`let me` 或可见回复数量解释为能力原因，也不能外推到其他任务或 provider。完整 machine-readable aggregate、成本和 evidence manifest 见 [`独立复现报告`](./DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md)。

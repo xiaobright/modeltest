@@ -1,7 +1,6 @@
 # DeepSeek V4 Pro First-request Tool-schema Anchoring
 
-**独立复现者：** [@NineThoughts0521](https://github.com/NineThoughts0521)  
-**证据角色：** 面向 `xiaobright/modeltest` 的第三方独立复现；本目录的 runs 不并入维护者原有 formal `n`、排名、worst、均值或样本索引。
+**独立复现者：** [@NineThoughts0521](https://github.com/NineThoughts0521) · **证据角色：** 面向 `xiaobright/modeltest` 的第三方独立复现；本目录的 runs 不并入维护者原有 formal `n`、排名、worst、均值或样本索引。
 
 本目录保存 Project2 V4.1b 独立复现、Minimal-Full full-task 消融、OpenCode exploratory harness comparison 的预注册、运行器与可公开派生证据。结果见 [`RESULTS.md`](./RESULTS.md)，机器可读汇总见 [`artifacts/comparison.json`](./artifacts/comparison.json)。
 
