@@ -38,3 +38,9 @@ Thumbs.db
 
 # Do not commit evaluation archives (released as separate tarballs)
 archives/
+
+# DeepSeek anchoring experiment: private sessions, credentials, and sandbox jobs
+evaluator/trajectory_evidence/raw/
+experiments/deepseek-v4-pro-anchoring/private/
+experiments/deepseek-v4-pro-anchoring/jobs/
+experiments/deepseek-v4-pro-anchoring/.env

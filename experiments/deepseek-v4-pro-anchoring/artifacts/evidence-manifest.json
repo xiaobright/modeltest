@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "contributor": "@NineThoughts0521",
+  "evidence_role": "independent third-party replication; excluded from maintainer formal n",
+  "candidate_prompt_sha256": "576103f9a5a7a619c0669674cf384a975b89390bb034c368a53a148251f2df84",
+  "public_artifacts": [
+    {
+      "path": "README.md",
+      "bytes": 1654,
+      "sha256": "6642cb6135c9845b8422e364abfa7bda67068a7a1978c3a01bc06cf9c3dec27d"
+    },
+    {
+      "path": "RESULTS.md",
+      "bytes": 5884,
+      "sha256": "35467caec8a10869d18e52058c085c53403837a833133c3b4d7a9df46164d6a1"
+    },
+    {
+      "path": "mock-prompt.txt",
+      "bytes": 88,
+      "sha256": "7ec5d1271502de4d8667113b51e6ca4d64337990dc30cb091d09a043d4e9484a"
+    },
+    {
+      "path": "preregistration.json",
+      "bytes": 5417,
+      "sha256": "1b8b4c5a967ebf700dd189184a4579f5321146a5a00fe84aa72861e870d6cb3e"
+    },
+    {
+      "path": "run-matrix.json",
+      "bytes": 2751,
+      "sha256": "dc8aeceabf104eac78e5927f0dd77d2cbfa5a96442220b6ca74ec2b029de24bf"
+    },
+    {
+      "path": "artifacts/environment-baseline.json",
+      "bytes": 1086,
+      "sha256": "55881b727c5fde2dc6afe4d436194fa0308f3a24c32682243b4a75740824685b"
+    },
+    {
+      "path": "artifacts/schema-gate.json",
+      "bytes": 5558,
+      "sha256": "f3fcc3c3856c3e1ecc990d825db42a2c26bc16d2f73b0345165d32e089f65475"
+    },
+    {
+      "path": "artifacts/opencode-gate.json",
+      "bytes": 1832,
+      "sha256": "629b0dc4a0380e1ba4e8a5fe3fe789f025fe5deeb88f700c832c211f4bcd30fd"
+    },
+    {
+      "path": "artifacts/deepswe-gate.json",
+      "bytes": 1530,
+      "sha256": "0d272fc8b467ec0a0d35bd082c1115bdee58786271c3c24fe310b59d34dbce13"
+    },
+    {
+      "path": "artifacts/balance-events.json",
+      "bytes": 3759,
+      "sha256": "d6505eff000459d54d8eaaea8fabc8104342fc01c4429fb5802c6d5bac19c1bf"
+    },
+    {
+      "path": "artifacts/infrastructure-events.json",
+      "bytes": 1972,
+      "sha256": "649c9c46af93d9cf2623d4dec53ee2bb4e47cd99c97158cccb6063b61bcffc4a"
+    },
+    {
+      "path": "artifacts/metadata-corrections.json",
+      "bytes": 898,
+      "sha256": "01b2e7f29fe71f8c9b3e47f8f6322240786fb0bb06fb19d1edac8e1c3eecf3df"
+    },
+    {
+      "path": "artifacts/comparison.json",
+      "bytes": 142142,
+      "sha256": "714d49f23495aa170245cd11c817cac69339642f3ceb00336810945181162b53"
+    },
+    {
+      "path": "artifacts/price-snapshot.json",
+      "bytes": 885,
+      "sha256": "25ae1e9159be6f4beea25174fb1e5ffd3903647c43508523cacff3fde28a2e02"
+    },
+    {
+      "path": "artifacts/price-P2-20260815-01-anchored.json",
+      "bytes": 885,
+      "sha256": "4e35dcb08296e71b1de2aad4acc1b7efc95ecc2449ae6ae5a83b9fea65e0c858"
+    },
+    {
+      "path": "artifacts/price-P2-20260815-02-standard.json",
+      "bytes": 885,
+      "sha256": "b853238d420a34e6a5064d0d33b347bbe704d740c0250c1f5aa78c7b767ee24f"
+    },
+    {
+      "path": "artifacts/price-P2-20260815-03-minimal-full.json",
+      "bytes": 885,
+      "sha256": "25ae1e9159be6f4beea25174fb1e5ffd3903647c43508523cacff3fde28a2e02"
+    },
+    {
+      "path": "artifacts/price-P2-20260815-04-opencode.json",
+      "bytes": 885,
+      "sha256": "8c052abc3ac6172542045652d5c54100de5630424afd829e8ac8967e1d77885a"
+    },
+    {
+      "path": "artifacts/price-P2-20260815-04b-opencode-replacement.json",
+      "bytes": 885,
+      "sha256": "e690012e343c3cdc7f818f263515de12e690aa5a80d3112aeb09a83e4533d958"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-01-anchored-balance.json",
+      "bytes": 163,
+      "sha256": "75c00c9ef3487efed46cef1f3b2e668187799c72906407d6b264e0c84205de93"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-01-anchored.json",
+      "bytes": 119124,
+      "sha256": "c363a928a0449d7bd5535828ec4d655c1638b9dc2a44029f887ff62cf73b71d5"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-02-standard-balance.json",
+      "bytes": 163,
+      "sha256": "0c589378740dde03ae2f362fb3893e676721c6beae0228127a1157acdc335e4b"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-02-standard.json",
+      "bytes": 182680,
+      "sha256": "c56a68f895db0b0f93ec1f284bc63ca327a1904d98b6b687aedb83d4dc3c41a6"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-03-minimal-full-balance.json",
+      "bytes": 167,
+      "sha256": "7ac03ca524461addeceba94afe1109e5108a7a52bd677d22fa5b59ac9b781db3"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-03-minimal-full.json",
+      "bytes": 169062,
+      "sha256": "debfcbbc5c33576011181b6a18a4c897692bbf3aee384f8a0c1d03ef11a736ea"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-04-opencode-partial-balance.json",
+      "bytes": 171,
+      "sha256": "4bb562df23c1901bd6e9bf09b8b23aac6fdedef823b3c41cd0b9bf4d0e870a70"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-04-opencode-partial.json",
+      "bytes": 3667,
+      "sha256": "6e06809f7e9638819fc9eeb260f90604523afb725cb890943af32cec66119b56"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-04b-opencode-replacement-balance.json",
+      "bytes": 176,
+      "sha256": "afe5c6145c95448bd4f9692ba3632f7525d287a873dac6a8f1872e4e4538671c"
+    },
+    {
+      "path": "artifacts/runs/P2-20260815-04b-opencode-replacement.json",
+      "bytes": 20245,
+      "sha256": "696be1dd077ce1038c3ebdf0aaf39b88ccc1d2f7373bbd453a6aaf4937ade311"
+    }
+  ],
+  "private_raw_evidence": [
+    {
+      "run_id": "P2-20260815-01-anchored",
+      "evidence_kind": "dsh_session_jsonl",
+      "bytes": 27501965,
+      "sha256": "8d196aee55868ca34f4b6af17d9c14d67e77deb9c89e5f0fcce238d86188498b"
+    },
+    {
+      "run_id": "P2-20260815-02-standard",
+      "evidence_kind": "dsh_session_jsonl",
+      "bytes": 23644897,
+      "sha256": "2f65ea5f6f1f046e75fb8238a243aca395f781e2ff80fbef9577b2166798ca1a"
+    },
+    {
+      "run_id": "P2-20260815-03-minimal-full",
+      "evidence_kind": "dsh_session_jsonl",
+      "bytes": 11808103,
+      "sha256": "f769b58934ff862c807799a99a0593081c8cb639fe2e68b6787129cd9501fd53"
+    },
+    {
+      "run_id": "P2-20260815-04-opencode-partial",
+      "evidence_kind": "opencode_partial_session_export",
+      "bytes": 475547,
+      "sha256": "cd35ebd8ace7be453bb159c772b5cec0b77b059d1f6ce997a1fee2b7113d5e06"
+    },
+    {
+      "run_id": "P2-20260815-04-opencode-partial",
+      "evidence_kind": "opencode_partial_event_stream",
+      "bytes": 464811,
+      "sha256": "1f4e89c7ea3265e534108c8a3f3cf718497bda3e312cedc4dac2a8a8dd3d07e4"
+    },
+    {
+      "run_id": "P2-20260815-04b-opencode-replacement",
+      "evidence_kind": "opencode_session_export",
+      "bytes": 1932490,
+      "sha256": "178f35c19d9853cb92579c4c9458da4203a5c911021415d6c1d94720b3b73472"
+    },
+    {
+      "run_id": "P2-20260815-04b-opencode-replacement",
+      "evidence_kind": "opencode_event_stream",
+      "bytes": 1739965,
+      "sha256": "6cae0b03dfa162f3cfc57ec5960fbc38f536fe5c7c2cabdcec34d4d356a7a896"
+    },
+    {
+      "run_id": "P2-20260815-04b-opencode-replacement",
+      "evidence_kind": "opencode_run_meta",
+      "bytes": 1304,
+      "sha256": "7a0b2b9c367a0c9b87a7e7e1a64b11dfd00b9f6e18981a1baa3ae2babad34c4f"
+    }
+  ],
+  "privacy": {
+    "private_paths_published": false,
+    "raw_reasoning_or_session_published": false,
+    "credentials_published": false,
+    "recalculation": "Recompute each listed SHA-256 from the ignored local raw file and compare it with this manifest and the corresponding public run artifact."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+  "retrieved_at_utc": "2026-08-15T08:30:47.786766+00:00",
+  "raw_sha256": "2bab2555968333b6e0a6e9f04c5427880f36fba491d95790c3f44261e00c7d07",
+  "current_cny_per_million": {
+    "cache_hit": 0.025,
+    "cache_miss": 3.0,
+    "output": 6.0
+  },
+  "applicable_cny_per_million": {
+    "cache_hit": 0.025,
+    "cache_miss": 3.0,
+    "output": 6.0
+  },
+  "applicable_window": "before_2026-08-17T00:00:00+08:00",
+  "documented_future_effective_at": "2026-08-17T00:00:00+08:00",
+  "documented_future_cny_per_million": {
+    "off_peak": {
+      "cache_hit": 0.15,
+      "cache_miss": 4.5,
+      "output": 13.5
+    },
+    "peak": {
+      "cache_hit": 0.3,
+      "cache_miss": 9.0,
+      "output": 27.0
+    }
+  },
+  "documented_future_peak_offpeak_present": true
+}

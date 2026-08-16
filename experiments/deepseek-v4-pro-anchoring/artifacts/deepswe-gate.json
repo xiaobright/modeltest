@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-08-15T03:42:35.0000000+00:00",
+  "ended_at_utc": "2026-08-15T03:46:39.5353381+00:00",
+  "elapsed_seconds": 244.535,
+  "hard_cap_seconds": 5400,
+  "deepswe_commit": "435ee89ec2f2e2289f33b0da4f992f0b7b7266b9",
+  "pier_version": "0.3.1",
+  "pier_commit": "df89f994623a0a6a57229103b6fe910766693c30",
+  "task_id": "httpx-deterministic-cookie-store",
+  "task_toml_sha256": "2a20d40c96714c08333c0fb4901fe3b022d845fd17a3bf5a1b8ca7a5631886fa",
+  "task_toml_unmodified": true,
+  "agent_network_mode": "no-network",
+  "verifier_network_mode": "no-network",
+  "pier_static_semantics": {
+    "agent_install_spec_phase": "docker image build",
+    "formal_agent_egress_phase": "runtime Squid filtered egress",
+    "install_and_inference_phases_separated": true,
+    "planned_formal_allowlist": [
+      "api.deepseek.com"
+    ]
+  },
+  "environment": {
+    "docker_command_present": false,
+    "docker_daemon_ready": false,
+    "wsl_binary_version": "10.0.19041.4522",
+    "wsl2_distribution_ready": false,
+    "wsl_store_update_attempt_exit_code": 1,
+    "wsl_store_update_requires_elevation": true
+  },
+  "semantic_gate": "failed_environment_prerequisite",
+  "pair_decision": "cancelled_before_adapter_or_paid_request",
+  "paid_requests": 0,
+  "notes": [
+    "Pinned Pier static network path passed structural review.",
+    "Docker/WSL2 execution prerequisite failed locally; the 90-minute gate ended early rather than changing task network policy."
+  ]
+}

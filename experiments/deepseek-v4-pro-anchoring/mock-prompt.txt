@@ -1,0 +1,1 @@
+Inspect the current workspace with one durable shell tool call, then report completion.

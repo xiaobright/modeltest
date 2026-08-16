@@ -1,0 +1,135 @@
+{
+  "schema_version": 2,
+  "contribution": {
+    "contributor": "@NineThoughts0521",
+    "role": "independent third-party replication",
+    "upstream_repository": "xiaobright/modeltest",
+    "scoreboard_policy": "do not merge these runs into maintainer formal n, rank, worst, mean, or sample index"
+  },
+  "status": "project2_3_plus_1_completed_external_pairs_deferred",
+  "approved_at_utc": "2026-08-15T03:23:28Z",
+  "wall_clock_started_at_utc": "2026-08-15T03:23:28Z",
+  "wall_clock_hard_limit_hours": 12,
+  "wall_clock_completed_at_utc": "2026-08-15T12:03:03.148Z",
+  "wall_clock_elapsed_hours": 8.659763,
+  "completion": {
+    "valid_project2_runs": 4,
+    "preserved_unscored_partial_runs": 1,
+    "account_cost_cny_including_partial": 7.12,
+    "usage_recomputed_cost_cny_including_partial": 7.075304,
+    "deepswe_pair": "deferred_to_later_phase",
+    "terminal_bench_pair": "deferred_to_later_phase",
+    "optional_real_espidf_build": "not_run"
+  },
+  "experiment_seed": "modeltest-dsv4p-anchor-20260815",
+  "model": {
+    "provider": "deepseek-official",
+    "id": "deepseek-v4-pro",
+    "documented_version": "DeepSeek-V4-Pro-0813",
+    "reasoning_effort": "max"
+  },
+  "pins": {
+    "modeltest_base_commit": "04255b55f16c4439e538239fb9783070c4165081",
+    "dsh_version": "0.1.0-rc.6",
+    "dsh_source_commit": "47f943859bef60e4160492346772ded9b24f765a",
+    "deepswe_commit": "435ee89ec2f2e2289f33b0da4f992f0b7b7266b9",
+    "pier_version": "0.3.1",
+    "pier_source_commit": "df89f994623a0a6a57229103b6fe910766693c30",
+    "terminal_bench_v3_git_tag_commit": "2b0442c3c583b710ca8da14c8e601b99f2f1f244"
+  },
+  "project2": {
+    "include_optional_real_espidf_build": false,
+    "expected_f9_mode": "skipped_env",
+    "expected_f9_points": "3/6",
+    "agent_timeout_seconds": 4500,
+    "evaluator_timeout_seconds": 1800
+  },
+  "deepswe": {
+    "task_id": "httpx-deterministic-cookie-store",
+    "environment_gate_seconds": 5400,
+    "agent_timeout_seconds": 5400,
+    "verifier_timeout_seconds": 1800,
+    "pair_only": true,
+    "fallback_task_ids_before_any_paid_external_run": [
+      "helm-unified-manifest-stream",
+      "wasmi-trap-coredumps"
+    ],
+    "network_semantics": {
+      "task_network_policy_immutable": true,
+      "required_task_mode": "no-network",
+      "installed_agent_network_allowlist_required": true,
+      "install_and_inference_egress_separated": true,
+      "inference_allowlist_target": "api.deepseek.com",
+      "public_task_network_forbidden": true
+    }
+  },
+  "budget_cny": {
+    "target": 45,
+    "absolute_maximum": 50,
+    "deepswe_start_project2_spend_max": 27,
+    "deepswe_pair_reservation": 18,
+    "pricing_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+    "pricing_policy": "snapshot immediately before the first paid request and use the live CNY rates applicable to each response"
+  },
+  "retry_policy": {
+    "pre_response_infrastructure_retry_limit": 1,
+    "model_outcome_retry": false,
+    "verifier_infrastructure_retry_same_artifact_only": true,
+    "result_based_task_switching": false
+  },
+  "publication": {
+    "raw_reasoning_or_session_in_git": false,
+    "publish_raw_sha256": true,
+    "publish_original_verifier_outputs": true,
+    "trajectory_markers_are_capability_metrics": false
+  },
+  "approved_amendments": [
+    {
+      "approved_at_utc": "2026-08-15T04:21:00Z",
+      "reason": "Operator requested per-run balance generations around a recharge event.",
+      "protocol": {
+        "pause_after_project2_run_1": true,
+        "capture_t1_before_requesting_recharge": true,
+        "capture_fresh_t0_after_recharge_before_run_2": true,
+        "record_recharge_event_in_metadata": true,
+        "balance_delta_must_not_cross_recharge_event": true,
+        "token_recomputed_cost_retained_per_run": true
+      }
+    },
+    {
+      "approved_at_utc": "2026-08-15T07:59:10Z",
+      "reason": "Operator added one post-preregistered exploratory OpenCode harness comparison after the DSH ablation.",
+      "protocol": {
+        "run_order_after_dsh": "OpenCode direct DeepSeek provider",
+        "run_id": "P2-20260815-04-opencode",
+        "causal_ablation_membership": false,
+        "api_cost_hard_cap_cny": 4,
+        "required_provider": "direct DeepSeek official API",
+        "opencode_zen": false,
+        "score_run_allowed_if_reasoning_export_incomplete": true,
+        "result_based_retry": false
+      }
+    },
+    {
+      "approval_timestamp_status": "not independently timestamped in public artifacts",
+      "approved_before_t0_retrieved_at_utc": "2026-08-15T11:14:54.992009+00:00",
+      "reason": "Operator authorized one detached-process replacement for the preserved OpenCode infrastructure partial.",
+      "protocol": {
+        "replacement_run_id": "P2-20260815-04b-opencode-replacement",
+        "replaces_partial_run_id": "P2-20260815-04-opencode-partial",
+        "replacement_limit": 1,
+        "reset_frozen_project2": true,
+        "opencode_version": "1.18.17",
+        "provider": "deepseek",
+        "model": "deepseek-v4-pro",
+        "reasoning_variant": "max",
+        "resolved_endpoint": "https://api.deepseek.com",
+        "lifecycle_change_only": "detached/background process wrapper",
+        "tool_schema_prompt_permissions_unchanged": true,
+        "independent_t0_t1_window": true,
+        "result_based_retry": false,
+        "replacement_is_exploratory_only": true
+      }
+    }
+  ]
+}

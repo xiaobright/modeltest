@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "assertions": {
+    "standard_first_is_full": true,
+    "minimal_first_equals_anchored_second_tools": true,
+    "minimal_first_equals_standard_first_tools": true,
+    "minimal_and_anchored_system_equal": true,
+    "minimal_and_anchored_first_non_tools_equal": true,
+    "anchored_first_is_shell_read": true,
+    "anchored_second_is_full": true
+  },
+  "snapshots": {
+    "standard": [
+      {
+        "system_sha256": "e29769325a5dc1ef8e4ec86dd3b18b3745c9fc0df557307800046f56b6ff00e4",
+        "tool_names": [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ],
+        "tools_sha256": "2d6cb989d15da25a64aa2de8c618a310c555932e40eb2ef1db5d30199b84d072",
+        "non_tools_sha256": "eaf508d86419f4b1bcfbd6ede279b54d9e242c8fc45e61caeca2a1ee620cc06e"
+      },
+      {
+        "system_sha256": "e29769325a5dc1ef8e4ec86dd3b18b3745c9fc0df557307800046f56b6ff00e4",
+        "tool_names": [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ],
+        "tools_sha256": "2d6cb989d15da25a64aa2de8c618a310c555932e40eb2ef1db5d30199b84d072",
+        "non_tools_sha256": "3b1342cb622f2dcf458489577db3cf5d39323781f9124cf140f20489ad5113c5"
+      }
+    ],
+    "minimal-full": [
+      {
+        "system_sha256": "af5d5073dc27d768af14d166cdfd5758d21365a3c1ef6c3540255380d564be75",
+        "tool_names": [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ],
+        "tools_sha256": "2d6cb989d15da25a64aa2de8c618a310c555932e40eb2ef1db5d30199b84d072",
+        "non_tools_sha256": "547aec351e816e7b76c8b9c8e2115166f365f845aaab6e526944ff1d55939956"
+      },
+      {
+        "system_sha256": "af5d5073dc27d768af14d166cdfd5758d21365a3c1ef6c3540255380d564be75",
+        "tool_names": [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ],
+        "tools_sha256": "2d6cb989d15da25a64aa2de8c618a310c555932e40eb2ef1db5d30199b84d072",
+        "non_tools_sha256": "b17ec0e6a988f6b0522c823c48139ff8e6a096d1c9d6c604d8adae12618a5e70"
+      }
+    ],
+    "anchored-standard": [
+      {
+        "system_sha256": "af5d5073dc27d768af14d166cdfd5758d21365a3c1ef6c3540255380d564be75",
+        "tool_names": [
+          "pwsh",
+          "read"
+        ],
+        "tools_sha256": "2fceff54430b2c6d2a94d85716f44d9092d2b8ef04e427ce807f10a19ec8d3e1",
+        "non_tools_sha256": "547aec351e816e7b76c8b9c8e2115166f365f845aaab6e526944ff1d55939956"
+      },
+      {
+        "system_sha256": "af5d5073dc27d768af14d166cdfd5758d21365a3c1ef6c3540255380d564be75",
+        "tool_names": [
+          "ask_user_question",
+          "create_goal",
+          "edit",
+          "exit_plan_mode",
+          "get_goal",
+          "glob",
+          "grep",
+          "interrupt_agent",
+          "job_kill",
+          "job_list",
+          "job_output",
+          "list_agents",
+          "pwsh",
+          "ralph",
+          "read",
+          "read_image",
+          "send_message",
+          "skill",
+          "subagent",
+          "subagent_fork",
+          "todo_write",
+          "update_goal",
+          "web_search",
+          "workflow",
+          "write"
+        ],
+        "tools_sha256": "2d6cb989d15da25a64aa2de8c618a310c555932e40eb2ef1db5d30199b84d072",
+        "non_tools_sha256": "b17ec0e6a988f6b0522c823c48139ff8e6a096d1c9d6c604d8adae12618a5e70"
+      }
+    ]
+  }
+}

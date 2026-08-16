@@ -38,3 +38,13 @@ C:\Users\<用户名>\.dsh\.agent-presets\anchored-standard
 `agent.cordis.yml` 基于 DeepSeek Harness 的 Standard preset 修改，`tool-bootstrap.mjs`
 为本项目新增。DeepSeek Harness 使用 MIT License，许可文本见
 [`LICENSE.deepseek-harness`](./LICENSE.deepseek-harness)。
+
+## minimal-full
+
+`minimal-full/` 是本轮 full-task 消融 preset。它与 `anchored-standard` 保持相同的
+Minimal complete persona、runtime-context suppression 和 Standard capability roster，唯一的
+模型可见目标差异是移除 `tool-bootstrap`：从第一次模型请求起即暴露同平台完整 Standard
+工具目录。正式运行前必须通过 request/header 快照验证；若首请求除工具目录外还有差异，
+该消融不进入付费阶段。
+
+该 preset 由 [@NineThoughts0521](https://github.com/NineThoughts0521) 用于 2026-08-15 独立复现；实现、schema gate 与 full-task 结果见 [`../../experiments/deepseek-v4-pro-anchoring/`](../../experiments/deepseek-v4-pro-anchoring/README.md)。这些 runs 不并入维护者原有 formal `n`。

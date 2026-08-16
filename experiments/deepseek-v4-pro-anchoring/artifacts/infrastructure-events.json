@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "run_id": "P2-20260815-02-standard",
+      "phase": "pre-response",
+      "attempt": 1,
+      "event": "runner PowerShell expression parse/runtime error before reset and session creation",
+      "paid_requests": 0,
+      "model_outcome_created": false,
+      "action": "same-run infrastructure retry after runner fix",
+      "preregistered_retry_limit": 1
+    },
+    {
+      "run_id": "P2-20260815-04-opencode",
+      "phase": "pre-process",
+      "attempt": 1,
+      "event": "Codex unified PTY CreateProcess access denied before Python runner, reset, OpenCode session, or paid request",
+      "paid_requests": 0,
+      "model_outcome_created": false,
+      "action": "same-run non-PTY infrastructure retry",
+      "preregistered_retry_limit": 1
+    },
+    {
+      "run_id": "P2-20260815-04-opencode-partial",
+      "phase": "agent-after-response",
+      "attempt": 2,
+      "event": "hosting tool session was aborted while the OpenCode process was active; child process ended with one pending tool and no final stop",
+      "paid_requests": "yes",
+      "model_outcome_created": true,
+      "action": "preserved private partial session and public derived/hash evidence; no automatic retry or synthetic continuation",
+      "completed_tool_events": 23,
+      "reasoning_blocks": 11,
+      "final_stop_observed": false
+    },
+    {
+      "run_id": "P2-20260815-04b-opencode-replacement",
+      "phase": "agent-complete",
+      "attempt": 1,
+      "event": "detached/background lifecycle wrapper completed OpenCode and private session export without external chat-session interruption",
+      "paid_requests": "yes",
+      "model_outcome_created": true,
+      "action": "single authorized replacement; no further retry regardless of evaluator outcome",
+      "opencode_exit_code": 0,
+      "export_exit_code": 0,
+      "wall_time_seconds": 1293.144,
+      "replacement_limit": 1
+    }
+  ]
+}

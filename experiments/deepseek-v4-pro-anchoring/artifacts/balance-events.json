@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "privacy": "Balance amounts remain in ignored private snapshots; public records contain per-run charge deltas and snapshot hashes only.",
+  "generations": [
+    {
+      "generation": 0,
+      "starts_before_run_id": "P2-20260815-01-anchored",
+      "t0_retrieved_at_utc": "2026-08-15T03:48:09.996175+00:00",
+      "t0_raw_sha256": "ffc4b0c2733d6a629840ad2b138c324dda9f80e32b13cd37581d767471d48868",
+      "t1_retrieved_at_utc": "2026-08-15T04:28:24.481727+00:00",
+      "t1_raw_sha256": "af95816b823dbafadc771745ac1450cdad06b700070184d57abea3a21b003db7",
+      "run_ids": [
+        "P2-20260815-01-anchored"
+      ],
+      "balance_delta_cny": 2.58,
+      "status": "closed_awaiting_recharge"
+    },
+    {
+      "generation": 1,
+      "starts_before_run_id": "P2-20260815-02-standard",
+      "t0_retrieved_at_utc": "2026-08-15T07:59:01.286041+00:00",
+      "t0_raw_sha256": "c62b4e7651c599415b631211ab8a7290cf7d465d0acb9609113b81e1453ce405",
+      "t1_retrieved_at_utc": "2026-08-15T09:44:40.410653+00:00",
+      "t1_raw_sha256": "8482b1766f141e43581e9fbd0f1ae3b995693af49498ddbe0b43a5e77ff3e5cb",
+      "run_ids": [
+        "P2-20260815-02-standard",
+        "P2-20260815-03-minimal-full",
+        "P2-20260815-04-opencode-partial",
+        "P2-20260815-04b-opencode-replacement"
+      ],
+      "balance_delta_cny": 4.54,
+      "status": "closed_after_opencode_replacement"
+    }
+  ],
+  "recharge_events": [
+    {
+      "event_id": "recharge-20260815-generation1",
+      "operator_confirmed": true,
+      "recorded_at_utc": "2026-08-15T07:59:42.484417+00:00",
+      "generation_before": 0,
+      "generation_after": 1,
+      "pre_recharge_t1_raw_sha256": "af95816b823dbafadc771745ac1450cdad06b700070184d57abea3a21b003db7",
+      "post_recharge_t0_raw_sha256": "c62b4e7651c599415b631211ab8a7290cf7d465d0acb9609113b81e1453ce405",
+      "balance_amounts": "private",
+      "observed_balance_increase": true
+    }
+  ],
+  "run_windows": [
+    {
+      "run_id": "P2-20260815-01-anchored",
+      "balance_generation": 0,
+      "t0_raw_sha256": "ffc4b0c2733d6a629840ad2b138c324dda9f80e32b13cd37581d767471d48868",
+      "t1_raw_sha256": "af95816b823dbafadc771745ac1450cdad06b700070184d57abea3a21b003db7",
+      "balance_delta_cny": 2.58,
+      "crosses_recharge_event": false
+    },
+    {
+      "run_id": "P2-20260815-02-standard",
+      "balance_generation": 1,
+      "t0_raw_sha256": "c62b4e7651c599415b631211ab8a7290cf7d465d0acb9609113b81e1453ce405",
+      "t1_raw_sha256": "0f0794d8aeb92a150def92e8a28d420d4076edd0cfef3c0fa0e0d6f3b17b2cf2",
+      "balance_delta_cny": 1.64,
+      "crosses_recharge_event": false
+    },
+    {
+      "run_id": "P2-20260815-03-minimal-full",
+      "balance_generation": 1,
+      "t0_raw_sha256": "0f0794d8aeb92a150def92e8a28d420d4076edd0cfef3c0fa0e0d6f3b17b2cf2",
+      "t1_raw_sha256": "8fc8ed1a6bef295b7e8337b982211e9605a469c128958e1326889dbb03f7f3c6",
+      "balance_delta_cny": 1.13,
+      "crosses_recharge_event": false
+    },
+    {
+      "run_id": "P2-20260815-04-opencode-partial",
+      "balance_generation": 1,
+      "t0_raw_sha256": "8fc8ed1a6bef295b7e8337b982211e9605a469c128958e1326889dbb03f7f3c6",
+      "t1_raw_sha256": "8482b1766f141e43581e9fbd0f1ae3b995693af49498ddbe0b43a5e77ff3e5cb",
+      "balance_delta_cny": 0.24,
+      "crosses_recharge_event": false
+    },
+    {
+      "run_id": "P2-20260815-04b-opencode-replacement",
+      "balance_generation": 1,
+      "t0_raw_sha256": "8482b1766f141e43581e9fbd0f1ae3b995693af49498ddbe0b43a5e77ff3e5cb",
+      "t1_raw_sha256": "e3b8089448756d4e2de419bd45668b581b922c4ac566ee67ec00027e9ce27208",
+      "balance_delta_cny": 1.53,
+      "crosses_recharge_event": false
+    }
+  ]
+}

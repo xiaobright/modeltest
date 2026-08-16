@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "experimental_status": "post-preregistered exploratory harness comparison",
+  "excluded_from_dsh_mechanism_ablation": true,
+  "benchmark": "project2-v4.1b",
+  "benchmark_commit": "04255b55f16c4439e538239fb9783070c4165081",
+  "task_id": "project2-v4-broken-seed",
+  "run_id": "P2-20260815-04-opencode-partial",
+  "model": "deepseek-v4-pro",
+  "provider": "deepseek",
+  "resolved_endpoint": "https://api.deepseek.com",
+  "reasoning_effort": "max",
+  "opencode_version": "1.18.17",
+  "opencode_commit": "02546dfc2e4515a4f90aaf9ceb3890df2ac2b479",
+  "agent": "build",
+  "agent_mode": "primary",
+  "models_catalog_sha256": "38c46f27db899736408a1371f78d79a3ade5f0d2fe5ca279e2c448ce2b247995",
+  "system_instruction_source": "OpenCode built-in build agent/system prompt; isolated home/config; no repository AGENTS.md, CLAUDE.md, CONTEXT.md, or opencode.json discovered before the run",
+  "os_environment": "Windows 10 / PowerShell / OpenCode native Windows",
+  "started_at_utc": "2026-08-15T09:20:55.957000+00:00",
+  "ended_at_utc": "2026-08-15T09:23:17.151000+00:00",
+  "wall_time_seconds": 141.194,
+  "opencode_exit_code": null,
+  "stop_reason": "external_tool_session_interruption_after_model_response",
+  "benchmark_result": null,
+  "benchmark_result_sha256": null,
+  "usage": {
+    "input": 65855,
+    "output": 1279,
+    "reasoning": 537,
+    "cache": {
+      "read": 422656,
+      "write": 0
+    }
+  },
+  "cache_miss_tokens": 65855,
+  "cache_read_tokens": 422656,
+  "output_tokens": 1279,
+  "reasoning_tokens": 537,
+  "billable_output_tokens": 1816,
+  "api_cost_cny": 0.219027,
+  "opencode_catalog_cost": 0.031758973,
+  "api_cost_scope": "OpenCode session usage recomputed at official live CNY rates",
+  "usage_semantics": "OpenCode v1.18.17 stores cache-miss input, cache-read input, non-reasoning output, and reasoning output as disjoint counts",
+  "assistant_message_count": 14,
+  "visible_assistant_replies": [
+    "Now running the required diagnostics before making changes:",
+    "Initial diagnosis captured. Now reading the gateway source:"
+  ],
+  "visible_assistant_reply_count": 2,
+  "tool_call_count": 22,
+  "distinct_tools_used": [
+    "bash",
+    "read"
+  ],
+  "tool_breakdown": {
+    "bash": 4,
+    "read": 18
+  },
+  "first_request_tool_catalog": {
+    "evidence_source": "zero-cost static resolution via `opencode debug agent build --pure`; not a wire request capture",
+    "tool_names": [
+      "bash",
+      "edit",
+      "glob",
+      "grep",
+      "invalid",
+      "question",
+      "read",
+      "skill",
+      "task",
+      "todowrite",
+      "webfetch",
+      "write"
+    ],
+    "tool_count": 12
+  },
+  "catalog_transition": "OpenCode comparison has no anchoring transition; static-resolved full catalog applies from request 1",
+  "system_prompt_sha256_by_user_message": [],
+  "trajectory_fingerprints": {
+    "reasoning_blocks": 11,
+    "reasoning_chars": 2386,
+    "reasoning_words": 385,
+    "we": 0,
+    "let_me": 14,
+    "lets": 0
+  },
+  "trajectory_comparison": "available",
+  "raw_evidence_sha256": "cd35ebd8ace7be453bb159c772b5cec0b77b059d1f6ce997a1fee2b7113d5e06",
+  "run_status": "infrastructure_failed_partial_after_model_response",
+  "benchmark_score_status": "not_run_partial_agent_artifact_not_comparable",
+  "partial_event_stream_sha256": "1f4e89c7ea3265e534108c8a3f3cf718497bda3e312cedc4dac2a8a8dd3d07e4",
+  "account_balance_delta_cny": 0.24,
+  "balance_generation": 1,
+  "balance_cost_difference_cny": 0.020973,
+  "valid_for_harness_score_comparison": false,
+  "valid_for_dsh_mechanism_ablation": false
+}

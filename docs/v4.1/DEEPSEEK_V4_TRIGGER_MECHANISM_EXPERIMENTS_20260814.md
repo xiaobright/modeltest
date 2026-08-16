@@ -125,6 +125,12 @@
 - 声称 `We need`、`Good` 或低阶段回复本身导致高分；
 - 声称 98/99 会在其他仓库、任务长度或 provider 上稳定复现。
 
+## 2026-08-15 第三方 full-task 消融更新
+
+[@NineThoughts0521](https://github.com/NineThoughts0521) 对同一 frozen Project2 task 做了三枪 DSH 独立复现：Anchored Standard `96`、Standard `89`、Minimal-Full `85.5`。Minimal-Full 从首请求暴露完整 Standard 25 项工具，Anchored 仍先暴露 `pwsh/read`，首次 durable tool call 后恢复完整目录；其 system 和首请求非工具字段通过 hash gate 对齐。该结果 **supports** 首请求 schema anchoring 在本题上有额外贡献，并与原有 Anchored 优于 Standard 的方向 **consistent with**，但每条件只有一枪，且 transition 时序仍属于 treatment，不能据此声称唯一变量或跨任务普适效果。
+
+这批运行的轨迹统计只用于行为指纹，OpenCode replacement 只作另行登记的 exploratory harness comparison。公开汇总、schema gate、成本和限制见 [`独立复现报告`](./DEEPSEEK_V4_PRO_INDEPENDENT_REPLICATION_20260815.md) 与 [`实验目录`](../../experiments/deepseek-v4-pro-anchoring/RESULTS.md)；DeepSWE 和 Terminal-Bench 本阶段未运行。
+
 ## 发布与证据边界
 
 原始 JSON/session 含完整 reasoning、system prompt、工具结果、绝对路径和可能的环境信息，

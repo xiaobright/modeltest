@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "corrections": [
+    {
+      "run_id": "P2-20260815-01-anchored",
+      "evaluator_result_id": "20260815_122420",
+      "field": "api_cost_cny",
+      "captured_value": 1.934823,
+      "corrected_value": 2.52774,
+      "reason": "DSH inputTokens are already cache-miss-only disjoint counts; the initial analyzer subtracted cacheReadTokens a second time.",
+      "score_affected": false
+    },
+    {
+      "run_id": "P2-20260815-01-anchored",
+      "evaluator_result_id": "20260815_122420",
+      "field": "resolved_api_endpoint",
+      "captured_value": null,
+      "corrected_value": "https://api.deepseek.com",
+      "reason": "The formal runner fixed provider=deepseek-official and rejected DEEPSEEK_BASE_URL or DSH settings endpoint overrides; the first analyzer version omitted the resolved default endpoint field.",
+      "score_affected": false
+    }
+  ]
+}
