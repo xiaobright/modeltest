@@ -1,0 +1,37 @@
+# 统一换行策略：文本一律 LF（仓库内与工作区一致）。
+# 背景：V4.1b 冻结文件按原始字节做 SHA-256 锚定，autocrlf 曾把 CRLF 规范化
+# 进仓库，导致克隆副本无法对清单校验；本文件同时固定两件事——
+#   1) 普通文本统一 LF，消除 WSL（LF）与 Windows（CRLF）混跑造成的噪音；
+#   2) 哈希锚定与受保护的证据文件按字节保存（-text），永不做任何转换。
+
+* text=auto eol=lf
+
+# Windows 脚本按惯例检出为 CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# 明确的二进制类型
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.zst binary
+*.bin binary
+*.hex binary
+*.joblib binary
+*.onnx binary
+*.so binary
+
+# —— 冻结评分面（v4.1b freeze manifest 第 3 节，SHA-256 锚定）：字节精确 ——
+evaluator/scoring/** -text
+evaluator/run_full_eval.py -text
+evaluator/run_hidden_tests.py -text
+evaluator/run_espidf_static_tests.py -text
+evaluator/tests/hidden/** -text
+evaluator/tests/test_score_model.py -text
+
+# —— 跑分证据目录（含锚定 summary.json）：按字节保存，不做转换 ——
+evaluator/results/** -text
