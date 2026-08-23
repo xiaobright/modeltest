@@ -13,7 +13,7 @@ PR 一致性预审。
 - **当前正式稳定基线:V4.1b**,已于 2026-07-23 正式冻结。不再迭代、不开发 V5。
   详见 [`PROJECT_FROZEN.md`](./PROJECT_FROZEN.md)。
 - 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账仍会追加。
-  最新一轮记录截至 2026-08-14。
+  最新一轮记录截至 2026-08-23。
 - 这是一个**个人项目**,不是面向社区的公开 benchmark;Ability 阈值与结论只对本
   题面、本工具环境有效,**不构成跨项目通用认证**。
 - V5 两次尝试均失败,工作区与归档见独立 repo **`modeltest-v5`**。
@@ -24,8 +24,8 @@ PR 一致性预审。
 
 > **核心发现：** V4 Pro 在 DSH minimal + max 下两跑 **99/96**，但相同 WSL/max
 > 环境的 standard 和 PTC 只有 **91/92**。我们随后在 Windows 上做了两阶段 preset：
-> 首次请求只给 `pwsh/read`，第一次工具调用后恢复 25 项 Standard 工具，连续得到
-> **98/99（worst 98，均值 98.5）**。
+> 首次请求只给 `pwsh/read`，第一次工具调用后恢复 25 项 Standard 工具，三跑得到
+> **98/99/99（worst 98，均值 98.67，稳定复现）**。
 > 这把增益进一步定位到首次请求的 RL 对齐 scaffold，而不是 Linux、官方 harness、
 > `run_code` 或“全程只能用两个工具”。
 
@@ -36,7 +36,7 @@ PR 一致性预审。
 | Claude Opus 5 / max | **97** | Claude Code 临时测试，单次参考，不进主榜 |
 | DeepSeek V4 Pro / 灰测 OpenCode | **99, 96** | 发布前灰测路线 |
 | DeepSeek V4 Pro / 正式 DSH minimal | **99, 96** | 正式版在 RL 对齐 scaffold 下复现 |
-| DeepSeek V4 Pro / DSH anchored-standard | **98, 99** | Windows 两阶段目录；完整 Standard 工具可用 |
+| DeepSeek V4 Pro / DSH anchored-standard | **98, 99, 99** | Windows 两阶段目录；完整 Standard 工具可用 |
 
 因此可以说，**V4 Pro 的已观测能力上限在本题上确实进入了 Fable 5、Opus 5 和 Sol
 的同一顶端分数带**；这不是跨任务通用等价证明，也不能证明灰测实际代理了任何 Claude
