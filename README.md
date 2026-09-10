@@ -10,13 +10,21 @@ PR 一致性预审。
 
 ## Status
 
-- **当前正式稳定基线:V4.1b**,已于 2026-07-23 正式冻结。不再迭代、不开发 V5。
-  详见 [`PROJECT_FROZEN.md`](./PROJECT_FROZEN.md)。
-- 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账仍会追加。
-  最新一轮记录截至 2026-08-23。
+> **项目已收尾停更（2026-09-10）。** V4.1b 作为综合能力主尺已逐渐失去区分度，不再
+> 追加观测；V5 三次尝试均失败；不会再有新的评测版本（V4.1c / V5 / V5 HIL）。
+> 完整说明见 [`docs/V5_ATTEMPTS_AND_RETIREMENT.md`](./docs/V5_ATTEMPTS_AND_RETIREMENT.md)。
+
+- **当前正式稳定基线:V4.1b**,已于 2026-07-23 正式冻结,并于 2026-09-10 停更。
+  详见 [`PROJECT_FROZEN.md`](./PROJECT_FROZEN.md) 与
+  [`V5 尝试与收尾说明`](./docs/V5_ATTEMPTS_AND_RETIREMENT.md)。
+- 冻结的是题面、测试与计分规则；模型、渠道和 harness 的实测台账曾持续追加，
+  **最后一条记录为 2026-09-10**（DeepSeek-V4.1-Flash @ WorkBuddy，98/98/B+），此后封笔。
 - 这是一个**个人项目**,不是面向社区的公开 benchmark;Ability 阈值与结论只对本
   题面、本工具环境有效,**不构成跨项目通用认证**。
-- V5 两次尝试均失败,工作区与归档见独立 repo **`modeltest-v5`**。
+- V5 **三次**尝试均失败(sleepgw 状态机专项、FRESH-1 遥测协议题、V5.0 综合整改题),
+  工作区与归档见独立 repo **`modeltest-v5`**。
+- 不再开发任何后续评测版本：既因为顶端饱和、尺子失去区分度，也因为真实高耦合综合题
+  已超出个人在时间、硬件与预算上的可持续投入能力。
 - 9 轮历史评测快照(V1–V4.1b、PlanExec、V5 specialty/formal)体积较大且高度
   重复,不进 git 仓库,以压缩包形式放在 **GitHub Releases**。
 
